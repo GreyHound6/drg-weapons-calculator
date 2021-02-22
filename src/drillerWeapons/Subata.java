@@ -102,11 +102,11 @@ public class Subata extends Weapon {
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Chain Hit", "Any shot that hits a weakspot has a 50% chance to ricochet into a nearby enemy.", overclockIcons.ricochet, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Homebrew Powder", "Anywhere from x0.8 - x1.4 damage per shot, averaged to x" + homebrewPowderCoefficient, overclockIcons.homebrewPowder, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Oversized Magazine", "+10 Magazine Size, +0.5 Reload Time", overclockIcons.magSize, 2);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Oversized Magazine", "+7 Magazine Size, +0.5 Reload Time", overclockIcons.magSize, 2);
 		overclocks[3] = new Overclock(Overclock.classification.unstable, "Automatic Fire", "Changes the Subata from semi-automatic to fully automatic, +2 Rate of Fire, +100% Base Spread, x2.5 Recoil", overclockIcons.rateOfFire, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Explosive Reload", "Bullets that deal damage to an enemy's healthbar leave behind a detonator that deals 42 Internal Damage to the enemy upon reloading. "
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Explosive Reload", "Bullets that deal damage to an enemy's healthbar leave behind a detonator that deals 30 Internal Damage to the enemy upon reloading. "
 				+ "If reloading can kill an enemy, an icon will appear next to their healthbar. In exchange: x0.5 Magazine Size and x0.5 Max Ammo ", overclockIcons.specialReload, 4);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Tranquilizer Rounds", "Every bullet has a 50% chance to stun an enemy for 6 seconds. -4 Magazine Size, -4 Rate of Fire.", overclockIcons.stun, 5);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Tranquilizer Rounds", "Every bullet has a 50% chance to stun an enemy for 6 seconds. -4 Magazine Size, -1 Rate of Fire.", overclockIcons.stun, 5);
 	}
 	
 	@Override
@@ -294,7 +294,7 @@ public class Subata extends Weapon {
 	private int getAreaDamage() {
 		// Equipping the Overclock "Explosive Reload" leaves a detonator inside enemies that does 42 Area Damage per Bullet that deals damage to an enemy upon reloading the Subata
 		if (selectedOverclock == 4) {
-			return 42;
+			return 30;
 		}
 		else { 
 			return 0;
@@ -324,7 +324,7 @@ public class Subata extends Weapon {
 		}
 		
 		if (selectedOverclock == 2) {
-			toReturn += 10;
+			toReturn += 7;
 		}
 		else if (selectedOverclock == 4) {
 			// Because this is integer division, it will truncate 8.5 down to 8, just like in-game does.
@@ -343,7 +343,7 @@ public class Subata extends Weapon {
 			toReturn += 2.0;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn -= 4.0;
+			toReturn -= 1.0;
 		}
 		
 		return toReturn;

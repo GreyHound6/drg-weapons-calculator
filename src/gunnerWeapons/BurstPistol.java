@@ -54,12 +54,12 @@ public class BurstPistol extends Weapon {
 		weaponPic = WeaponPictures.burstPistol;
 		
 		// Base stats, before mods or overclocks alter them:
-		directDamage = 20;
+		directDamage = 23;
 		burstSize = 3;
 		delayBetweenBulletsDuringBurst = 0.05;
-		carriedAmmo = 120;
+		carriedAmmo = 168;
 		magazineSize = 24;
-		rateOfFire = 2.5;
+		rateOfFire = 3.5;
 		reloadTime = 2.2;
 		armorBreaking = 0.5;
 		

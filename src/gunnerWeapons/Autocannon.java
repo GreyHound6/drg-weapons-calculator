@@ -61,9 +61,9 @@ public class Autocannon extends Weapon {
 		areaDamage = 9;
 		aoeRadius = 1.4;  // meters
 		magazineSize = 110;
-		carriedAmmo = 440;
+		carriedAmmo = 550;
 		movespeedWhileFiring = 0.5;
-		increaseScalingRate = 0.3;
+		increaseScalingRate = 0.4;
 		minRateOfFire = 3.0;
 		maxRateOfFire = 5.5;
 		reloadTime = 5.0;  // seconds

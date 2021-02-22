@@ -128,7 +128,7 @@ public class Minigun extends Weapon {
 				+ "weapon's heat meter, which translates to 2/3 the firing period", overclockIcons.heatDamage, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Compact Feed Mechanism", "+800 Max Ammo, -4 Rate of Fire", overclockIcons.carriedAmmo, 3);
 		overclocks[4] = new Overclock(Overclock.classification.balanced, "Exhaust Vectoring", "+2 Damage per Pellet, x2.5 Base Spread", overclockIcons.directDamage, 4);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Bullet Hell", "50% chance for bullets that impact an enemy or terrain to ricochet into another enemy. -3 Damage per Pellet, x6 Base Spread", overclockIcons.ricochet, 5);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Bullet Hell", "75% chance for bullets that impact an enemy or terrain to ricochet into another enemy. -2 Damage per Pellet, x4 Base Spread", overclockIcons.ricochet, 5);
 		overclocks[6] = new Overclock(Overclock.classification.unstable, "Lead Storm", "+4 Damage per Pellet, x0 Movespeed while using, and the Minigun cannot stun enemies anymore.", overclockIcons.directDamage, 6);
 	}
 	
@@ -314,7 +314,7 @@ public class Minigun extends Weapon {
 			toReturn += 2;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn -= 3;
+			toReturn -= 2;
 		}
 		else if (selectedOverclock == 6) {
 			toReturn += 4;
@@ -422,7 +422,7 @@ public class Minigun extends Weapon {
 			toReturn *= 2.5;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn *= 6.0;
+			toReturn *= 4.0;
 		}
 		return toReturn;
 	}
@@ -744,7 +744,7 @@ public class Minigun extends Weapon {
 		}
 		else if (selectedOverclock == 5) {
 			// Bullet Hell has a 50% chance to ricochet
-			return 0.5 * idealSustained;
+			return 0.75 * idealSustained;
 		}
 		else {
 			return 0;

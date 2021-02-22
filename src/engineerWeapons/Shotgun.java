@@ -52,12 +52,12 @@ public class Shotgun extends Weapon {
 		weaponPic = WeaponPictures.shotgun;
 		
 		// Base stats, before mods or overclocks alter them:
-		damagePerPellet = 7;
-		numberOfPellets = 8;
-		carriedAmmo = 90;
+		damagePerPellet = 8;
+		numberOfPellets = 9;
+		carriedAmmo = 80;
 		magazineSize = 6;
-		rateOfFire = 2.0;
-		reloadTime = 2.0;
+		rateOfFire = 1.7;
+		reloadTime = 2.2;
 		weakpointStunChance = 0.1;
 		stunDuration = 3;
 		

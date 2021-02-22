@@ -89,25 +89,25 @@ public class BreachCutter extends Weapon {
 	@Override
 	protected void initializeModsAndOverclocks() {
 		tier1 = new Mod[2];
-		tier1[0] = new Mod("Prolonged Power Generation", "+1.5 Projectile Lifetime", modIcons.hourglass, 1, 0);
+		tier1[0] = new Mod("Prolonged Power Generation", "+0.5 Projectile Lifetime", modIcons.hourglass, 1, 0);
 		tier1[1] = new Mod("High Capacity Magazine", "+3 Magazine Size", modIcons.magSize, 1, 1);
 		
 		tier2 = new Mod[3];
 		tier2[0] = new Mod("Expanded Ammo Bags", "+6 Max Ammo", modIcons.carriedAmmo, 2, 0);
-		tier2[1] = new Mod("Condensed Plasma", "+3.5 Damage per Tick", modIcons.directDamage, 2, 1);
+		tier2[1] = new Mod("Condensed Plasma", "+5.5 Damage per Tick", modIcons.directDamage, 2, 1);
 		tier2[2] = new Mod("Loosened Node Cohesion", "+1.5m Plasma Beam Width", modIcons.aoeRadius, 2, 2);
 		
 		tier3 = new Mod[2];
 		// Although getStats() shows this change, it has no effect on any numbers in this model. As such, I'm marking as "not modeled".
-		tier3[0] = new Mod("Quick Deploy", "-0.2 Plasma Expansion Delay", modIcons.duration, 3, 0, false);
-		tier3[1] = new Mod("Improved Case Ejector", "-0.4 Reload Time", modIcons.reloadSpeed, 3, 1);
+		tier3[0] = new Mod("Quick Deploy", "-0.29 Plasma Expansion Delay", modIcons.duration, 3, 0, false);
+		tier3[1] = new Mod("Improved Case Ejector", "-0.5 Reload Time", modIcons.reloadSpeed, 3, 1);
 		
 		tier4 = new Mod[2];
 		tier4[0] = new Mod("Armor Breaking", "+200% Armor Breaking", modIcons.armorBreaking, 4, 0);
-		tier4[1] = new Mod("Disruptive Frequency Tuning", "+100% Stun Chance, 3 sec Stun duration", modIcons.stun, 4, 1);
+		tier4[1] = new Mod("Disruptive Frequency Tuning", "+100% Stun Chance, 2 sec Stun duration", modIcons.stun, 4, 1);
 		
 		tier5 = new Mod[3];
-		tier5[0] = new Mod("Explosive Goodbye", "When the line either expires or the trigger gets pulled again, the current line explodes for 40 Explosive Damage in a 3m radius AoE, and leaves behind a field of Persistent Plasma "
+		tier5[0] = new Mod("Explosive Goodbye", "When the line either expires or the trigger gets pulled again, the current line explodes for 70 Explosive Damage in a 3m radius AoE, and leaves behind a field of Persistent Plasma "
 				+ " that does an average of " + MathUtils.round(DoTInformation.Plasma_DPS, GuiConstants.numDecimalPlaces) + " Electric Damage per second for 4.6 seconds in a 3m radius sphere.", modIcons.addedExplosion, 5, 0);
 		tier5[1] = new Mod("Plasma Trail", "Leaves behind a Persistent Plasma field that does an average of " + MathUtils.round(DoTInformation.Plasma_DPS, GuiConstants.numDecimalPlaces) + " Electric Damage per second for 4.6 seconds "
 				+ "along the entire length of the line's path", modIcons.areaDamage, 5, 1);
@@ -323,7 +323,7 @@ public class BreachCutter extends Weapon {
 		double toReturn = damagePerTick;
 		
 		if (selectedTier2 == 1) {
-			toReturn += 3.5;
+			toReturn += 5.5;
 		}
 		
 		if (selectedOverclock == 2) {
@@ -342,7 +342,7 @@ public class BreachCutter extends Weapon {
 		double toReturn = delayBeforeOpening;
 		
 		if (selectedTier3 == 0) {
-			toReturn -= 0.2;
+			toReturn -= 0.29;
 		}
 		
 		return toReturn;
@@ -351,7 +351,7 @@ public class BreachCutter extends Weapon {
 		double toReturn = projectileLifetime;
 		
 		if (selectedTier1 == 0) {
-			toReturn += 1.5;
+			toReturn += 0.5;
 		}
 		
 		if (selectedOverclock == 2) {
@@ -424,7 +424,7 @@ public class BreachCutter extends Weapon {
 		double toReturn = reloadTime;
 		
 		if (selectedTier3 == 1) {
-			toReturn -= 0.4;
+			toReturn -= 0.5;
 		}
 		if (selectedOverclock == 0) {
 			toReturn -= 0.2;
@@ -484,7 +484,7 @@ public class BreachCutter extends Weapon {
 		boolean stunEquipped = selectedTier4 == 1;
 		toReturn[13] = new StatsRow("Stun Chance:", convertDoubleToPercentage(1.0), modIcons.homebrewPowder, stunEquipped, stunEquipped);
 		
-		toReturn[14] = new StatsRow("Stun Duration:", 3, modIcons.stun, stunEquipped, stunEquipped);
+		toReturn[14] = new StatsRow("Stun Duration:", 2, modIcons.stun, stunEquipped, stunEquipped);
 		
 		return toReturn;
 	}
@@ -598,7 +598,7 @@ public class BreachCutter extends Weapon {
 		double dmgPerTick = getDamagePerTick();
 		double explosiveGoodbyeDmg = 0;
 		if (selectedTier5 == 0 && primaryTarget) {
-			explosiveGoodbyeDmg = 40.0;
+			explosiveGoodbyeDmg = 70.0;
 		}
 		
 		if (!ignoreStatusEffects) {
@@ -843,7 +843,7 @@ public class BreachCutter extends Weapon {
 		// Stun
 		// T4.B has a 100% chance to stun for 3 seconds
 		if (selectedTier4 == 1) {
-			utilityScores[5] = maxNumTargets * 3.0 * UtilityInformation.Stun_Utility;
+			utilityScores[5] = maxNumTargets * 2.0 * UtilityInformation.Stun_Utility;
 		}
 		else {
 			utilityScores[5] = 0;

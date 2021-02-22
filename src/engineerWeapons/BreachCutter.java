@@ -120,13 +120,13 @@ public class BreachCutter extends Weapon {
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Roll Control", "Holding down the trigger after the line leaves the gun causes the line to start rolling. On release of the trigger, the line stops rolling.", overclockIcons.rollControl, 1, false);
 		overclocks[2] = new Overclock(Overclock.classification.clean, "Stronger Plasma Current", "+1 Damage per Tick, +0.5 Projectile Lifetime", overclockIcons.directDamage, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Return to Sender", "Holding down the trigger after line leaves the gun activates a remote connection, which on release of the trigger causes "
-				+ "the line to change direction and move back towards the gun. In exchange, -6 Max Ammo", overclockIcons.returnToSender, 3);
+				+ "the line to change direction and move back towards the gun. In exchange, -3 Max Ammo", overclockIcons.returnToSender, 3);
 		overclocks[4] = new Overclock(Overclock.classification.balanced, "High Voltage Crossover", "100% chance to electrocute enemies, which deals an average of " + MathUtils.round(4.0 * DoTInformation.Electro_TicksPerSec, GuiConstants.numDecimalPlaces) + " Electric Damage per "
 				+ "Second for 4 seconds. In exchange, x0.67 Magazine Size.", overclockIcons.electricity, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Spinning Death", "Instead of flying in a straight line, the projectile now rotates 2 times per second about the Yaw axis. Additionally: x0.05 Projectile Velocity, x0 Impact Damage, "
-				+ "x2.5 Projectile Lifetime, x0.2 Damage per Tick, +1.5m Plasma Beam Width, x0.5 Max Ammo, and x0.33 Magazine Size", overclockIcons.special, 5);
+				+ "x5 Projectile Lifetime, x0.2 Damage per Tick, +1.5m Plasma Beam Width, x0.5 Max Ammo, and x0.66 Magazine Size", overclockIcons.special, 5);
 		overclocks[6] = new Overclock(Overclock.classification.unstable, "Inferno", "The first time the beam hits an enemy, it deals 75 Heat damage and applies a DoT that does 7 Fire Damage and 7 Heat damage at a rate of 2 ticks/sec for 5 seconds (does 11 ticks total). "
-				+ "Additionally, it converts 90% of the Damage per Tick from Electric element to Fire element and adds the amount converted as Heat damage per tick.  In exchange: -3.5 Damage per Tick, -6 Max Ammo, and x0.25 Armor Breaking", overclockIcons.heatDamage, 6);
+				+ "Additionally, it converts 90% of the Damage per Tick from Electric element to Fire element and adds the amount converted as Heat damage per tick. This also adds +1.5 Damage per Tick (75 DPS). In exchange: -3 Max Ammo, and x0.5 Armor Breaking", overclockIcons.heatDamage, 6);
 	}
 	
 	@Override
@@ -333,7 +333,7 @@ public class BreachCutter extends Weapon {
 			toReturn *= 0.2;
 		}
 		else if (selectedOverclock == 6) {
-			toReturn -= 3.5;
+			toReturn += 1.5;
 		}
 		
 		return toReturn;
@@ -358,7 +358,7 @@ public class BreachCutter extends Weapon {
 			toReturn += 0.5;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn *= 2.5;
+			toReturn *= 5;
 		}
 		
 		return toReturn;
@@ -386,7 +386,7 @@ public class BreachCutter extends Weapon {
 			toReturn = (int) Math.round(toReturn * 2.0 / 3.0);
 		}
 		else if (selectedOverclock == 5) {
-			toReturn /= 3;
+			toReturn = (int) Math.round(toReturn * 2.0 / 3.0);
 		}
 		
 		return toReturn;
@@ -402,7 +402,7 @@ public class BreachCutter extends Weapon {
 			toReturn += 3;
 		}
 		else if (selectedOverclock == 3 || selectedOverclock == 6) {
-			toReturn -= 6;
+			toReturn -= 3;
 		}
 		else if (selectedOverclock == 5) {
 			toReturn /= 2;
@@ -440,7 +440,7 @@ public class BreachCutter extends Weapon {
 		}
 		
 		if (selectedOverclock == 6) {
-			toReturn /= 4.0;
+			toReturn /= 2.0;
 		}
 		
 		return toReturn;

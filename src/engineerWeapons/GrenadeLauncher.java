@@ -20,7 +20,7 @@ import utilities.ConditionalArrayList;
 import utilities.MathUtils;
 
 public class GrenadeLauncher extends Weapon {
-	
+
 	/****************************************************************************************
 	* Class Variables
 	****************************************************************************************/
@@ -31,6 +31,7 @@ public class GrenadeLauncher extends Weapon {
 	private int magazineSize;
 	private double reloadTime;
 	private double fearFactor;
+	private double directDamage;
 	
 	/****************************************************************************************
 	* Constructors
@@ -52,13 +53,14 @@ public class GrenadeLauncher extends Weapon {
 		weaponPic = WeaponPictures.grenadeLauncher;
 		
 		// Base stats, before mods or overclocks alter them:
-		areaDamage = 110;
-		aoeRadius = 3;
-		carriedAmmo = 8;
-		magazineSize = 1;
-		reloadTime = 2.0;
+		areaDamage = 75;
+		aoeRadius = 2.5;
+		carriedAmmo = 15;
+		magazineSize = 3;
+		reloadTime = 2.5;
 		fearFactor = 1.0;
-		
+		directDamage = 75;
+
 		initializeModsAndOverclocks();
 		// Grab initial values before customizing mods and overclocks
 		setBaselineStats();
@@ -277,7 +279,7 @@ public class GrenadeLauncher extends Weapon {
 	****************************************************************************************/
 	
 	private double getDirectDamage() {
-		double toReturn = 0;
+		double toReturn = directDamage;
 		if (selectedTier5 == 1) {
 			toReturn += 60;
 		}
@@ -467,7 +469,7 @@ public class GrenadeLauncher extends Weapon {
 	@Override
 	protected void setAoEEfficiency() {
 		// According to Elythnwaen, PGL has a full damage radius of 1.5m, and 15% damage at full radius
-		aoeEfficiency = calculateAverageAreaDamage(getAoERadius(), 1.5, 0.15);
+		aoeEfficiency = calculateAverageAreaDamage(getAoERadius(), 1.25, 0.5);
 	}
 	
 	@Override

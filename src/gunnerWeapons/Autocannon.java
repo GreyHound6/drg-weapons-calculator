@@ -89,19 +89,19 @@ public class Autocannon extends Weapon {
 	@Override
 	protected void initializeModsAndOverclocks() {
 		tier1 = new Mod[3];
-		tier1[0] = new Mod("Increased Caliber Rounds", "+3 Direct Damage", modIcons.directDamage, 1, 0);
-		tier1[1] = new Mod("High Capacity Magazine", "+110 Magazine Size", modIcons.magSize, 1, 1);
-		tier1[2] = new Mod("Expanded Ammo Bags", "+220 Max Ammo", modIcons.carriedAmmo, 1, 2);
+		tier1[0] = new Mod("Increased Caliber Rounds", "+5 Direct Damage", modIcons.directDamage, 1, 0);
+		tier1[1] = new Mod("High Capacity Magazine", "x1.5 Magazine Size", modIcons.magSize, 1, 1);
+		tier1[2] = new Mod("Expanded Ammo Bags", "+110 Max Ammo", modIcons.carriedAmmo, 1, 2);
 		
 		tier2 = new Mod[3];
-		tier2[0] = new Mod("Tighter Barrel Alignment", "x0.7 Base Spread", modIcons.baseSpread, 2, 0);
-		tier2[1] = new Mod("Improved Gas System", "+0.2 Min Rate of Fire, +1.5 Max Rate of Fire", modIcons.rateOfFire, 2, 1);
-		tier2[2] = new Mod("Lighter Barrel Assembly", "+1 Min Rate of Fire, x2 RoF Scaling Rate", modIcons.rateOfFire, 2, 2);
+		tier2[0] = new Mod("Tighter Barrel Alignment", "x0.5 Base Spread", modIcons.baseSpread, 2, 0);
+		tier2[1] = new Mod("Improved Gas System", "+0.4 Min Rate of Fire, +1.6 Max Rate of Fire", modIcons.rateOfFire, 2, 1);
+		tier2[2] = new Mod("Lighter Barrel Assembly", "x1.5 RoF Scaling Rate", modIcons.rateOfFire, 2, 2);
 		
 		tier3 = new Mod[3];
-		tier3[0] = new Mod("Supercharged Feed Mechanism", "+0.6 Min Rate of Fire, +2 Max Rate of Fire", modIcons.rateOfFire, 3, 0);
-		tier3[1] = new Mod("Loaded Rounds", "+2 Area Damage", modIcons.areaDamage, 3, 1);
-		tier3[2] = new Mod("High Velocity Rounds", "+4 Direct Damage", modIcons.directDamage, 3, 2);
+		tier3[0] = new Mod("Supercharged Feed Mechanism", "+0.6 Min Rate of Fire, +1.8 Max Rate of Fire", modIcons.rateOfFire, 3, 0);
+		tier3[1] = new Mod("Loaded Rounds", "+3 Area Damage", modIcons.areaDamage, 3, 1);
+		tier3[2] = new Mod("High Velocity Rounds", "+6 Direct Damage", modIcons.directDamage, 3, 2);
 		
 		tier4 = new Mod[2];
 		tier4[0] = new Mod("Penetrating Rounds", "+400% Armor Breaking", modIcons.armorBreaking, 4, 0);
@@ -293,10 +293,10 @@ public class Autocannon extends Weapon {
 		
 		// Additive bonuses first
 		if (selectedTier1 == 0) {
-			toReturn += 3;
+			toReturn += 5;
 		}
 		if (selectedTier3 == 2) {
-			toReturn += 4;
+			toReturn += 6;
 		}
 		if (selectedOverclock == 2) {
 			toReturn -= 6;
@@ -320,7 +320,7 @@ public class Autocannon extends Weapon {
 		
 		// Additive bonuses first
 		if (selectedTier3 == 1) {
-			toReturn += 2;
+			toReturn += 3;
 		}
 		if (selectedOverclock == 1) {
 			toReturn += 1;
@@ -355,7 +355,7 @@ public class Autocannon extends Weapon {
 	private int getMagazineSize() {
 		int toReturn = magazineSize;
 		if (selectedTier1 == 1) {
-			toReturn *= 2.0;
+			toReturn *= 1.5;
 		}
 		
 		if (selectedOverclock == 3 || selectedOverclock == 4) {
@@ -366,7 +366,7 @@ public class Autocannon extends Weapon {
 	private int getCarriedAmmo() {
 		int toReturn = carriedAmmo;
 		if (selectedTier1 == 2) {
-			toReturn += 220;
+			toReturn += 110;
 		}
 		if (selectedOverclock == 0) {
 			toReturn += 110;
@@ -386,19 +386,15 @@ public class Autocannon extends Weapon {
 	private double getIncreaseScalingRate() {
 		double toReturn = increaseScalingRate;
 		if (selectedTier2 == 2) {
-			toReturn += 0.3;
+			toReturn += 0.2;
 		}
 		return toReturn;
 	}
 	private double getMinRateOfFire() {
 		double toReturn = minRateOfFire;
 		if (selectedTier2 == 1) {
-			toReturn += 0.2;
+			toReturn += 0.4;
 		}
-		else if (selectedTier2 == 2) {
-			toReturn += 1.0;
-		}
-		
 		if (selectedTier3 == 0) {
 			toReturn += 0.6;
 		}
@@ -407,10 +403,10 @@ public class Autocannon extends Weapon {
 	private double getMaxRateOfFire() {
 		double toReturn = maxRateOfFire;
 		if (selectedTier2 == 1) {
-			toReturn += 1.5;
+			toReturn += 1.6;
 		}
 		if (selectedTier3 == 0) {
-			toReturn += 2;
+			toReturn += 1.8;
 		}
 		if (selectedOverclock == 4) {
 			toReturn -= 1.5;
@@ -434,11 +430,6 @@ public class Autocannon extends Weapon {
 		return (int) Math.round(exactNumBullets);
 	}
 	private double getAverageRateOfFire() {
-		// Special case: When T2.C and OC Big Bertha get combined, the Min RoF == Max RoF
-		if (selectedTier2 == 2 && selectedOverclock == 4) {
-			return getMaxRateOfFire();
-		}
-		
 		int numBulletsRampup = getNumBulletsRampup();
 		int magSize = getMagazineSize();
 		return (avgRoFDuringRampup() * numBulletsRampup + getMaxRateOfFire() * (magSize - numBulletsRampup)) / magSize;
@@ -459,7 +450,7 @@ public class Autocannon extends Weapon {
 		double toReturn = 1.0;
 		
 		if (selectedTier2 == 0) {
-			toReturn *= 0.7;
+			toReturn *= 0.5;
 		}
 		
 		if (selectedOverclock == 3 || selectedOverclock == 4) {
@@ -499,7 +490,7 @@ public class Autocannon extends Weapon {
 		boolean carriedAmmoModified = selectedTier1 == 2 || selectedOverclock == 0 || selectedOverclock == 4;
 		toReturn[4] = new StatsRow("Max Ammo:", getCarriedAmmo(), modIcons.carriedAmmo, carriedAmmoModified);
 		
-		boolean minRoFModified = selectedTier2 > 0 || selectedTier3 == 0;
+		boolean minRoFModified = selectedTier2 == 1 || selectedTier3 == 0;
 		toReturn[5] = new StatsRow("Starting Rate of Fire:", getMinRateOfFire(), modIcons.rateOfFire, minRoFModified);
 		
 		boolean maxRoFModified = selectedTier2 == 1 || selectedTier3 == 0 || selectedOverclock == 4;

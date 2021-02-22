@@ -83,21 +83,21 @@ public class Subata extends Weapon {
 		tier1[2] = new Mod("Quickfire Ejector", "-0.6 Reload Time", modIcons.reloadSpeed, 1, 2);
 		
 		tier2 = new Mod[2];
-		tier2[0] = new Mod("Expanded Ammo Bags", "+40 Max Ammo", modIcons.carriedAmmo, 2, 0);
-		tier2[1] = new Mod("Increased Caliber Rounds", "+1 Direct Damage", modIcons.directDamage, 2, 1);
+		tier2[0] = new Mod("Expanded Ammo Bags", "+15 Max Ammo", modIcons.carriedAmmo, 2, 0);
+		tier2[1] = new Mod("Increased Caliber Rounds", "+2 Direct Damage", modIcons.directDamage, 2, 1);
 		
 		tier3 = new Mod[3];
-		tier3[0] = new Mod("Improved Propellant", "+1 Direct Damage", modIcons.directDamage, 3, 0);
+		tier3[0] = new Mod("Improved Propellant", "+2 Direct Damage", modIcons.directDamage, 3, 0);
 		tier3[1] = new Mod("Recoil Compensator", "-20% Spread per Shot, x0.5 Recoil", modIcons.recoil, 3, 1);
-		tier3[2] = new Mod("Expanded Ammo Bags", "+40 Max Ammo", modIcons.carriedAmmo, 3, 2);
+		tier3[2] = new Mod("Expanded Ammo Bags", "+15 Max Ammo", modIcons.carriedAmmo, 3, 2);
 		
 		tier4 = new Mod[2];
-		tier4[0] = new Mod("Hollow-Point Bullets", "+60% Weakpoint Bonus", modIcons.weakpointBonus, 4, 0);
-		tier4[1] = new Mod("High Velocity Rounds", "+3 Direct Damage", modIcons.directDamage, 4, 1);
+		tier4[0] = new Mod("Hollow-Point Bullets", "+40% Weakpoint Bonus", modIcons.weakpointBonus, 4, 0);
+		tier4[1] = new Mod("High Velocity Rounds", "+4 Direct Damage", modIcons.directDamage, 4, 1);
 		
 		tier5 = new Mod[2];
-		tier5[0] = new Mod("Volatile Bullets", "+50% Damage dealt to Burning enemies", modIcons.heatDamage, 5, 0);
-		tier5[1] = new Mod("Mactera Neurotoxin Coating", "+20% Damage dealt to Mactera-type enemies", modIcons.special, 5, 1);
+		tier5[0] = new Mod("Volatile Bullets", "+40% Damage dealt to Burning enemies", modIcons.heatDamage, 5, 0);
+		tier5[1] = new Mod("Mactera Neurotoxin Coating", "+50% Damage dealt to Mactera-type enemies", modIcons.special, 5, 1);
 		
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Chain Hit", "Any shot that hits a weakspot has a 50% chance to ricochet into a nearby enemy.", overclockIcons.ricochet, 0);
@@ -276,13 +276,13 @@ public class Subata extends Weapon {
 		double toReturn = directDamage;
 		
 		if (selectedTier2 == 1) {
-			toReturn += 1;
+			toReturn += 2;
 		}
 		if (selectedTier3 == 0) {
-			toReturn += 1;
+			toReturn += 2;
 		}
 		if (selectedTier4 == 1) {
-			toReturn += 3;
+			toReturn += 4;
 		}
 		
 		if (selectedOverclock == 1) {
@@ -304,10 +304,10 @@ public class Subata extends Weapon {
 		int toReturn = carriedAmmo;
 		
 		if (selectedTier2 == 0) {
-			toReturn += 40;
+			toReturn += 15;
 		}
 		if (selectedTier3 == 2) {
-			toReturn += 40;
+			toReturn += 15;
 		}
 		
 		if (selectedOverclock == 4) {
@@ -365,7 +365,7 @@ public class Subata extends Weapon {
 		double toReturn = weakpointBonus;
 		
 		if (selectedTier4 == 0) {
-			toReturn += 0.6;
+			toReturn += 0.4;
 		}
 		
 		return toReturn;
@@ -527,8 +527,8 @@ public class Subata extends Weapon {
 		
 		// T5.A Volatile Bullets adds 50% of the total damage per bullet as Fire damage (not Heat Damage) if the bullet hits a Burning target
 		if (selectedTier5 == 0 && statusEffects[0]) {
-			directDamage *= 1.5;
-			areaDamage *= 1.5;
+			directDamage *= 1.4;
+			areaDamage *= 1.4;
 		}
 		
 		double weakpointAccuracy;
@@ -633,7 +633,7 @@ public class Subata extends Weapon {
 	public int breakpoints() {
 		double directFireDamage = 0;
 		if (selectedTier5 == 0 && statusEffects[0]) {
-			directFireDamage = 0.5 * getDirectDamage();
+			directFireDamage = 0.4 * getDirectDamage();
 		}
 		
 		double[] directDamage = {
@@ -662,7 +662,7 @@ public class Subata extends Weapon {
 		
 		double macteraBonus = 0;
 		if (selectedTier5 == 1) {
-			macteraBonus = 0.2;
+			macteraBonus = 0.5;
 		}
 		
 		breakpoints = EnemyInformation.calculateBreakpoints(directDamage, areaDamage, DoTDamage, getWeakpointBonus(), macteraBonus, 0.0, statusEffects[1], statusEffects[3], false);

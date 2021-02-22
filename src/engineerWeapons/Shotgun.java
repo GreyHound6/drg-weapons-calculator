@@ -109,8 +109,8 @@ public class Shotgun extends Weapon {
 				+ "target that's already stunned deal x1.3 damage.", overclockIcons.stun, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Light-Weight Magazines", "+20 Max Ammo, -0.4 Reload Time", overclockIcons.carriedAmmo, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Magnetic Pellet Alignment", "x0.5 Base Spread, +30% Weakpoint Bonus, x0.75 Rate of Fire", overclockIcons.baseSpread, 2);
-		overclocks[3] = new Overclock(Overclock.classification.unstable, "Cycle Overload", "+1 Damage per Pellet, +2 Rate of Fire, +0.5 Reload Time, x1.5 Base Spread", overclockIcons.rateOfFire, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Mini Shells", "+90 Max Ammo, +6 Magazine Size, x0.5 Recoil, -2 Damage per Pellet, and no longer able to stun enemies", overclockIcons.miniShells, 4);
+		overclocks[3] = new Overclock(Overclock.classification.unstable, "Cycle Overload", "+2 Damage per Pellet, +1.5 Rate of Fire, +0.5 Reload Time, x1.5 Base Spread", overclockIcons.rateOfFire, 3);
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Mini Shells", "+80 Max Ammo, +2 Magazine Size, x0.5 Recoil, -3 Damage per Pellet, and no longer able to stun enemies", overclockIcons.miniShells, 4);
 	}
 	
 	@Override
@@ -280,10 +280,10 @@ public class Shotgun extends Weapon {
 		}
 		
 		if (selectedOverclock == 3) {
-			toReturn += 1;
+			toReturn += 2;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn -= 2;
+			toReturn -= 3;
 		}
 		
 		return toReturn;
@@ -308,7 +308,7 @@ public class Shotgun extends Weapon {
 			toReturn += 20;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn += 90;
+			toReturn += 80;
 		}
 		
 		return toReturn;
@@ -324,7 +324,7 @@ public class Shotgun extends Weapon {
 		}
 		
 		if (selectedOverclock == 4) {
-			toReturn += 6;
+			toReturn += 2;
 		}
 		
 		return toReturn;
@@ -344,7 +344,7 @@ public class Shotgun extends Weapon {
 			toReturn *= 0.75;
 		}
 		else if (selectedOverclock == 3) {
-			toReturn += 2.0;
+			toReturn += 1.5;
 		}
 		
 		return toReturn;

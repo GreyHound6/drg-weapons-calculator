@@ -88,7 +88,7 @@ public class BurstPistol extends Weapon {
 		tier2 = new Mod[3];
 		tier2[0] = new Mod("Recoil Dampener", "x0.5 Recoil", modIcons.recoil, 2, 0);
 		tier2[1] = new Mod("Quickfire Ejector", "-0.7 Reload Time", modIcons.reloadSpeed, 2, 1);
-		tier2[2] = new Mod("Disabled Safety", "+3 Rate of Fire (translates to less time between bursts)", modIcons.rateOfFire, 2, 2);
+		tier2[2] = new Mod("Disabled Safety", "+2 Rate of Fire (translates to less time between bursts)", modIcons.rateOfFire, 2, 2);
 		
 		tier3 = new Mod[2];
 		tier3[0] = new Mod("High Capacity Magazine", "+12 Magazine Size", modIcons.magSize, 3, 0);
@@ -96,12 +96,12 @@ public class BurstPistol extends Weapon {
 		
 		tier4 = new Mod[3];
 		tier4[0] = new Mod("Hardened Rounds", "+200% Armor Breaking", modIcons.armorBreaking, 4, 0);
-		tier4[1] = new Mod("Expanded Ammo Bags", "+72 Max Ammo", modIcons.carriedAmmo, 4, 1);
-		tier4[2] = new Mod("Hollow-Point Bullets", "+40% Weakpoint Bonus", modIcons.weakpointBonus, 4, 2);
+		tier4[1] = new Mod("Expanded Ammo Bags", "+48 Max Ammo", modIcons.carriedAmmo, 4, 1);
+		tier4[2] = new Mod("Hollow-Point Bullets", "+25% Weakpoint Bonus", modIcons.weakpointBonus, 4, 2);
 		
 		tier5 = new Mod[2];
 		tier5[0] = new Mod("Burst Stun", "Stun an enemy for 4 seconds if all 3 shots in a burst hit", modIcons.stun, 5, 0);
-		tier5[1] = new Mod("Longer Burst", "+3 Bullets per Burst", modIcons.rateOfFire, 5, 1);
+		tier5[1] = new Mod("Longer Burst", "+1 Bullet per Burst", modIcons.rateOfFire, 5, 1);
 		
 		overclocks = new Overclock[7];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Composite Casings", "+36 Max Ammo, +1 Rate of Fire", overclockIcons.rateOfFire, 0);
@@ -315,7 +315,7 @@ public class BurstPistol extends Weapon {
 		int toReturn = burstSize;
 		
 		if (selectedTier5 == 1) {
-			toReturn += 3;
+			toReturn += 1;
 		}
 		
 		return toReturn;
@@ -324,7 +324,7 @@ public class BurstPistol extends Weapon {
 		int toReturn = carriedAmmo;
 		
 		if (selectedTier4 == 1) {
-			toReturn += 72;
+			toReturn += 48;
 		}
 		
 		if (selectedOverclock == 0) {
@@ -362,7 +362,7 @@ public class BurstPistol extends Weapon {
 		double toReturn = rateOfFire;
 		
 		if (selectedTier2 == 2) {
-			toReturn += 3.0;
+			toReturn += 2.0;
 		}
 		
 		if (selectedOverclock == 0) {
@@ -448,7 +448,7 @@ public class BurstPistol extends Weapon {
 	}
 	private double getWeakpointBonus() {
 		if (selectedTier4 == 2) {
-			return 0.4;
+			return 0.25;
 		}
 		else {
 			return 0;

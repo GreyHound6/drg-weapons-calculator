@@ -51,9 +51,9 @@ public class Zhukov extends Weapon {
 		
 		// Base stats, before mods or overclocks alter them:
 		directDamage = 12;
-		carriedAmmo = 600;
-		magazineSize = 50;  // Really 25
-		rateOfFire = 30.0;  // Really 15
+		carriedAmmo = 720;
+		magazineSize = 60;  // Really 30
+		rateOfFire = 20.0;  // Really 10
 		reloadTime = 1.8;
 		
 		// Override default 10m distance
@@ -77,35 +77,35 @@ public class Zhukov extends Weapon {
 	@Override
 	protected void initializeModsAndOverclocks() {
 		tier1 = new Mod[2];
-		tier1[0] = new Mod("Expanded Ammo Bags", "+100 Max Ammo", modIcons.carriedAmmo, 1, 0);
+		tier1[0] = new Mod("Expanded Ammo Bags", "+120 Max Ammo", modIcons.carriedAmmo, 1, 0);
 		tier1[1] = new Mod("High Velocity Rounds", "+1 Direct Damage", modIcons.directDamage, 1, 1);
 		
 		tier2 = new Mod[3];
 		tier2[0] = new Mod("High Capacity Magazine", "+10 Magazine Size", modIcons.magSize, 2, 0);
-		tier2[1] = new Mod("Supercharged Feed Mechanism", "+8 Rate of Fire", modIcons.rateOfFire, 2, 1);
+		tier2[1] = new Mod("Supercharged Feed Mechanism", "+10 Rate of Fire", modIcons.rateOfFire, 2, 1);
 		tier2[2] = new Mod("Quickfire Ejector", "-0.6 Reload Time", modIcons.reloadSpeed, 2, 2);
 		
 		tier3 = new Mod[2];
-		tier3[0] = new Mod("Increased Caliber Rounds", "+1 Direct Damage", modIcons.directDamage, 3, 0);
+		tier3[0] = new Mod("Increased Caliber Rounds", "+2 Direct Damage", modIcons.directDamage, 3, 0);
 		tier3[1] = new Mod("Better Weight Balance", "x0.5 Base Spread", modIcons.baseSpread, 3, 1);
 		
 		tier4 = new Mod[3];
 		tier4[0] = new Mod("Blowthrough Rounds", "+1 Penetration", modIcons.blowthrough, 4, 0);
 		tier4[1] = new Mod("Hollow-Point Bullets", "+30% Weakpoint Bonus", modIcons.weakpointBonus, 4, 1);
-		tier4[2] = new Mod("Expanded Ammo Bags", "+150 Max Ammo", modIcons.carriedAmmo, 4, 2);
+		tier4[2] = new Mod("Expanded Ammo Bags", "+180 Max Ammo", modIcons.carriedAmmo, 4, 2);
 		
 		tier5 = new Mod[2];
 		tier5[0] = new Mod("Conductive Bullets", "+30% Direct Damage dealt to enemies either being Electrocuted or affected by Scout's IFG grenade", modIcons.electricity, 5, 0);
 		tier5[1] = new Mod("Get In, Get Out", "+50% Movement Speed for 2.5 seconds after reloading an empty magazine", modIcons.movespeed, 5, 1);
 		
 		overclocks = new Overclock[5];
-		overclocks[0] = new Overclock(Overclock.classification.clean, "Minimal Magazines", "+2 Rate of Fire, -0.4 Reload Time", overclockIcons.reloadSpeed, 0);
-		overclocks[1] = new Overclock(Overclock.classification.balanced, "Custom Casings", "+30 Mag Size, -1 Direct Damage", overclockIcons.magSize, 1);
+		overclocks[0] = new Overclock(Overclock.classification.clean, "Minimal Magazines", "+4 Rate of Fire, -0.4 Reload Time", overclockIcons.reloadSpeed, 0);
+		overclocks[1] = new Overclock(Overclock.classification.balanced, "Custom Casings", "+30 Mag Size", overclockIcons.magSize, 1);
 		overclocks[2] = new Overclock(Overclock.classification.unstable, "Cryo Minelets", "Any bullets that impact terrain get converted to Cryo Minelets. It takes 0.1 seconds to form the minelets, "
-				+ "0.8 seconds to arm them, and they only last for 3 seconds after being armed. If an enemy passes within 1.5m of a minelet, it will detonate and deal 10 Cold Damage to all enemies "
-				+ "within range. In exchange, -1 Direct Damage and -10 Magazine Size.", overclockIcons.coldDamage, 2);
-		overclocks[3] = new Overclock(Overclock.classification.unstable, "Embedded Detonators", "Bullets that deal damage to an enemy's healthbar leave behind a detonator that deals 38 Internal Damage to the enemy "
-				+ "upon reloading. If reloading can kill an enemy, an icon will appear next to their healthbar. In exchange: -6 Direct Damage, -20 Magazine Size, -400 Max Ammo.", overclockIcons.specialReload, 3);
+				+ "0.8 seconds to arm them, and they only last for 3 seconds after being armed. If an enemy passes within 1.5m of a minelet, it will detonate and deal 15 Cold Damage to all enemies "
+				+ "within range. In exchange, -10 Magazine Size.", overclockIcons.coldDamage, 2);
+		overclocks[3] = new Overclock(Overclock.classification.unstable, "Embedded Detonators", "Bullets that deal damage to an enemy's healthbar leave behind a detonator that deals 30 Internal Damage to the enemy "
+				+ "upon reloading. If reloading can kill an enemy, an icon will appear next to their healthbar. In exchange: -6 Direct Damage, -20 Magazine Size, -480 Max Ammo.", overclockIcons.specialReload, 3);
 		overclocks[4] = new Overclock(Overclock.classification.unstable, "Gas Recycling", "+5 Direct Damage, but it can no longer gain bonus damage from hitting a Weakpoint. Additionally, x1.5 Base Spread "
 				+ "and -50% Movement Speed while firing.", overclockIcons.directDamage, 4);
 	}
@@ -276,13 +276,10 @@ public class Zhukov extends Weapon {
 			toReturn += 1;
 		}
 		if (selectedTier3 == 0) {
-			toReturn += 1;
+			toReturn += 2;
 		}
 		
-		if (selectedOverclock == 1 || selectedOverclock == 2) {
-			toReturn -= 1;
-		}
-		else if (selectedOverclock == 3) {
+		if (selectedOverclock == 3) {
 			toReturn -= 6;
 		}
 		else if (selectedOverclock == 4) {
@@ -294,7 +291,7 @@ public class Zhukov extends Weapon {
 	private int getAreaDamage() {
 		// Equipping the Overclock "Embedded Detonators" leaves a detonator inside enemies that does 38 Internal damage to an enemy upon reloading the Zhukovs
 		if (selectedOverclock == 3) {
-			return 38;
+			return 30;
 		}
 		else { 
 			return 0;
@@ -304,14 +301,14 @@ public class Zhukov extends Weapon {
 		int toReturn = carriedAmmo;
 		
 		if (selectedTier1 == 0) {
-			toReturn += 100;
+			toReturn += 120;
 		}
 		if (selectedTier4 == 2) {
-			toReturn += 150;
+			toReturn += 180;
 		}
 		
 		if (selectedOverclock == 3) {
-			toReturn -= 400;
+			toReturn -= 480;
 		}
 		
 		return toReturn;
@@ -339,11 +336,11 @@ public class Zhukov extends Weapon {
 		double toReturn = rateOfFire;
 		
 		if (selectedTier2 == 1) {
-			toReturn += 8.0;
+			toReturn += 10.0;
 		}
 		
 		if (selectedOverclock == 0) {
-			toReturn += 2.0;
+			toReturn += 4.0;
 		}
 		
 		return toReturn;
@@ -456,7 +453,7 @@ public class Zhukov extends Weapon {
 		// Minelets do 10 Cold Damage upon detonation, but they have to take 0.1 seconds to arm first.
 		// While Frozen, bullets do x3 Direct Damage.
 		double effectiveRoF = getRateOfFire() / 2.0;
-		double timeToFreeze = EnemyInformation.averageTimeToFreeze(0, -10, effectiveRoF, 0);
+		double timeToFreeze = EnemyInformation.averageTimeToFreeze(0, -15, effectiveRoF, 0);
 		return Math.ceil(timeToFreeze * effectiveRoF);
 	}
 	
@@ -670,7 +667,7 @@ public class Zhukov extends Weapon {
 		// OC "Cryo Minelets" applies Cryo damage to missed bullets
 		if (selectedOverclock == 2) {
 			// Cryo minelets: 1 placed per 2 ammo, minelets arm in 0.9 seconds, and detonate in 4 seconds if no enemy is around.
-			// Minelets do 10 Cold Damage each, and explode in a 1.5m radius.
+			// Minelets do 15 Cold Damage each, and explode in a 1.5m radius.
 			int estimatedNumTargetsSlowedOrFrozen = calculateNumGlyphidsInRadius(1.5);
 			
 			utilityScores[3] = estimatedNumTargetsSlowedOrFrozen * UtilityInformation.Cold_Utility;
@@ -689,7 +686,7 @@ public class Zhukov extends Weapon {
 		if (selectedOverclock == 2) {
 			double effectiveRoF = getRateOfFire() / 2.0;
 			// I'm choosing to add 0.9 to model the 0.1 creation time and 0.8 arming time before minelets deal their Cold damage
-			return 0.9 + EnemyInformation.averageTimeToFreeze(0, -10, effectiveRoF, 0);
+			return 0.9 + EnemyInformation.averageTimeToFreeze(0, -15, effectiveRoF, 0);
 		}
 		else {
 			return -1;

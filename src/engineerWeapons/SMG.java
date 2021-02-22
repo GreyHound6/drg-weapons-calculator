@@ -98,21 +98,21 @@ public class SMG extends Weapon {
 		
 		tier4 = new Mod[2];
 		tier4[0] = new Mod("Hollow-Point Bullets", "+30% Weakpoint Bonus", modIcons.weakpointBonus, 4, 0);
-		tier4[1] = new Mod("Conductive Bullets", "+30% Direct Damage dealt to enemies either being Electrocuted or affected by Scout's IFG grenade", modIcons.electricity, 4, 1);
+		tier4[1] = new Mod("Conductive Bullets", "+25% Direct Damage dealt to enemies either being Electrocuted or affected by Scout's IFG grenade", modIcons.electricity, 4, 1);
 		
 		tier5 = new Mod[2];
 		tier5[0] = new Mod("Magazine Capacity Tweak", "+20 Magazine Size", modIcons.magSize, 5, 0);
 		tier5[1] = new Mod("Electric Arc", "Every time the SMG either applies or refreshes an Electrocute DoT, there's a 25% chance that all enemies within a 2.75m radius of the primary target will be electrocuted as well.", modIcons.electricity, 5, 1);
 		
 		overclocks = new Overclock[6];
-		overclocks[0] = new Overclock(Overclock.classification.clean, "Super-Slim Rounds", "+5 Magazine Size, x0.8 Base Spread", overclockIcons.magSize, 0);
+		overclocks[0] = new Overclock(Overclock.classification.clean, "Super-Slim Rounds", "+10 Magazine Size, x0.8 Base Spread", overclockIcons.magSize, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Well Oiled Machine", "+2 Rate of Fire, -0.2 Reload Time", overclockIcons.rateOfFire, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "EM Refire Booster", "+2 Electric Damage per bullet, +4 Rate of Fire, x1.5 Base Spread", overclockIcons.rateOfFire, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Light-Weight Rounds", "+180 Max Ammo, -1 Direct Damage, -2 Rate of Fire", overclockIcons.carriedAmmo, 3);
 		overclocks[4] = new Overclock(Overclock.classification.unstable, "Turret Arc", "If a bullet fired from the SMG hits a turret and applies an Electrocute DoT, that turret deals constant Electric Damage in a small radius around it. "
-				+ "Additionally, if 2 turrets are less than 10m apart and both are electrocuted at the same time, then an electric arc will pass between them for 10 seconds. -120 Max Ammo, -2 Rate of Fire", overclockIcons.electricity, 4, false);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Turret EM Discharge", "If a bullet fired from the SMG hits a turret and applies an Electrocute DoT, it triggers an explosion that deals 40 Electric Damage and 0.5 Fear to all enemies "
-				+ "within a 5m radius, as well as Electrocuting them. There's a 1.5 second cooldown between explosions. -5% Chance to Electrocute an enemy, -3 Direct Damage", overclockIcons.areaDamage, 5, false);
+				+ "Additionally, if 2 turrets are less than 10m apart and both are electrocuted at the same time, then an electric arc will pass between them for 10 seconds. -2 Rate of Fire", overclockIcons.electricity, 4, false);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Turret EM Discharge", "If a bullet fired from the SMG hits a turret and applies an Electrocute DoT, it triggers an explosion that deals 90 Electric Damage and 0.5 Fear to all enemies "
+				+ "within a 5m radius, as well as Electrocuting them. There's a 1 second cooldown between explosions.", overclockIcons.areaDamage, 5, false);
 	}
 	
 	@Override
@@ -284,11 +284,7 @@ public class SMG extends Weapon {
 		if (selectedTier1 == 1) {
 			toReturn += 0.3;
 		}
-		
-		if (selectedOverclock == 5) {
-			toReturn -= 0.05;
-		}
-		
+
 		return toReturn;
 	}
 	private double getDirectDamage() {
@@ -303,9 +299,6 @@ public class SMG extends Weapon {
 		}
 		if (selectedOverclock == 3) {
 			toReturn -= 1;
-		}
-		else if (selectedOverclock == 5) {
-			toReturn -= 3;
 		}
 		
 		// Multiplicative bonuses last
@@ -342,7 +335,7 @@ public class SMG extends Weapon {
 		}
 		
 		if (selectedOverclock == 0) {
-			toReturn += 5;
+			toReturn += 10;
 		}
 		
 		return toReturn;
@@ -360,9 +353,6 @@ public class SMG extends Weapon {
 		
 		if (selectedOverclock == 3) {
 			toReturn += 180;
-		}
-		else if (selectedOverclock == 4) {
-			toReturn -= 120;
 		}
 		
 		return toReturn;
@@ -427,7 +417,7 @@ public class SMG extends Weapon {
 	}
 	
 	private double conductiveBulletsMultiplier() {
-		double conductiveBulletsDamageMultiplier = 1.3;
+		double conductiveBulletsDamageMultiplier = 1.25;
 		if (statusEffects[2] || statusEffects[3]) {
 			return conductiveBulletsDamageMultiplier;
 		}
@@ -445,7 +435,7 @@ public class SMG extends Weapon {
 		toReturn[0] = new StatsRow("Electrocute DoT Chance:", convertDoubleToPercentage(getElectrocutionDoTChance()), modIcons.homebrewPowder, selectedTier1 == 1 || selectedOverclock == 5);
 		toReturn[1] = new StatsRow("Electrocute DoT DPS:", DoTInformation.Electro_DPS, modIcons.electricity, false);
 		
-		boolean directDamageModified = selectedTier1 == 0 || selectedTier3 == 0 || selectedTier4 == 1 || selectedOverclock == 3 || selectedOverclock == 5;
+		boolean directDamageModified = selectedTier1 == 0 || selectedTier3 == 0 || selectedTier4 == 1 || selectedOverclock == 3;
 		toReturn[2] = new StatsRow("Direct Damage:", getDirectDamage(), modIcons.directDamage, directDamageModified);
 		
 		toReturn[3] = new StatsRow("Electric Damage:", getElectricDamage(), modIcons.directDamage, selectedTier4 == 1 || selectedOverclock == 2, selectedTier4 == 1 || selectedOverclock == 2);
@@ -453,7 +443,7 @@ public class SMG extends Weapon {
 		boolean magSizeModified = selectedTier2 == 0 || selectedTier5 == 0 || selectedOverclock == 0;
 		toReturn[4] = new StatsRow("Magazine Size:", getMagazineSize(), modIcons.magSize, magSizeModified);
 		
-		boolean carriedAmmoModified = selectedTier1 == 2 || selectedTier3 == 1 || selectedOverclock == 3 || selectedOverclock == 4;
+		boolean carriedAmmoModified = selectedTier1 == 2 || selectedTier3 == 1 || selectedOverclock == 3;
 		toReturn[5] = new StatsRow("Max Ammo:", getCarriedAmmo(), modIcons.carriedAmmo, carriedAmmoModified);
 		
 		boolean RoFModified = selectedTier2 == 2 || (selectedOverclock > 0 && selectedOverclock < 5);

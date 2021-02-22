@@ -104,12 +104,12 @@ public class GrenadeLauncher extends Weapon {
 		
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Clean Sweep", "+10 Area Damage, +0.5m AoE Radius", overclockIcons.aoeRadius, 0);
-		overclocks[1] = new Overclock(Overclock.classification.clean, "Pack Rat", "+2 Max Ammo", overclockIcons.carriedAmmo, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Compact Rounds", "+4 Max Ammo, -10 Area Damage, -0.5m AoE Radius", overclockIcons.carriedAmmo, 2);
-		overclocks[3] = new Overclock(Overclock.classification.balanced, "RJ250 Compound", "Jump and shoot the ground beneath you to Grenade Jump. Can also be used on allies who are jumping. In exchange, -25 Area Damage.", overclockIcons.grenadeJump, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Fat Boy", "x4 Area Damage, +1m AoE Radius, x0.3 Max Ammo, x0.7 Projectile Velocity. Also leaves behind an 8m radius field that does "
+		overclocks[1] = new Overclock(Overclock.classification.clean, "Pack Rat", "+3 Max Ammo", overclockIcons.carriedAmmo, 1);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Compact Rounds", "+6 Max Ammo, -5 Area Damage, -0.5m AoE Radius", overclockIcons.carriedAmmo, 2);
+		overclocks[3] = new Overclock(Overclock.classification.balanced, "RJ250 Compound", "Jump and shoot the ground beneath you to Grenade Jump. Can also be used on allies who are jumping. In exchange, -5 Area Damage.", overclockIcons.grenadeJump, 3);
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Fat Boy", "x4 Area Damage, +0.5m AoE Radius, x0.3 Max Ammo, x0.75 Projectile Velocity. Also leaves behind an 8m radius field that does "
 				+ "an average of " + MathUtils.round(DoTInformation.Rad_FB_DPS, GuiConstants.numDecimalPlaces) + " Radiation Damage per Second for 15 seconds.", overclockIcons.areaDamage, 4);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Hyper Propellant", "+385 Direct Damage, +350% Projectile Velocity, changes element from Explosive to Disintegrate, x0.3 AoE Radius, -2 Max Ammo", overclockIcons.projectileVelocity, 5);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Hyper Propellant", "+270 Direct Damage, +350% Projectile Velocity, changes element from Explosive to Disintegrate, x0.4 AoE Radius, -3 Max Ammo", overclockIcons.projectileVelocity, 5);
 	}
 	
 	@Override
@@ -290,7 +290,7 @@ public class GrenadeLauncher extends Weapon {
 		}
 		
 		if (selectedOverclock == 5) {
-			toReturn += 385;
+			toReturn += 270;
 		}
 		
 		if (selectedTier4 == 0) {
@@ -312,10 +312,10 @@ public class GrenadeLauncher extends Weapon {
 			toReturn += 10;
 		}
 		else if (selectedOverclock == 2) {
-			toReturn -= 10;
+			toReturn -= 5;
 		}
 		else if (selectedOverclock == 3) {
-			toReturn -= 25;
+			toReturn -= 5;
 		}
 
 		if (selectedTier4 == 0) {
@@ -348,10 +348,10 @@ public class GrenadeLauncher extends Weapon {
 			toReturn -= 0.5;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn += 1.0;
+			toReturn += 0.5;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn *= 0.3;
+			toReturn *= 0.4;
 		}
 		
 		return toReturn;
@@ -367,16 +367,16 @@ public class GrenadeLauncher extends Weapon {
 		}
 		
 		if (selectedOverclock == 1) {
-			toReturn += 2;
+			toReturn += 3;
 		}
 		else if (selectedOverclock == 2) {
-			toReturn += 4;
+			toReturn += 6;
 		}
 		else if (selectedOverclock == 4) {
 			toReturn *= 0.3;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn -= 2;
+			toReturn -= 3;
 		}
 		
 		return (int) Math.round(toReturn);
@@ -415,7 +415,7 @@ public class GrenadeLauncher extends Weapon {
 		}
 		
 		if (selectedOverclock == 4) {
-			toReturn *= 0.7;
+			toReturn *= 0.75;
 		}
 		else if (selectedOverclock == 5) {
 			toReturn += 3.5;

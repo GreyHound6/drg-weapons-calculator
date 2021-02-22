@@ -58,8 +58,8 @@ public class CryoCannon extends Weapon {
 		
 		// Base stats, before mods or overclocks alter them:
 		particleDamage = 6;
-		particleCold = -8;
-		tankSize = 500;
+		particleCold = -7;
+		tankSize = 450;
 		chargeupTime = 0.5;
 		pressureDropDuration = 6.5;
 		flowRate = 8.0;
@@ -105,11 +105,11 @@ public class CryoCannon extends Weapon {
 		tier4 = new Mod[3];
 		tier4[0] = new Mod("High Water Content", "+3 Damage per Particle", modIcons.directDamage, 4, 0);
 		tier4[1] = new Mod("Improved Mixture", "+1 Cold per Particle", modIcons.coldDamage, 4, 1);
-		tier4[2] = new Mod("Larger Reserve Tank", "+150 Tank Size", modIcons.carriedAmmo, 4, 2);
+		tier4[2] = new Mod("Larger Reserve Tank", "+75 Tank Size", modIcons.carriedAmmo, 4, 2);
 		
 		tier5 = new Mod[2];
 		tier5[0] = new Mod("Fragile", "Every particle that hits a Frozen enemy has a chance to deal a large chunk of damage", modIcons.addedExplosion, 5, 0, false);
-		tier5[1] = new Mod("Cold Radiance", "Cool down enemies within 4m of you at a rate of 60 Cold/sec. This stacks with the direct stream and Ice Path's cold sources as well.", modIcons.coldDamage, 5, 1);
+		tier5[1] = new Mod("Cold Radiance", "Cool down enemies within 4m of you at a rate of 45 Cold/sec. This stacks with the direct stream and Ice Path's cold sources as well.", modIcons.coldDamage, 5, 1);
 		
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Improved Thermal Efficiency", "+25 Tank Size, x0.75 Pressure Drop Rate", overclockIcons.magSize, 0);
@@ -325,7 +325,7 @@ public class CryoCannon extends Weapon {
 			toReturn += 75;
 		}
 		if (selectedTier4 == 2) {
-			toReturn += 150;
+			toReturn += 75;
 		}
 		
 		if (selectedOverclock == 0) {
@@ -476,9 +476,9 @@ public class CryoCannon extends Weapon {
 		
 		double coldRadianceColdPerSec = 0;
 		if (selectedTier5 == 1) {
-			// 60 Cold/sec in a 4m radius
+			// 45 Cold/sec in a 4m radius
 			// I want this to be less effective with far-reaching streams to model how the further the steam flies the less likely it is that the enemies will be within the 4m.
-			coldRadianceColdPerSec = -60.0 * 4.0 / getColdStreamReach();
+			coldRadianceColdPerSec = -45.0 * 4.0 / getColdStreamReach();
 		}
 		
 		if (refreeze) {

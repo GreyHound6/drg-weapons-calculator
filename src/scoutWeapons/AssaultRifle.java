@@ -290,7 +290,7 @@ public class AssaultRifle extends Weapon {
 		
 		// First do additive bonuses
 		if (selectedTier2 == 0) {
-			toReturn += 2;
+			toReturn += 3;
 		}
 		if (selectedTier3 == 1) {
 			toReturn += 1;

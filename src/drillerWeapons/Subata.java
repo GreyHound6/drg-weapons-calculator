@@ -101,7 +101,7 @@ public class Subata extends Weapon {
 		
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Chain Hit", "Any shot that hits a weakspot has a 50% chance to ricochet into a nearby enemy.", overclockIcons.ricochet, 0);
-		overclocks[1] = new Overclock(Overclock.classification.clean, "Homebrew Powder", "Anywhere from x0.8 - x1.4 damage per shot, averaged to x" + homebrewPowderCoefficient, overclockIcons.homebrewPowder, 1);
+		overclocks[1] = new Overclock(Overclock.classification.clean, "Homebrew Powder", "Anywhere from x1 - x1.2 damage per shot, averaged to x" + homebrewPowderCoefficient, overclockIcons.homebrewPowder, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Oversized Magazine", "+7 Magazine Size, +0.5 Reload Time", overclockIcons.magSize, 2);
 		overclocks[3] = new Overclock(Overclock.classification.unstable, "Automatic Fire", "Changes the Subata from semi-automatic to fully automatic, +2 Rate of Fire, +100% Base Spread, x2.5 Recoil", overclockIcons.rateOfFire, 3);
 		overclocks[4] = new Overclock(Overclock.classification.unstable, "Explosive Reload", "Bullets that deal damage to an enemy's healthbar leave behind a detonator that deals 30 Internal Damage to the enemy upon reloading. "

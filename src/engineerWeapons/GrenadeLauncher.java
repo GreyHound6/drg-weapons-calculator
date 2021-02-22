@@ -79,9 +79,9 @@ public class GrenadeLauncher extends Weapon {
 	@Override
 	protected void initializeModsAndOverclocks() {
 		tier1 = new Mod[3];
-		tier1[0] = new Mod("Fragmentary Shell", "+1m AoE Radius", modIcons.aoeRadius, 1, 0);
-		tier1[1] = new Mod("Expanded Ammo Bags", "+2 Max Ammo", modIcons.carriedAmmo, 1, 1);
-		tier1[2] = new Mod("HE Compound", "+15 Area Damage", modIcons.areaDamage, 1, 2);
+		tier1[0] = new Mod("Fragmentary Shell", "+0.5m AoE Radius", modIcons.aoeRadius, 1, 0);
+		tier1[1] = new Mod("Expanded Ammo Bags", "+3 Max Ammo", modIcons.carriedAmmo, 1, 1);
+		tier1[2] = new Mod("HE Compound", "+20 Area Damage", modIcons.areaDamage, 1, 2);
 		
 		tier2 = new Mod[3];
 		tier2[0] = new Mod("Extra Ammo", "+3 Max Ammo", modIcons.carriedAmmo, 2, 0);
@@ -93,14 +93,14 @@ public class GrenadeLauncher extends Weapon {
 		tier3[1] = new Mod("Pressure Wave", "+500% Armor Breaking", modIcons.armorBreaking, 3, 1);
 		
 		tier4 = new Mod[3];
-		tier4[0] = new Mod("Homebrew Explosive", "Anywhere from x0.8 - x1.4 damage per shot, averaged to x" + homebrewPowderCoefficient, modIcons.homebrewPowder, 4, 0);
-		tier4[1] = new Mod("Nails + Tape", "+1m AoE Radius", modIcons.aoeRadius, 4, 1);
+		tier4[0] = new Mod("Homebrew Explosive", "Anywhere from x1 - x1.2 damage per shot, averaged to x" + homebrewPowderCoefficient, modIcons.homebrewPowder, 4, 0);
+		tier4[1] = new Mod("Nails + Tape", "+0.5m AoE Radius", modIcons.aoeRadius, 4, 1);
 		tier4[2] = new Mod("Concussive Blast", "Stuns creatures within the blast radius for 3 seconds", modIcons.stun, 4, 2);
 		
 		tier5 = new Mod[2];
 		tier5[0] = new Mod("Proximity Trigger", "Launched grenades will only detonate when they are in close proximity to an enemy or after the projectile comes to a complete stop. "
 				+ "Note: the trigger takes a moment to arm, indicated by a green light, and until then the grenade functions as usual.", modIcons.special, 5, 0, false);
-		tier5[1] = new Mod("Spiky Grenade", "+60 Direct Damage to any target directly impacted by a grenade.", modIcons.directDamage, 5, 1);
+		tier5[1] = new Mod("Spiky Grenade", "+35 Direct Damage to any target directly impacted by a grenade.", modIcons.directDamage, 5, 1);
 		
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Clean Sweep", "+10 Area Damage, +0.5m AoE Radius", overclockIcons.aoeRadius, 0);
@@ -281,7 +281,7 @@ public class GrenadeLauncher extends Weapon {
 	private double getDirectDamage() {
 		double toReturn = directDamage;
 		if (selectedTier5 == 1) {
-			toReturn += 60;
+			toReturn += 35;
 		}
 		
 		// There's currently a bug in U32 where Incendiary Compound is only affecting Spiky Grenade's damage. I'm going to model it like it's currently bugged, but this will have to be changed if the bug gets fixed.
@@ -302,7 +302,7 @@ public class GrenadeLauncher extends Weapon {
 	private double getAreaDamage() {
 		double toReturn = areaDamage;
 		if (selectedTier1 == 2) {
-			toReturn += 15;
+			toReturn += 20;
 		}
 		if (selectedTier2 == 1) {
 			toReturn += 20;
@@ -335,10 +335,10 @@ public class GrenadeLauncher extends Weapon {
 	private double getAoERadius() {
 		double toReturn = aoeRadius;
 		if (selectedTier1 == 0) {
-			toReturn += 1.0;
+			toReturn += 0.5;
 		}
 		if (selectedTier4 == 1) {
-			toReturn += 1.0;
+			toReturn += 0.5;
 		}
 		
 		if (selectedOverclock == 0) {
@@ -360,7 +360,7 @@ public class GrenadeLauncher extends Weapon {
 		double toReturn = carriedAmmo;
 		
 		if (selectedTier1 == 1) {
-			toReturn += 2;
+			toReturn += 3;
 		}
 		if (selectedTier2 == 0) {
 			toReturn += 3;

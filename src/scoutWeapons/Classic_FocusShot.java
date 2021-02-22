@@ -69,7 +69,7 @@ public class Classic_FocusShot extends Classic {
 			toReturn += 72;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn *= 0.635;
+			toReturn *= 0.66;
 		}
 		
 		// Divide by 2 to account for firing two ammo per focused shot

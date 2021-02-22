@@ -60,7 +60,7 @@ public class Classic_Hipfire extends Classic {
 			toReturn += 72;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn *= 0.635;
+			toReturn *= 0.66;
 		}
 		
 		return (int) Math.round(toReturn);

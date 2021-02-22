@@ -105,7 +105,7 @@ public class Flamethrower extends Weapon {
 		tier3[2] = new Mod("More Fuel", "+75 Max Fuel", modIcons.carriedAmmo, 3, 2);
 		
 		tier4 = new Mod[3];
-		tier4[0] = new Mod("It Burns!", "Every ammo consumed deals 0.13 Fear Factor to all enemies hit by that particle", modIcons.fear, 4, 0);
+		tier4[0] = new Mod("It Burns!", "Every ammo consumed deals 0.25 Fear Factor to all enemies hit by that particle", modIcons.fear, 4, 0);
 		tier4[1] = new Mod("Sticky Flame Duration", "+3 sec Sticky Flames duration", modIcons.hourglass, 4, 1);
 		tier4[2] = new Mod("More Fuel", "+75 Max Fuel", modIcons.carriedAmmo, 4, 2);
 		
@@ -116,9 +116,9 @@ public class Flamethrower extends Weapon {
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Lighter Tanks", "+75 Max Fuel", overclockIcons.carriedAmmo, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Sticky Additive", "+1 Damage per Particle, +1 sec Sticky Flame duration", overclockIcons.hourglass, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Compact Feed Valves", "+25 Fuel Tank Size, -2m Flame Reach", overclockIcons.magSize, 2);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Compact Feed Valves", "+50 Fuel Tank Size, -2m Flame Reach", overclockIcons.magSize, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Fuel Stream Diffuser", "+5m Flame Reach, -1.2 Flow Rate", overclockIcons.distance, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Face Melter", "+2 Damage per Particle, +1.8 Flow Rate, -75 Max Fuel, x0.5 Movement Speed while using", overclockIcons.directDamage, 4);
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Face Melter", "+6 Damage per Particle, +1.8 Flow Rate, -75 Max Fuel, x0.5 Movement Speed while using", overclockIcons.directDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Sticky Fuel", "+5 Sticky Flames damage, +6 sec Sticky Flames duration, -25 Tank Size, -75 Max Fuel", overclockIcons.hourglass, 5);
 	}
 	
@@ -296,7 +296,7 @@ public class Flamethrower extends Weapon {
 			toReturn += 1;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn += 2;
+			toReturn += 6;
 		}
 		
 		return toReturn;
@@ -337,7 +337,7 @@ public class Flamethrower extends Weapon {
 		}
 		
 		if (selectedOverclock == 2) {
-			toReturn += 25;
+			toReturn += 50;
 		}
 		else if (selectedOverclock == 5) {
 			toReturn -= 25;
@@ -617,7 +617,7 @@ public class Flamethrower extends Weapon {
 		
 		// Fear
 		if (selectedTier4 == 0) {
-			double probabilityToFear = calculateFearProcProbability(0.13);
+			double probabilityToFear = calculateFearProcProbability(0.25);
 			double fearDuration = EnemyInformation.averageFearDuration(getSFSlow(), getSFDuration());
 			utilityScores[4] = probabilityToFear * numTargets * fearDuration * UtilityInformation.Fear_Utility;
 		}

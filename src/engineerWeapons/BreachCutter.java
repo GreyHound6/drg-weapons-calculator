@@ -63,13 +63,13 @@ public class BreachCutter extends Weapon {
 		burstDamageOnFirstImpact = 50;
 		damageTickRate = 50;  // ticks/sec
 		damagePerTick = 11.5;
-		delayBeforeOpening = 0.2;
-		projectileLifetime = 1.5;
+		delayBeforeOpening = 0.3;
+		projectileLifetime = 1.0;
 		projectileWidth = 1.5;
 		magazineSize = 3;
 		carriedAmmo = 12;
 		rateOfFire = 1.5;
-		reloadTime = 3.4;
+		reloadTime = 3.0;
 		
 		initializeModsAndOverclocks();
 		// Grab initial values before customizing mods and overclocks

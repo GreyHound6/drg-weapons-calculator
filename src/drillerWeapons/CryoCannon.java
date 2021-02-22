@@ -112,13 +112,13 @@ public class CryoCannon extends Weapon {
 		tier5[1] = new Mod("Cold Radiance", "Cool down enemies within 4m of you at a rate of 45 Cold/sec. This stacks with the direct stream and Ice Path's cold sources as well.", modIcons.coldDamage, 5, 1);
 		
 		overclocks = new Overclock[6];
-		overclocks[0] = new Overclock(Overclock.classification.clean, "Improved Thermal Efficiency", "+25 Tank Size, x0.75 Pressure Drop Rate", overclockIcons.magSize, 0);
+		overclocks[0] = new Overclock(Overclock.classification.clean, "Improved Thermal Efficiency", "+75 Tank Size, x0.75 Pressure Drop Rate", overclockIcons.magSize, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Perfectly Tuned Cooler", "+1 Cold per Particle, +0.8 Flow Rate", overclockIcons.coldDamage, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Flow Rate Expansion", "x2.7 Pressure Gain Rate, +0.8 Flow Rate, x2.25 Pressure Drop Rate", overclockIcons.duration, 2);
-		overclocks[3] = new Overclock(Overclock.classification.balanced, "Ice Spear", "Press the Reload button to consume 50 ammo and fire an Ice Spear that does 350 Direct Damage and 150 Area Damage in a 1.4m radius and stuns enemies for 3 seconds. "
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Flow Rate Expansion", "x2.75 Pressure Gain Rate, +0.8 Flow Rate, x2 Pressure Drop Rate", overclockIcons.duration, 2);
+		overclocks[3] = new Overclock(Overclock.classification.balanced, "Ice Spear", "Press the Reload button to consume 35 ammo and fire an Ice Spear that does 350 Direct Damage and 150 Area Damage in a 1.4m radius and stuns enemies for 3 seconds. "
 				+ "In exchange, +1 sec Repressurization Delay", overclockIcons.projectileVelocity, 3, false);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Ice Storm", "x2 Damage per Particle, -3 Cold per Particle, -50 Tank Size, x1.5 Pressure Drop Rate", overclockIcons.directDamage, 4);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Snowball", "Press the Reload button to consume 35 ammo and fire a Snowball that does 200 Cold Damage in a 4m radius, which will freeze most enemies instantly. "
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Ice Storm", "x2 Damage per Particle, -3 Cold per Particle, -25 Tank Size, x1.5 Pressure Drop Rate", overclockIcons.directDamage, 4);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Snowball", "Press the Reload button to consume 25 ammo and fire a Snowball that does 200 Cold Damage in a 4m radius, which will freeze most enemies instantly. "
 				+ "In exchange, -100 Tank Size, +1 sec Repressurization Delay", overclockIcons.aoeRadius, 5);
 	}
 	
@@ -329,10 +329,10 @@ public class CryoCannon extends Weapon {
 		}
 		
 		if (selectedOverclock == 0) {
-			toReturn += 25;
+			toReturn += 75;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn -= 50;
+			toReturn -= 25;
 		}
 		else if (selectedOverclock == 5) {
 			toReturn -= 100;
@@ -360,7 +360,7 @@ public class CryoCannon extends Weapon {
 			modifier *= 0.75;
 		}
 		else if (selectedOverclock == 2) {
-			modifier *= 2.25;
+			modifier *= 2.0;
 		}
 		else if (selectedOverclock == 4) {
 			modifier *= 1.5;
@@ -402,7 +402,7 @@ public class CryoCannon extends Weapon {
 		}
 		
 		if (selectedOverclock == 2) {
-			modifier *= 2.7;
+			modifier *= 2.75;
 		}
 		
 		return modifier;

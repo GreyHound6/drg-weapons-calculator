@@ -86,22 +86,22 @@ public class Shotgun extends Weapon {
 		tier1[1] = new Mod("Overstuffed Magazine", "+2 Magazine Size", modIcons.magSize, 1, 1);
 		
 		tier2 = new Mod[3];
-		tier2[0] = new Mod("Expanded Ammo Bags", "+40 Max Ammo", modIcons.carriedAmmo, 2, 0);
+		tier2[0] = new Mod("Expanded Ammo Bags", "+35 Max Ammo", modIcons.carriedAmmo, 2, 0);
 		tier2[1] = new Mod("Loaded Shells", "+2 Pellets per Shot", modIcons.pelletsPerShot, 2, 1);
 		tier2[2] = new Mod("Choke", "x0.5 Base Spread", modIcons.baseSpread, 2, 2);
 		
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("Recoil Dampener", "x0.4 Recoil", modIcons.recoil, 3, 0);
-		tier3[1] = new Mod("Quickfire Ejector", "-0.5 Reload Time", modIcons.reloadSpeed, 3, 1);
-		tier3[2] = new Mod("High Capacity Magazine", "+3 Magazine Size", modIcons.magSize, 3, 2);
+		tier3[1] = new Mod("Quickfire Ejector", "-0.7 Reload Time", modIcons.reloadSpeed, 3, 1);
+		tier3[2] = new Mod("High Capacity Magazine", "+2 Magazine Size", modIcons.magSize, 3, 2);
 		
 		tier4 = new Mod[2];
 		tier4[0] = new Mod("Tungsten Coated Buckshot", "+400% Armor Breaking", modIcons.armorBreaking, 4, 0);
 		tier4[1] = new Mod("Bigger Pellets", "+1 Damage per Pellet", modIcons.directDamage, 4, 1);
 		
 		tier5 = new Mod[2];
-		tier5[0] = new Mod("Turret Whip", "Shoot your turrets to make them shoot a projectile that does 120 Area Damage in a 1.5m Radius. Turret Whip projectile has a 100% chance to Stun for 1.5 seconds and "
-				+ "inflicts 0.5 Fear to all enemies it damages. 10 Sentry ammo per shot, 3 second cooldown per Sentry.", modIcons.special, 5, 0, false);
+		tier5[0] = new Mod("Turret Whip", "Shoot your turrets to make them shoot a projectile that does 160 Area Damage in a 1.5m Radius. Turret Whip projectile has a 100% chance to Stun for 1.5 seconds and "
+				+ "inflicts 0.5 Fear to all enemies it damages. 8 Sentry ammo per shot, 3 second cooldown per Sentry.", modIcons.special, 5, 0, false);
 		tier5[1] = new Mod("Miner Adjustments", "Changes the Shotgun from semi-automatic to fully automatic, +0.5 Rate of Fire", modIcons.rateOfFire, 5, 1);
 		
 		overclocks = new Overclock[5];
@@ -301,7 +301,7 @@ public class Shotgun extends Weapon {
 		int toReturn = carriedAmmo;
 		
 		if (selectedTier2 == 0) {
-			toReturn += 40;
+			toReturn += 35;
 		}
 		
 		if (selectedOverclock == 1) {
@@ -320,7 +320,7 @@ public class Shotgun extends Weapon {
 			toReturn += 2;
 		}
 		if (selectedTier3 == 2) {
-			toReturn += 3;
+			toReturn += 2;
 		}
 		
 		if (selectedOverclock == 4) {
@@ -353,7 +353,7 @@ public class Shotgun extends Weapon {
 		double toReturn = reloadTime;
 		
 		if (selectedTier3 == 1) {
-			toReturn -= 0.5;
+			toReturn -= 0.7;
 		}
 		
 		if (selectedOverclock == 1) {

@@ -51,10 +51,10 @@ public class Subata extends Weapon {
 		weaponPic = WeaponPictures.subata;
 		
 		// Base stats, before mods or overclocks alter them:
-		directDamage = 12;
-		carriedAmmo = 160;
-		magazineSize = 12;
-		rateOfFire = 8.0;
+		directDamage = 18;
+		carriedAmmo = 110;
+		magazineSize = 10;
+		rateOfFire = 6.0;
 		reloadTime = 1.9;
 		weakpointBonus = 0.2;
 		// Subata has a hidden 50% Armor Breaking penalty (credit to Elythnwaen for pointing this out to me)

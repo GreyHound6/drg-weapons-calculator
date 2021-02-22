@@ -111,7 +111,7 @@ public class Boomstick extends Weapon {
 		tier4 = new Mod[3];
 		tier4[0] = new Mod("Super Blowthrough Rounds", "+3 Penetrations", modIcons.blowthrough, 4, 0);
 		tier4[1] = new Mod("Tungsten Coated Buckshot", "+300% Armor Breaking", modIcons.armorBreaking, 4, 1);
-		tier4[2] = new Mod("Improved Blast Wave", "+20 Blastwave Damage to any enemies in the area extending 4m infront of you.", modIcons.special, 4, 2);
+		tier4[2] = new Mod("Improved Blast Wave", "+35 Blastwave Damage to any enemies in the area extending 4m infront of you.", modIcons.special, 4, 2);
 		
 		tier5 = new Mod[3];
 		tier5[0] = new Mod("Auto Reload", "Reloads automatically when unequipped for more than 5 seconds", modIcons.reloadSpeed, 5, 0, false);
@@ -125,7 +125,7 @@ public class Boomstick extends Weapon {
 				+ "number of Pellets per Shot gets doubled. Additionally, +1 Damage per Pellet.", overclockIcons.rateOfFire, 1);
 		overclocks[2] = new Overclock(Overclock.classification.clean, "Special Powder", "Jump off of the ground and fire the shotgun to \"blast jump\" around the caves for increased mobility.", overclockIcons.shotgunJump, 2);
 		overclocks[3] = new Overclock(Overclock.classification.clean, "Stuffed Shells", "+1 Damage per Pellet, +1 Pellet per Shot", overclockIcons.pelletsPerShot, 3);
-		overclocks[4] = new Overclock(Overclock.classification.balanced, "Shaped Shells", "-35% Base Spread, -2 Pellets per Shot", overclockIcons.baseSpread, 4);
+		overclocks[4] = new Overclock(Overclock.classification.balanced, "Shaped Shells", "-50% Base Spread, -1 Pellets per Shot", overclockIcons.baseSpread, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Jumbo Shells", "+8 Damage per Pellet, -10 Max Ammo, +0.5 Reload Time", overclockIcons.directDamage, 5);
 	}
 	
@@ -322,7 +322,7 @@ public class Boomstick extends Weapon {
 			toReturn += 1;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn -= 2;
+			toReturn -= 1;
 		}
 		
 		return toReturn;
@@ -333,7 +333,7 @@ public class Boomstick extends Weapon {
 		int toReturn = frontalConeDamage;
 		
 		if (selectedTier4 == 2) {
-			toReturn += 20;
+			toReturn += 35;
 		}
 		
 		return toReturn;
@@ -422,7 +422,7 @@ public class Boomstick extends Weapon {
 	}
 	private double getBaseSpread() {
 		if (selectedOverclock == 4) {
-			return 0.65;
+			return 0.5;
 		}
 		else {
 			return 1.0;

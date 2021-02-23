@@ -59,14 +59,14 @@ public class Classic_FocusShot extends Classic {
 		double toReturn = carriedAmmo;
 		
 		if (selectedTier1 == 0) {
-			toReturn += 40;
+			toReturn += 32;
 		}
 		
 		if (selectedOverclock == 1) {
 			toReturn += 16;
 		}
 		else if (selectedOverclock == 3) {
-			toReturn += 72;
+			toReturn *= 1.25;
 		}
 		else if (selectedOverclock == 5) {
 			toReturn *= 0.66;

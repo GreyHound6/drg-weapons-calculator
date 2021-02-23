@@ -384,7 +384,7 @@ public abstract class Classic extends Weapon {
 		}
 		
 		if (selectedOverclock == 3) {
-			toReturn -= 0.5;
+			toReturn -= 0.166;
 		}
 		
 		return toReturn;

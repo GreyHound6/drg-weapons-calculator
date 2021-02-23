@@ -69,9 +69,9 @@ public class Flamethrower extends Weapon {
 		
 		stickyFlamesDamagePerTick = 15;
 		stickyFlamesHeatPerTick = 5;
-		stickyFlamesTicksPerSec = 2.0 / (0.25 + 0.75);
+		stickyFlamesTicksPerSec = 2.0 / 0.5;
 		stickyFlamesDuration = 2.0;
-		stickyFlamesSlow = 0.1;
+		stickyFlamesSlow = 0.25;
 		
 		initializeModsAndOverclocks();
 		// Grab initial values before customizing mods and overclocks
@@ -101,7 +101,7 @@ public class Flamethrower extends Weapon {
 		
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("Oversized Valves", "+1.8 Flow Rate", modIcons.rateOfFire, 3, 0);
-		tier3[1] = new Mod("Sticky Flame Slowdown", "Increases Sticky Flames' slow from 10% to 50%", modIcons.slowdown, 3, 1);
+		tier3[1] = new Mod("Sticky Flame Slowdown", "Increases Sticky Flames' slow from 25% to 55%", modIcons.slowdown, 3, 1);
 		tier3[2] = new Mod("More Fuel", "+75 Max Fuel", modIcons.carriedAmmo, 3, 2);
 		
 		tier4 = new Mod[3];
@@ -409,7 +409,7 @@ public class Flamethrower extends Weapon {
 		double toReturn = stickyFlamesSlow;
 		
 		if (selectedTier3 == 1) {
-			toReturn += 0.4;
+			toReturn += 0.3;
 		}
 		
 		return toReturn;

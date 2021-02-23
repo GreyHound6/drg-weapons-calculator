@@ -50,7 +50,7 @@ public class Zhukov extends Weapon {
 		weaponPic = WeaponPictures.zhukovs;
 		
 		// Base stats, before mods or overclocks alter them:
-		directDamage = 12;
+		directDamage = 15;
 		carriedAmmo = 720;
 		magazineSize = 60;  // Really 30
 		rateOfFire = 20.0;  // Really 10
@@ -593,7 +593,7 @@ public class Zhukov extends Weapon {
 
 	@Override
 	public double estimatedAccuracy(boolean weakpointAccuracy) {
-		double horizontalBaseSpread = 36.0 * getBaseSpread();
+		double horizontalBaseSpread = 29.0 * getBaseSpread();
 		double verticalBaseSpread = 5.0 * getBaseSpread();
 		
 		/*

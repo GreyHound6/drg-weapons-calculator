@@ -57,7 +57,7 @@ public class CryoCannon extends Weapon {
 		weaponPic = WeaponPictures.cryoCannon;
 		
 		// Base stats, before mods or overclocks alter them:
-		particleDamage = 6;
+		particleDamage = 9;
 		particleCold = -7;
 		tankSize = 450;
 		chargeupTime = 0.5;
@@ -117,7 +117,7 @@ public class CryoCannon extends Weapon {
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Flow Rate Expansion", "x2.75 Pressure Gain Rate, +0.8 Flow Rate, x2 Pressure Drop Rate", overclockIcons.duration, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Ice Spear", "Press the Reload button to consume 35 ammo and fire an Ice Spear that does 350 Direct Damage and 150 Area Damage in a 1.4m radius and stuns enemies for 3 seconds. "
 				+ "In exchange, +1 sec Repressurization Delay", overclockIcons.projectileVelocity, 3, false);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Ice Storm", "x2 Damage per Particle, -3 Cold per Particle, -25 Tank Size, x1.5 Pressure Drop Rate", overclockIcons.directDamage, 4);
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Ice Storm", "x1.5 Damage per Particle, -3 Cold per Particle, -25 Tank Size, x1.5 Pressure Drop Rate", overclockIcons.directDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Snowball", "Press the Reload button to consume 25 ammo and fire a Snowball that does 200 Cold Damage in a 4m radius, which will freeze most enemies instantly. "
 				+ "In exchange, -100 Tank Size, +1 sec Repressurization Delay", overclockIcons.aoeRadius, 5);
 	}
@@ -293,7 +293,7 @@ public class CryoCannon extends Weapon {
 		}
 		
 		if (selectedOverclock == 4) {
-			toReturn *= 2;
+			toReturn *= 1.5;
 		}
 		
 		return toReturn;

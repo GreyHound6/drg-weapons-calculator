@@ -46,13 +46,13 @@ public abstract class Classic extends Weapon {
 		// Base stats, before mods or overclocks alter them:
 		directDamage = 50;
 		focusedShotMultiplier = 2.0;
-		carriedAmmo = 96;
+		carriedAmmo = 104;
 		magazineSize = 8;
 		rateOfFire = 4.0;
 		reloadTime = 2.5;
 		focusDuration = 1.0 / 1.55;  // seconds
 		movespeedWhileFocusing = 0.3;
-		weakpointBonus = 0.1;
+		weakpointBonus = 0.2;
 		armorBreaking = 0.3;
 		
 		accEstimator.setSpreadCurve(new ClassicCurve());
@@ -75,7 +75,7 @@ public abstract class Classic extends Weapon {
 	@Override
 	protected void initializeModsAndOverclocks() {
 		tier1 = new Mod[2];
-		tier1[0] = new Mod("Expanded Ammo Bags", "+40 Max Ammo", modIcons.carriedAmmo, 1, 0);
+		tier1[0] = new Mod("Expanded Ammo Bags", "+32 Max Ammo", modIcons.carriedAmmo, 1, 0);
 		tier1[1] = new Mod("Increased Caliber Rounds", "+10 Direct Damage", modIcons.directDamage, 1, 1);
 		
 		tier2 = new Mod[2];
@@ -100,7 +100,7 @@ public abstract class Classic extends Weapon {
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Hoverclock", "While Focusing in midair, your current velocity is reduced by 80% for about a second or until you fire/stop focusing. Getting a kill or touching the ground lets you Hover again.", overclockIcons.hoverclock, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Minimal Clips", "+16 Max Ammo, -0.2 Reload Time", overclockIcons.carriedAmmo, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Active Stability System", "No movement penalty while Focusing, +20% Focus Speed, +0.5 Reload Time", overclockIcons.movespeed, 2);
-		overclocks[3] = new Overclock(Overclock.classification.balanced, "Hipster", "+3 Rate of Fire, x1.75 Max Ammo, -10% Spread per Shot, x0.85 Spread Variance, x0.5 Recoil, x0.6 Direct Damage", overclockIcons.baseSpread, 3);
+		overclocks[3] = new Overclock(Overclock.classification.balanced, "Hipster", "+3 Rate of Fire, x1.25 Max Ammo, -50% Spread per Shot, x0.85 Spread Variance, x0.5 Recoil, x0.9 Direct Damage", overclockIcons.baseSpread, 3);
 		overclocks[4] = new Overclock(Overclock.classification.unstable, "Electrocuting Focus Shots", "Focused Shots apply an Electrocute DoT which does "
 				+ "an average of " + MathUtils.round(DoTInformation.Electro_DPS, GuiConstants.numDecimalPlaces) + " Electric Damage per Second for 4 seconds, -25% Focused Shot Multiplier", overclockIcons.electricity, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Supercooling Chamber", "+125% Focused Shot Multiplier, x0.66 Max Ammo, x0.75 Focus Speed, no movement while focusing", overclockIcons.directDamage, 5);
@@ -271,7 +271,7 @@ public abstract class Classic extends Weapon {
 		
 		// Multiplicative bonuses last
 		if (selectedOverclock == 3) {
-			toReturn *= 0.6;
+			toReturn *= 0.9;
 		}
 		
 		return toReturn;
@@ -384,7 +384,7 @@ public abstract class Classic extends Weapon {
 		}
 		
 		if (selectedOverclock == 3) {
-			toReturn -= 0.1;
+			toReturn -= 0.5;
 		}
 		
 		return toReturn;

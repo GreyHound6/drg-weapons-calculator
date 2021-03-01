@@ -6,8 +6,8 @@ import java.util.List;
 
 import dataGenerator.DatabaseConstants;
 import guiPieces.WeaponPictures;
-import guiPieces.ButtonIcons.modIcons;
-import guiPieces.ButtonIcons.overclockIcons;
+import guiPieces.customButtons.ButtonIcons.modIcons;
+import guiPieces.customButtons.ButtonIcons.overclockIcons;
 import modelPieces.DwarfInformation;
 import modelPieces.EnemyInformation;
 import modelPieces.Mod;
@@ -52,8 +52,8 @@ public class Zhukov extends Weapon {
 		// Base stats, before mods or overclocks alter them:
 		directDamage = 15;
 		carriedAmmo = 720;
-		magazineSize = 60;  // Really 30
-		rateOfFire = 20.0;  // Really 10
+		magazineSize = 60;  // Really 25
+		rateOfFire = 20.0;  // Really 15
 		reloadTime = 1.8;
 		
 		// Override default 10m distance
@@ -332,7 +332,8 @@ public class Zhukov extends Weapon {
 		
 		return toReturn;
 	}
-	private double getRateOfFire() {
+	@Override
+	public double getRateOfFire() {
 		double toReturn = rateOfFire;
 		
 		if (selectedTier2 == 1) {
@@ -463,7 +464,7 @@ public class Zhukov extends Weapon {
 		double generalAccuracy, duration;
 		
 		if (accuracy) {
-			generalAccuracy = estimatedAccuracy(false) / 100.0;
+			generalAccuracy = getGeneralAccuracy() / 100.0;
 		}
 		else {
 			generalAccuracy = 1.0;
@@ -523,10 +524,10 @@ public class Zhukov extends Weapon {
 		}
 		else {
 			if (weakpoint && selectedOverclock != 4 && !statusEffects[1]) {
-				double weakpointAccuracy = estimatedAccuracy(true) / 100.0;
+				double weakpointAccuracy = getWeakpointAccuracy() / 100.0;
 				int bulletsThatHitWeakpoint = (int) Math.round(effectiveMagazineSize * weakpointAccuracy);
 				bulletsThatHitTarget = (int) Math.round(effectiveMagazineSize * generalAccuracy) - bulletsThatHitWeakpoint;
-				damagePerMagazine = bulletsThatHitWeakpoint * increaseBulletDamageForWeakpoints2(directDamage, getWeakpointBonus()) + bulletsThatHitTarget * directDamage + (bulletsThatHitWeakpoint + bulletsThatHitTarget) * areaDamage;
+				damagePerMagazine = bulletsThatHitWeakpoint * increaseBulletDamageForWeakpoints(directDamage, getWeakpointBonus(), 1.0) + bulletsThatHitTarget * directDamage + (bulletsThatHitWeakpoint + bulletsThatHitTarget) * areaDamage;
 			}
 			else {
 				bulletsThatHitTarget = (int) Math.round(effectiveMagazineSize * generalAccuracy);
@@ -595,51 +596,36 @@ public class Zhukov extends Weapon {
 	public double estimatedAccuracy(boolean weakpointAccuracy) {
 		double horizontalBaseSpread = 29.0 * getBaseSpread();
 		double verticalBaseSpread = 5.0 * getBaseSpread();
-		
-		/*
-			If I ever want to model recoil for rectangular crosshairs, these are the variables used:
-			
 		double recoilPitch = 20.0;
 		double recoilYaw = 20.0;
 		double mass = 1.0;
 		double springStiffness = 100.0;
-		*/
 		
-		return accEstimator.calculateRectangularAccuracy(weakpointAccuracy, horizontalBaseSpread, verticalBaseSpread);
+		return accEstimator.calculateRectangularAccuracy(weakpointAccuracy, horizontalBaseSpread, verticalBaseSpread, recoilPitch, recoilYaw, mass, springStiffness);
 	}
 	
 	@Override
 	public int breakpoints() {
-		double[] directDamage = {
-			getDirectDamage(),  // Kinetic
-			0,  // Explosive
-			0,  // Fire
-			0,  // Frost
-			0  // Electric
-		};
-		
-		// Kinetic, Disintegrate, and Internal are all resistanceless, so I can overload them here.
-		double[] areaDamage = {
-			getAreaDamage(),  // Kinetic
-			0,  // Explosive
-			0,  // Fire
-			0,  // Frost
-			0  // Electric
-		};
-		
-		double[] DoTDamage = {
-			0,  // Fire
-			0,  // Electric
-			0,  // Poison
-			0  // Radiation
-		};
+		// Both Direct and Area Damage can have 5 damage elements in this order: Kinetic, Explosive, Fire, Frost, Electric
+		double[] directDamage = new double[5];
+		directDamage[0] = getDirectDamage();  // Kinetic
 		
 		// T5.A Conductive Bullets multiplies by an additional x1.3 when hitting enemies electrocuted or affected by IFG
 		if (selectedTier5 == 0 && (statusEffects[2] || statusEffects[3])) {
-			directDamage = MathUtils.vectorScalarMultiply(1.3, directDamage);
+			directDamage[0] *= 1.3;
 		}
 		
-		breakpoints = EnemyInformation.calculateBreakpoints(directDamage, areaDamage, DoTDamage, getWeakpointBonus(), 0.0, 0.0, statusEffects[1], statusEffects[3], false);
+		double[] areaDamage = new double[5];
+		areaDamage[0] = getAreaDamage();  // Kinetic
+
+		// DoTs are in this order: Electrocute, Neurotoxin, Persistent Plasma, and Radiation
+		double[] dot_dps = new double[4];
+		double[] dot_duration = new double[4];
+		double[] dot_probability = new double[4];
+
+		breakpoints = EnemyInformation.calculateBreakpoints(directDamage, areaDamage, dot_dps, dot_duration, dot_probability,
+															getWeakpointBonus(), 1.0, getRateOfFire()/2.0, 0.0, 0.0,
+															statusEffects[1], statusEffects[3], false, selectedOverclock == 3);
 		return MathUtils.sum(breakpoints);
 	}
 
@@ -706,7 +692,7 @@ public class Zhukov extends Weapon {
 	
 	@Override
 	public double damageWastedByArmor() {
-		damageWastedByArmorPerCreature = EnemyInformation.percentageDamageWastedByArmor(getDirectDamage(), 1, getAreaDamage(), 1.0, getWeakpointBonus(), estimatedAccuracy(false), estimatedAccuracy(true), selectedOverclock == 3);
+		damageWastedByArmorPerCreature = EnemyInformation.percentageDamageWastedByArmor(getDirectDamage(), 1, getAreaDamage(), 1.0, getWeakpointBonus(), getGeneralAccuracy(), getWeakpointAccuracy(), selectedOverclock == 3);
 		return 100 * MathUtils.vectorDotProduct(damageWastedByArmorPerCreature[0], damageWastedByArmorPerCreature[1]) / MathUtils.sum(damageWastedByArmorPerCreature[0]);
 	}
 	

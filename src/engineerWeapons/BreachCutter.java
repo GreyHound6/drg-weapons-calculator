@@ -7,8 +7,8 @@ import java.util.List;
 import dataGenerator.DatabaseConstants;
 import guiPieces.GuiConstants;
 import guiPieces.WeaponPictures;
-import guiPieces.ButtonIcons.modIcons;
-import guiPieces.ButtonIcons.overclockIcons;
+import guiPieces.customButtons.ButtonIcons.modIcons;
+import guiPieces.customButtons.ButtonIcons.overclockIcons;
 import modelPieces.DoTInformation;
 import modelPieces.EnemyInformation;
 import modelPieces.Mod;
@@ -108,7 +108,7 @@ public class BreachCutter extends Weapon {
 		
 		tier5 = new Mod[3];
 		tier5[0] = new Mod("Explosive Goodbye", "When the line either expires or the trigger gets pulled again, the current line explodes for 70 Explosive Damage in a 3m radius AoE, and leaves behind a field of Persistent Plasma "
-				+ " that does an average of " + MathUtils.round(DoTInformation.Plasma_DPS, GuiConstants.numDecimalPlaces) + " Electric Damage per second for 4.6 seconds in a 3m radius sphere.", modIcons.addedExplosion, 5, 0);
+				+ " that does an average of " + MathUtils.round(DoTInformation.Plasma_DPS, GuiConstants.numDecimalPlaces) + " Fire Damage per second for 4.6 seconds in a 3m radius sphere.", modIcons.addedExplosion, 5, 0);
 		tier5[1] = new Mod("Plasma Trail", "Leaves behind a Persistent Plasma field that does an average of " + MathUtils.round(DoTInformation.Plasma_DPS, GuiConstants.numDecimalPlaces) + " Electric Damage per second for 4.6 seconds "
 				+ "along the entire length of the line's path", modIcons.areaDamage, 5, 1);
 		// Since the additional lines neither increase targets hit nor DPS per target, I'm marking it as "not modeled"
@@ -410,7 +410,7 @@ public class BreachCutter extends Weapon {
 		
 		return toReturn;
 	}
-	protected double getRateOfFire() {
+	public double getRateOfFire() {
 		// OC "Return to Sender" changes max RoF from 1.5 to 1/(2/3 * Lifetime)
 		if (selectedOverclock == 3) {
 			// This assumes that people let go of the trigger at the two-thirds distance
@@ -826,7 +826,7 @@ public class BreachCutter extends Weapon {
 		if (selectedOverclock == 4) {
 			// OC "High Voltage Crossover" applies an Electrocute DoT that slows movement by 80% for 4 seconds
 			// This overrides the built-in 70% slow during intersection, instead of adding to it.
-			utilityScores[3] += maxNumTargets * 4.0 * UtilityInformation.Electrocute_Slow_Utility;
+			utilityScores[3] = maxNumTargets * 4.0 * UtilityInformation.Electrocute_Slow_Utility;
 		}
 		else {
 			// Breach Cutter slows enemy movement by 70% while the line intersects their hitbox.

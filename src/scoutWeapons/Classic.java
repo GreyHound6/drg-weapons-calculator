@@ -297,17 +297,17 @@ public abstract class Classic extends Weapon {
 		double toReturn = carriedAmmo;
 
 		if (selectedTier1 == 0) {
-			toReturn += 40;
+			toReturn += 32;
 		}
 
 		if (selectedOverclock == 1) {
 			toReturn += 16;
 		}
 		else if (selectedOverclock == 3) {
-			toReturn *= 1.75;
+			toReturn *= 1.25;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn *= 0.635;
+			toReturn *= 0.66;
 		}
 
 		return (int) Math.round(toReturn);

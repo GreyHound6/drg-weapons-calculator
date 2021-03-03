@@ -109,8 +109,8 @@ public class SMG extends Weapon {
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Well Oiled Machine", "+2 Rate of Fire, -0.2 Reload Time", overclockIcons.rateOfFire, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "EM Refire Booster", "+2 Electric Damage per bullet, +4 Rate of Fire, x1.5 Base Spread", overclockIcons.rateOfFire, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Light-Weight Rounds", "+180 Max Ammo, -1 Direct Damage, -2 Rate of Fire", overclockIcons.carriedAmmo, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Turret Arc", "If a bullet fired from the SMG hits a turret and applies an Electrocute DoT, that turret deals constant Electric Damage in a small radius around it. "
-				+ "Additionally, if 2 turrets are less than 10m apart and both are electrocuted at the same time, then an electric arc will pass between them for 10 seconds that slows enemies by 70% and does 20 Electric Damage per Second. "
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Turret Arc", "If a bullet fired from the SMG hits a turret and applies an Electrocute DoT, that turret deals constant Electric Damage in a small radius around it for 15 seconds. This is known as Electric Charge state. "
+				+ "Additionally, if 2 turrets are less than 10m apart and both are electrocuted while the Electric Charge is in effect, then an electric arc will pass between them for the remainder of the Electric Charge duration that slows enemies by 70% and does 35 Electric Damage per Second. "
 				+ " -2 Rate of Fire", overclockIcons.electricity, 4, false);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Turret EM Discharge", "If a bullet fired from the SMG hits a turret and applies an Electrocute DoT, it triggers an explosion that deals 90 Electric Damage and 0.5 Fear to all enemies "
 				+ "within a 5m radius, as well as Electrocuting them. There's a 1 second cooldown between explosions.", overclockIcons.areaDamage, 5, false);

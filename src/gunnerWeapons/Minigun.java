@@ -74,7 +74,7 @@ public class Minigun extends Weapon {
 		spindownTime = 3;  // seconds for the barrels to stop spinning -- does not affect the stability
 		movespeedWhileFiring = 0.5;
 		secondsBeforeHotBullets = 3.17805;  // See explanation in calculateIgnitionTime() 
-		cooldownAfterOverheat = 10;
+		cooldownAfterOverheat = 7;
 		
 		// Override default 10m distance
 		accEstimator.setDistance(7.0);
@@ -98,9 +98,9 @@ public class Minigun extends Weapon {
 	@Override
 	protected void initializeModsAndOverclocks() {
 		tier1 = new Mod[3];
-		tier1[0] = new Mod("Magnetic Refrigeration", "+1.5 Cooling Rate", modIcons.coolingRate, 1, 0);
-		tier1[1] = new Mod("Improved Motor", "+4 Rate of Fire", modIcons.rateOfFire, 1, 1);
-		tier1[2] = new Mod("Improved Platform Stability", "x0.2 Base Spread", modIcons.baseSpread, 1, 2);
+		tier1[0] = new Mod("Magnetic Refrigeration", "+2 Cooling Rate", modIcons.coolingRate, 1, 0);
+		tier1[1] = new Mod("Improved Motor", "+10 Rate of Fire", modIcons.rateOfFire, 1, 1);
+		tier1[2] = new Mod("Improved Platform Stability", "x0.3 Base Spread", modIcons.baseSpread, 1, 2);
 		
 		tier2 = new Mod[2];
 		tier2[0] = new Mod("Oversized Drum", "+600 Max Ammo", modIcons.carriedAmmo, 2, 0);
@@ -108,7 +108,7 @@ public class Minigun extends Weapon {
 		
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("Hardened Rounds", "+200% Armor Breaking", modIcons.armorBreaking, 3, 0);
-		tier3[1] = new Mod("Stun Duration", "+1 second Stun duration", modIcons.stun, 3, 1);
+		tier3[1] = new Mod("Stun Duration", "+2 second Stun duration", modIcons.stun, 3, 1);
 		tier3[2] = new Mod("Blowthrough Rounds", "+1 Penetration", modIcons.blowthrough, 3, 2);
 		
 		tier4 = new Mod[3];
@@ -118,7 +118,7 @@ public class Minigun extends Weapon {
 		
 		tier5 = new Mod[3];
 		tier5[0] = new Mod("Aggressive Venting", "After overheating, deal 60 Heat Damage and 10 Fear to all enemies within a 10m radius", modIcons.addedExplosion, 5, 0);
-		tier5[1] = new Mod("Cold As The Grave", "Every kill subtracts 0.8 Heat from the Heat Meter (maxes at 9.5 Heat) and thus increases the firing duration before overheating", modIcons.coolingRate, 5, 1);
+		tier5[1] = new Mod("Cold As The Grave", "Every kill subtracts 0.6 Heat from the Heat Meter (maxes at 9.5 Heat) and thus increases the firing duration before overheating", modIcons.coolingRate, 5, 1);
 		tier5[2] = new Mod("Hot Bullets", "After the Heat Meter turns red, 50% of the Damage per Pellet gets added as Heat which can ignite enemies, dealing " + 
 		MathUtils.round(DoTInformation.Burn_DPS, GuiConstants.numDecimalPlaces) + " Fire Damage per Second.", modIcons.heatDamage, 5, 2);
 		
@@ -341,7 +341,7 @@ public class Minigun extends Weapon {
 	private int getStunDuration() {
 		int toReturn = stunDuration;
 		if (selectedTier3 == 1) {
-			toReturn += 1;
+			toReturn += 2;
 		}
 		
 		if (selectedOverclock == 6) {
@@ -373,7 +373,7 @@ public class Minigun extends Weapon {
 	private double getCoolingRate() {
 		double toReturn = coolingRate;
 		if (selectedTier1 == 0) {
-			toReturn += 1.5;
+			toReturn += 2;
 		}
 		if (selectedOverclock == 1) {
 			toReturn += 0.5;
@@ -384,7 +384,7 @@ public class Minigun extends Weapon {
 	public double getRateOfFire() {
 		int toReturn = rateOfFire;
 		if (selectedTier1 == 1) {
-			toReturn += 4;
+			toReturn += 10;
 		}
 		if (selectedOverclock == 3) {
 			toReturn -= 4;
@@ -419,7 +419,7 @@ public class Minigun extends Weapon {
 	private double getBaseSpread() {
 		double toReturn = 1.0;
 		if (selectedTier1 == 2) {
-			toReturn *= 0.2;
+			toReturn *= 0.3;
 		}
 		if (selectedOverclock == 4) {
 			toReturn *= 2.5;
@@ -470,7 +470,7 @@ public class Minigun extends Weapon {
 		
 		// Cold as the Grave removes 0.8 Heat from the Minigun's meter every time that the Minigun gets the killing blow on an enemy.
 		if (selectedTier5 == 1) {
-			double heatRemovedPerKill = 0.8;
+			double heatRemovedPerKill = 0.6;
 			
 			// This is a quick-and-dirty way to guess what the Ideal Burst DPS will be when it's all said and done without calculating Firing Period and causing an infinite loop.
 			double estimatedBurstDPS = getDamagePerPellet(true) * RoF / 2.0;
@@ -854,7 +854,7 @@ public class Minigun extends Weapon {
 		double effectiveRoF = getRateOfFire() / 2.0;
 		int effectiveMagSize = (int) calculateMaxNumPelletsFiredWithoutOverheating();
 		
-		double baseSpread = 5.0 * getBaseSpread();
+		double baseSpread = 4.0 * getBaseSpread();
 		double spreadPerShot = 0.2;
 		double spreadRecoverySpeed = 1.0;
 		double maxBloom = 3.5;

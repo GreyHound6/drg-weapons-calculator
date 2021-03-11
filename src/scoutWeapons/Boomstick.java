@@ -109,13 +109,13 @@ public class Boomstick extends Weapon {
 		tier3[2] = new Mod("High Capacity Shells", "+3 Pellets per Shot", modIcons.pelletsPerShot, 3, 2);
 		
 		tier4 = new Mod[3];
-		tier4[0] = new Mod("Super Blowthrough Rounds", "+3 Penetrations", modIcons.blowthrough, 4, 0);
-		tier4[1] = new Mod("Tungsten Coated Buckshot", "+300% Armor Breaking", modIcons.armorBreaking, 4, 1);
+		tier4[0] = new Mod("Super Blowthrough Rounds", "+2 Penetrations", modIcons.blowthrough, 4, 0);
+		tier4[1] = new Mod("Tungsten Coated Buckshot", "+600% Armor Breaking", modIcons.armorBreaking, 4, 1);
 		tier4[2] = new Mod("Improved Blast Wave", "+35 Blastwave Damage to any enemies in the area extending 4m infront of you.", modIcons.special, 4, 2);
 		
 		tier5 = new Mod[3];
-		tier5[0] = new Mod("Auto Reload", "Reloads automatically when unequipped for more than 5 seconds", modIcons.reloadSpeed, 5, 0, false);
-		tier5[1] = new Mod("Fear The Boomstick", "Deal 0.5 Fear to all enemies within 5m of you every time you pull the trigger", modIcons.fear, 5, 1);
+		tier5[0] = new Mod("Auto Reload", "Reloads automatically when unequipped for more than 3.5 seconds", modIcons.reloadSpeed, 5, 0, false);
+		tier5[1] = new Mod("Fear The Boomstick", "Deal 0.65 Fear to all enemies within 5m of you every time you pull the trigger", modIcons.fear, 5, 1);
 		tier5[2] = new Mod("White Phosphorous Shells", "Convert 50% of Pellet and Blastwave damage to Fire element and add 50% of the Damage per Pellet and Blastwave damage as Heat which can ignite enemies, dealing " + 
 		MathUtils.round(DoTInformation.Burn_DPS, GuiConstants.numDecimalPlaces) + " Fire Damage per Second", modIcons.heatDamage, 5, 2);
 		
@@ -402,7 +402,7 @@ public class Boomstick extends Weapon {
 	}
 	private int getMaxPenetrations() {
 		if (selectedTier4 == 0) {
-			return 3;
+			return 2;
 		}
 		else {
 			return 0;
@@ -410,7 +410,7 @@ public class Boomstick extends Weapon {
 	}
 	private double getArmorBreaking() {
 		if (selectedTier4 == 1) {
-			return 4.0;
+			return 7.0;
 		}
 		else {
 			return 1.0;
@@ -452,7 +452,7 @@ public class Boomstick extends Weapon {
 		
 		toReturn[8] = new StatsRow("Armor Breaking:", convertDoubleToPercentage(getArmorBreaking()), modIcons.armorBreaking, selectedTier4 == 1, selectedTier4 == 1);
 		
-		toReturn[9] = new StatsRow("Fear Factor:", 0.5, modIcons.fear, selectedTier5 == 1, selectedTier5 == 1);
+		toReturn[9] = new StatsRow("Fear Factor:", 0.65, modIcons.fear, selectedTier5 == 1, selectedTier5 == 1);
 		
 		toReturn[10] = new StatsRow("Stun Chance per Pellet:", convertDoubleToPercentage(stunChance), modIcons.homebrewPowder, false);
 		
@@ -762,7 +762,7 @@ public class Boomstick extends Weapon {
 		if (selectedTier5 == 1) {
 			// A 5m radius returns 41 grunts, which is just too many. I'm choosing to reduce the radius by half, which brings it down to 12.
 			int gruntsHitByBlastwave = calculateNumGlyphidsInRadius(5.0 / 2.0);
-			double probabilityToFear = calculateFearProcProbability(0.5);
+			double probabilityToFear = calculateFearProcProbability(0.65);
 			utilityScores[4] = probabilityToFear * gruntsHitByBlastwave * EnemyInformation.averageFearDuration() * UtilityInformation.Fear_Utility;
 		}
 		else {

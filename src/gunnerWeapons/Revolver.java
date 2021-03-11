@@ -63,7 +63,7 @@ public class Revolver extends Weapon {
 		reloadTime = 2.0;  // seconds
 		stunChance = 0.5;
 		stunDuration = 1.5;  // seconds
-		weakpointBonus = 0.15;
+		weakpointBonus = 0.25;
 		
 		// Override default 10m distance
 		accEstimator.setDistance(9.0);
@@ -98,7 +98,7 @@ public class Revolver extends Weapon {
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("Super Blowthrough Rounds", "+3 Penetrations", modIcons.blowthrough, 3, 0);
 		tier3[1] = new Mod("Explosive Rounds", "+30 Area Damage in a 1.5m radius, x0.5 Direct Damage", modIcons.addedExplosion, 3, 1);
-		tier3[2] = new Mod("Hollow-Point Bullets", "+50% Weakpoint Bonus", modIcons.weakpointBonus, 3, 2);
+		tier3[2] = new Mod("Hollow-Point Bullets", "+40% Weakpoint Bonus", modIcons.weakpointBonus, 3, 2);
 		
 		tier4 = new Mod[2];
 		tier4[0] = new Mod("Expanded Ammo Bags", "+12 Max Ammo", modIcons.carriedAmmo, 4, 0);
@@ -114,9 +114,9 @@ public class Revolver extends Weapon {
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Homebrew Powder", "Anywhere from x1 - x1.2 damage per shot, averaged to x" + homebrewPowderCoefficient, overclockIcons.homebrewPowder, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Chain Hit", "Any shot that hits a weakspot has a 75% chance to ricochet into a nearby enemy.", overclockIcons.ricochet, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Volatile Bullets", "x4 Damage to Burning targets, -25 Direct Damage", overclockIcons.heatDamage, 2);
-		overclocks[3] = new Overclock(Overclock.classification.balanced, "Six Shooter", "+2 Magazine Size, +8 Max Ammo, +4 Rate of Fire, x1.5 Base Spread, +0.5 Reload Time", overclockIcons.magSize, 3);
+		overclocks[3] = new Overclock(Overclock.classification.balanced, "Six Shooter", "+2 Magazine Size, +4 Max Ammo, +2 Rate of Fire, x1.5 Base Spread, +0.5 Reload Time", overclockIcons.magSize, 3);
 		overclocks[4] = new Overclock(Overclock.classification.unstable, "Elephant Rounds", "x2 Direct Damage, -1 Mag Size, -13 Max Ammo, +0.5 Reload Time, x0.5 Base Spread, +71% Spread per Shot, x1.5 Max Bloom, x1.5 Recoil, +3.5 Mass", overclockIcons.directDamage, 4);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Magic Bullets", "All bullets that impact terrain automatically ricochet to nearby enemies (effectively raising accuracy to 100%). +8 Max Ammo, -20 Direct Damage", overclockIcons.ricochet, 5);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Magic Bullets", "All bullets that impact terrain automatically ricochet to nearby enemies (effectively raising accuracy to 100%). +4 Max Ammo, -20 Direct Damage", overclockIcons.ricochet, 5);
 	}
 	
 	@Override
@@ -343,7 +343,7 @@ public class Revolver extends Weapon {
 		}
 		
 		if (selectedOverclock == 3 || selectedOverclock == 5) {
-			toReturn += 8;
+			toReturn += 4;
 		}
 		else if (selectedOverclock == 4) {
 			toReturn -= 13;
@@ -364,7 +364,7 @@ public class Revolver extends Weapon {
 		double toReturn = rateOfFire;
 
 		if (selectedOverclock == 3) {
-			toReturn += 4.0;
+			toReturn += 2.0;
 		}
 
 		return toReturn;
@@ -400,7 +400,7 @@ public class Revolver extends Weapon {
 	private double getWeakpointBonus() {
 		double toReturn = weakpointBonus;
 		if (selectedTier3 == 2) {
-			toReturn += 0.5;
+			toReturn += 0.4;
 		}
 		return toReturn;
 	}

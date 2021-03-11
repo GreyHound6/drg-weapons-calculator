@@ -56,8 +56,8 @@ public class AssaultRifle extends Weapon {
 		weaponPic = WeaponPictures.assaultRifle;
 		
 		// Base stats, before mods or overclocks alter them:
-		directDamage = 15;
-		carriedAmmo = 350;
+		directDamage = 18;
+		carriedAmmo = 300;
 		magazineSize = 25;
 		rateOfFire = 7.0;
 		weakpointStunChance = 0.1;
@@ -90,7 +90,7 @@ public class AssaultRifle extends Weapon {
 		
 		tier2 = new Mod[2];
 		tier2[0] = new Mod("Increased Caliber Rounds", "+3 Direct Damage", modIcons.directDamage, 2, 0);
-		tier2[1] = new Mod("Expanded Ammo Bags", "+100 Max Ammo", modIcons.carriedAmmo, 2, 1);
+		tier2[1] = new Mod("Expanded Ammo Bags", "+75 Max Ammo", modIcons.carriedAmmo, 2, 1);
 		
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("Floating Barrel", "x0.5 Recoil", modIcons.recoil, 3, 0);
@@ -104,7 +104,7 @@ public class AssaultRifle extends Weapon {
 		
 		tier5 = new Mod[3];
 		tier5[0] = new Mod("Battle Frenzy", "After killing an enemy, gain +50% Movement Speed for 2.5 seconds", modIcons.movespeed, 5, 0);
-		tier5[1] = new Mod("Battle Cool", "After killing an enemy, Spread Recovery Speed gets increased by x12.5 for 1.5 seconds", modIcons.baseSpread, 5, 1);
+		tier5[1] = new Mod("Battle Cool", "After killing an enemy, Spread Recovery Speed gets increased by x12.5 for 2 seconds", modIcons.baseSpread, 5, 1);
 		tier5[2] = new Mod("Stun", "+30% chance to Stun on Weakpoint hit", modIcons.stun, 5, 2);
 		
 		overclocks = new Overclock[7];
@@ -112,7 +112,7 @@ public class AssaultRifle extends Weapon {
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Gas Rerouting", "+1 Rate of Fire, -0.3 Reload Time", overclockIcons.rateOfFire, 1);
 		overclocks[2] = new Overclock(Overclock.classification.clean, "Homebrew Powder", "Anywhere from x1 - x1.2 damage per shot, averaged to x" + homebrewPowderCoefficient, overclockIcons.homebrewPowder, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Overclocked Firing Mechanism", "+3 Rate of Fire, x2.5 Recoil", overclockIcons.rateOfFire, 3);
-		overclocks[4] = new Overclock(Overclock.classification.balanced, "Bullets of Mercy", "+33% Damage dealt to enemies that are burning, electrocuted, poisoned, stunned, or frozen. In exchange, -5 Magazine Size", overclockIcons.directDamage, 4);
+		overclocks[4] = new Overclock(Overclock.classification.balanced, "Bullets of Mercy", "+25% Damage dealt to enemies that are burning, electrocuted, poisoned, stunned, or frozen. In exchange, -5 Magazine Size", overclockIcons.directDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "AI Stability Engine", "+40% Weakpoint Bonus, x0 Recoil, x2.11 Spread Recovery Speed, -2 Direct Damage, -2 Rate of Fire", overclockIcons.baseSpread, 5);
 		overclocks[6] = new Overclock(Overclock.classification.unstable, "Electrifying Reload", "If any bullets from a magazine damage an enemy's healthbar, then those enemies will have an Electrocute DoT applied when that "
 				+ "magazine gets reloaded. Electrocute does an average of " + MathUtils.round(DoTInformation.Electro_DPS, GuiConstants.numDecimalPlaces) + " Electric Damage per Second for 4 seconds. -5 Magazine Size", overclockIcons.specialReload, 6);
@@ -311,7 +311,7 @@ public class AssaultRifle extends Weapon {
 		int toReturn = carriedAmmo;
 		
 		if (selectedTier2 == 1) {
-			toReturn += 100;
+			toReturn += 75;
 		}
 		
 		return toReturn;
@@ -409,7 +409,7 @@ public class AssaultRifle extends Weapon {
 		}
 		else if (selectedTier5 == 1) {
 			// According to the MikeGSG, Battle Cool increases Spread Recovery Speed by x12.5 for 1.5 seconds after a kill.
-			return averageBonusPerMagazineForShortEffects(12.5, 1.5, true, 0.0, getMagazineSize(), getRateOfFire());
+			return averageBonusPerMagazineForShortEffects(12.5, 2, true, 0.0, getMagazineSize(), getRateOfFire());
 		}
 		else {
 			return 1.0;
@@ -422,7 +422,7 @@ public class AssaultRifle extends Weapon {
 		}
 		else if (selectedTier5 == 1) {
 			// According to the MikeGSG, Battle Cool increases Spread Recovery Speed by x12.5 for 1.5 seconds after a kill.
-			return 8.1 * averageBonusPerMagazineForShortEffects(12.5, 1.5, true, 0.0, getMagazineSize(), getRateOfFire());
+			return 8.1 * averageBonusPerMagazineForShortEffects(12.5, 2, true, 0.0, getMagazineSize(), getRateOfFire());
 		}
 		else {
 			return 8.1;
@@ -531,7 +531,7 @@ public class AssaultRifle extends Weapon {
 		
 		// Bullets of Mercy OC damage increase
 		if (selectedOverclock == 4) {
-			double BoMDamageMultiplier = 1.33;
+			double BoMDamageMultiplier = 1.25;
 			if (statusEffects[0] || statusEffects[1] || statusEffects[2] || statusEffects[3]) {
 				directDamage *= BoMDamageMultiplier;
 			}
@@ -637,7 +637,7 @@ public class AssaultRifle extends Weapon {
 		
 		// OC "Bullets of Mercy" is a x1.33 Damage multiplier vs enemies afflicted by Status Effects.
 		if (selectedOverclock == 4 && (statusEffects[0] || statusEffects[1] || statusEffects[2] || statusEffects[3])) {
-			directDamage[0] *= 1.33;
+			directDamage[0] *= 1.25;
 		}
 		
 		double[] areaDamage = new double[5];

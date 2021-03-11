@@ -57,9 +57,9 @@ public class Autocannon extends Weapon {
 		weaponPic = WeaponPictures.autocannon;
 		
 		// Base stats, before mods or overclocks alter them:
-		directDamage = 14;
+		directDamage = 17;
 		areaDamage = 9;
-		aoeRadius = 1.4;  // meters
+		aoeRadius = 1.6;  // meters
 		magazineSize = 110;
 		carriedAmmo = 550;
 		movespeedWhileFiring = 0.5;
@@ -115,10 +115,10 @@ public class Autocannon extends Weapon {
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Composite Drums", "+110 Max Ammo, -0.5 Reload Time", overclockIcons.carriedAmmo, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Splintering Shells", "+1 Area Damage, +0.3m AoE Radius", overclockIcons.aoeRadius, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Carpet Bomber", "+3 Area Damage, +0.7m AoE Radius, -6 Direct Damage", overclockIcons.areaDamage, 2);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Carpet Bomber", "+3 Area Damage, +0.5m AoE Radius, -5 Direct Damage", overclockIcons.areaDamage, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Combat Mobility", "Increases movement speed while using from 50% to 85% of normal walk speed, -1 Reload Time, x0.7 Base Spread, x0.7 Magazine Size", overclockIcons.movespeed, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Big Bertha", "+12 Direct Damage, x0.7 Base Spread, x0.5 Magazine Size, -165 Max Ammo, -1.5 Max Rate of Fire", overclockIcons.directDamage, 4);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Neurotoxin Payload", "50% Chance to inflict a Neurotoxin DoT that deals an average of " + MathUtils.round(DoTInformation.Neuro_DPS, GuiConstants.numDecimalPlaces) +
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Big Bertha", "+9 Direct Damage, x0.7 Base Spread, x0.5 Magazine Size, -165 Max Ammo, -1.5 Max Rate of Fire", overclockIcons.directDamage, 4);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Neurotoxin Payload", "40% Chance to inflict a Neurotoxin DoT that deals an average of " + MathUtils.round(DoTInformation.Neuro_DPS, GuiConstants.numDecimalPlaces) +
 				" Poison Damage per Second for 10 seconds to all enemies within the AoE Radius upon impact. +0.3m AoE Radius, -3 Direct Damage, -3 Area Damage", overclockIcons.neurotoxin, 5);
 	}
 	
@@ -299,10 +299,10 @@ public class Autocannon extends Weapon {
 			toReturn += 6;
 		}
 		if (selectedOverclock == 2) {
-			toReturn -= 6;
+			toReturn -= 5;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn += 12;
+			toReturn += 9;
 		}
 		else if (selectedOverclock == 5) {
 			toReturn -= 3;
@@ -348,7 +348,7 @@ public class Autocannon extends Weapon {
 			toReturn += 0.3;
 		}
 		else if (selectedOverclock == 2) {
-			toReturn += 0.7;
+			toReturn += 0.5;
 		}
 		return toReturn;
 	}
@@ -588,7 +588,7 @@ public class Autocannon extends Weapon {
 		if (selectedOverclock == 5) {
 			// Neurotoxin Payload has a 30% chance to inflict the DoT
 			if (burst) {
-				neuroDPS = calculateRNGDoTDPSPerMagazine(0.5, DoTInformation.Neuro_DPS, getMagazineSize());
+				neuroDPS = calculateRNGDoTDPSPerMagazine(0.4, DoTInformation.Neuro_DPS, getMagazineSize());
 			}
 			else {
 				neuroDPS = DoTInformation.Neuro_DPS;
@@ -623,7 +623,7 @@ public class Autocannon extends Weapon {
 		
 		double neurotoxinDoTTotalDamage = 0;
 		if (selectedOverclock == 5) {
-			double timeBeforeNeuroProc = MathUtils.meanRolls(0.5) / getAverageRateOfFire();
+			double timeBeforeNeuroProc = MathUtils.meanRolls(0.4) / getAverageRateOfFire();
 			double neurotoxinDoTDamagePerEnemy = calculateAverageDoTDamagePerEnemy(timeBeforeNeuroProc, DoTInformation.Neuro_SecsDuration, DoTInformation.Neuro_DPS);
 			
 			double estimatedNumEnemiesKilled = aoeEfficiency[2] * (calculateFiringDuration() / averageTimeToKill());
@@ -661,8 +661,8 @@ public class Autocannon extends Weapon {
 
 	@Override
 	public double estimatedAccuracy(boolean weakpointAccuracy) {
-		double horizontalBaseSpread = 22.0 * getBaseSpread();
-		double verticalBaseSpread = 8.0 * getBaseSpread();
+		double horizontalBaseSpread = 18.0 * getBaseSpread();
+		double verticalBaseSpread = 7.0 * getBaseSpread();
 		double recoilPitch = 30.0;
 		double recoilYaw = 40.0;
 		double mass = 1.0;
@@ -688,7 +688,7 @@ public class Autocannon extends Weapon {
 		if (selectedOverclock == 5) {
 			dot_dps[1] = DoTInformation.Neuro_DPS;
 			dot_duration[1] = DoTInformation.Neuro_SecsDuration;
-			dot_probability[1] = 0.5;
+			dot_probability[1] = 0.4;
 		}
 		
 		breakpoints = EnemyInformation.calculateBreakpoints(directDamage, areaDamage, dot_dps, dot_duration, dot_probability, 
@@ -740,7 +740,7 @@ public class Autocannon extends Weapon {
 		
 		// OC "Neurotoxin Payload" has a 30% chance to inflict a 30% slow by poisoning enemies
 		if (selectedOverclock == 5) {
-			utilityScores[3] = 0.5 * calculateMaxNumTargets() * DoTInformation.Neuro_SecsDuration * UtilityInformation.Neuro_Slow_Utility;
+			utilityScores[3] = 0.4 * calculateMaxNumTargets() * DoTInformation.Neuro_SecsDuration * UtilityInformation.Neuro_Slow_Utility;
 		}
 		else {
 			utilityScores[3] = 0;

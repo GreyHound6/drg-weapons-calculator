@@ -100,7 +100,7 @@ public class Minigun extends Weapon {
 		tier1 = new Mod[3];
 		tier1[0] = new Mod("Magnetic Refrigeration", "+2 Cooling Rate", modIcons.coolingRate, 1, 0);
 		tier1[1] = new Mod("Improved Motor", "+10 Rate of Fire", modIcons.rateOfFire, 1, 1);
-		tier1[2] = new Mod("Improved Platform Stability", "x0.3 Base Spread", modIcons.baseSpread, 1, 2);
+		tier1[2] = new Mod("Improved Platform Stability", "x0.5 Base Spread", modIcons.baseSpread, 1, 2);
 		
 		tier2 = new Mod[2];
 		tier2[0] = new Mod("Oversized Drum", "+600 Max Ammo", modIcons.carriedAmmo, 2, 0);
@@ -129,8 +129,8 @@ public class Minigun extends Weapon {
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Burning Hell", "While firing, the Minigun deals 20 Area Damage per second and 80 Heat per Second in a cone 5m in front of the muzzle. +50% heat accumulation in the "
 				+ "weapon's heat meter, which translates to 2/3 the firing period", overclockIcons.heatDamage, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Compact Feed Mechanism", "+800 Max Ammo, -4 Rate of Fire", overclockIcons.carriedAmmo, 3);
-		overclocks[4] = new Overclock(Overclock.classification.balanced, "Exhaust Vectoring", "+2 Damage per Pellet, x2.5 Base Spread", overclockIcons.directDamage, 4);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Bullet Hell", "75% chance for bullets that impact an enemy or terrain to ricochet into another enemy. -2 Damage per Pellet, x4 Base Spread", overclockIcons.ricochet, 5);
+		overclocks[4] = new Overclock(Overclock.classification.balanced, "Exhaust Vectoring", "+2 Damage per Pellet, x1.1 Base Spread", overclockIcons.directDamage, 4);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Bullet Hell", "75% chance for bullets that impact an enemy or terrain to ricochet into another enemy. -2 Damage per Pellet, x1.5 Base Spread", overclockIcons.ricochet, 5);
 		overclocks[6] = new Overclock(Overclock.classification.unstable, "Lead Storm", "+4 Damage per Pellet, x0 Movespeed while using, and the Minigun cannot stun enemies anymore.", overclockIcons.directDamage, 6);
 	}
 	
@@ -419,13 +419,13 @@ public class Minigun extends Weapon {
 	private double getBaseSpread() {
 		double toReturn = 1.0;
 		if (selectedTier1 == 2) {
-			toReturn *= 0.3;
+			toReturn *= 0.5;
 		}
 		if (selectedOverclock == 4) {
-			toReturn *= 2.5;
+			toReturn *= 1.1;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn *= 4.0;
+			toReturn *= 1.5;
 		}
 		return toReturn;
 	}
@@ -854,7 +854,7 @@ public class Minigun extends Weapon {
 		double effectiveRoF = getRateOfFire() / 2.0;
 		int effectiveMagSize = (int) calculateMaxNumPelletsFiredWithoutOverheating();
 		
-		double baseSpread = 4.0 * getBaseSpread();
+		double baseSpread = 2.5 * getBaseSpread();
 		double spreadPerShot = 0.2;
 		double spreadRecoverySpeed = 1.0;
 		double maxBloom = 3.5;

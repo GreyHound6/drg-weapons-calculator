@@ -75,8 +75,8 @@ public abstract class EPC extends Weapon {
 		
 		// Base stats, before mods or overclocks alter them:
 		directDamage = 20;
-		chargedDirectDamage = 60;
-		chargedAreaDamage = 60;
+		chargedDirectDamage = 72;
+		chargedAreaDamage = 72;
 		chargedAoERadius = 2.0;
 		batterySize = 120;
 		rateOfFire = 8.0;
@@ -107,12 +107,12 @@ public abstract class EPC extends Weapon {
 		tier1 = new Mod[3];
 		tier1[0] = new Mod("Increased Particle Density", "+5 Regular Shot Direct Damage", modIcons.directDamage, 1, 0);
 		tier1[1] = new Mod("Larger Battery", "+24 Battery Size", modIcons.carriedAmmo, 1, 1);
-		tier1[2] = new Mod("Higher Charged Plasma Energy", "+15 Charged Shot Direct Damage, +15 Charged Shot Area Damage", modIcons.areaDamage, 1, 2);
+		tier1[2] = new Mod("Higher Charged Plasma Energy", "+18 Charged Shot Direct Damage, +18 Charged Shot Area Damage", modIcons.areaDamage, 1, 2);
 		
 		tier2 = new Mod[3];
 		tier2[0] = new Mod("Expanded Plasma Splash", "+1m Charged Shot AoE Radius", modIcons.aoeRadius, 2, 0);
 		tier2[1] = new Mod("Overcharged Plasma Accelerator", "+25% Regular Shot Velocity", modIcons.projectileVelocity, 2, 1, false);
-		tier2[2] = new Mod("Reactive Shockwave", "+15 Charged Shot Direct Damage, +15 Charged Shot Area Damage", modIcons.areaDamage, 2, 2);
+		tier2[2] = new Mod("Reactive Shockwave", "+18 Charged Shot Direct Damage, +18 Charged Shot Area Damage", modIcons.areaDamage, 2, 2);
 		
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("Improved Charge Efficiency", "-2 Ammo per Charged Shot", modIcons.fuel, 3, 0);
@@ -125,8 +125,8 @@ public abstract class EPC extends Weapon {
 		
 		tier5 = new Mod[3];
 		tier5[0] = new Mod("Flying Nightmare", "Charged Shots now deal their Direct Damage to enemies hit by the AoE while in-flight but it no longer explodes upon impact. Additionally, x0.75 AoE radius, x0.8 Charge Speed.", modIcons.aoeRadius, 5, 0);
-		tier5[1] = new Mod("Thin Containment Field", "Shoot the Charged Shot with a Regular Shot before it impacts anything to make it detonate for 240 Damage and carve terrain within a 3m radius. "
-				+ "Additionally, x0.8 Heat per Regular Shot, and x0.25 Heat per Charged Shot which means it no longer overheats on charged shots.", modIcons.special, 5, 1);
+		tier5[1] = new Mod("Thin Containment Field", "Shoot the Charged Shot with a Regular Shot before it impacts anything to make it detonate for 175 Damage and carve terrain within a 3m radius. "
+				+ "Additionally, x0.7 Heat per Charged Shot which means it no longer overheats on charged shots.", modIcons.special, 5, 1);
 		tier5[2] = new Mod("Plasma Burn", "Regular Shots have 50% of their Direct Damage added on as Heat which can ignite enemies, dealing " + MathUtils.round(DoTInformation.Burn_DPS, GuiConstants.numDecimalPlaces) + " Fire Damage per Second.", modIcons.heatDamage, 5, 2);
 		
 		overclocks = new Overclock[6];
@@ -134,7 +134,7 @@ public abstract class EPC extends Weapon {
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Magnetic Cooling Unit", "+25% Cooling Rate, x0.7 Heat per Second while Charged.", overclockIcons.coolingRate, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Heat Pipe", "-2 Ammo per Charged Shot, x1.3 Charge Speed, x1.5 Heat per Regular Shot", overclockIcons.fuel, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Heavy Hitter", "x1.6 Regular Shot Direct Damage, x1.5 Heat per Regular Shot, -32 Battery Size", overclockIcons.directDamage, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Overcharger", "x2 Charged Shot Direct Damage, x1.5 Charged Shot Area Damage, x1.2 Charged Shot AoE Radius, x1.5 Ammo per Charged Shot, -25% Cooling Rate", overclockIcons.directDamage, 4);
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Overcharger", "x1.5 Charged Shot Direct Damage, x1.5 Charged Shot Area Damage, x1.2 Charged Shot AoE Radius, x1.25 Ammo per Charged Shot, -25% Cooling Rate", overclockIcons.directDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Persistent Plasma", "Upon impact, Charged Shots leave behind a 3m radius field of Persistent Plasma that deals " + MathUtils.round(DoTInformation.Plasma_DPS, GuiConstants.numDecimalPlaces) + 
 				" Fire Damage per Second for 7.6 seconds. -10 Charged Shot Direct Damage, -10 Charged Shot Area Damage", overclockIcons.hourglass, 5);
 	}
@@ -314,10 +314,10 @@ public abstract class EPC extends Weapon {
 		double toReturn = chargedDirectDamage;
 		
 		if (selectedTier1 == 2) {
-			toReturn += 15;
+			toReturn += 18;
 		}
 		if (selectedTier2 == 2) {
-			toReturn += 15;
+			toReturn += 18;
 		}
 		
 		// Special case: Thin Containment Field
@@ -326,7 +326,7 @@ public abstract class EPC extends Weapon {
 		}
 		
 		if (selectedOverclock == 4) {
-			toReturn *= 2;
+			toReturn *= 1.5;
 		}
 		else if (selectedOverclock == 5) {
 			toReturn -= 10;
@@ -343,15 +343,15 @@ public abstract class EPC extends Weapon {
 		}
 		
 		if (selectedTier1 == 2) {
-			toReturn += 15;
+			toReturn += 18;
 		}
 		if (selectedTier2 == 2) {
-			toReturn += 15;
+			toReturn += 18;
 		}
 		
 		// Special case: Thin Containment Field
 		if (selectedTier5 == 1) {
-			return 240;
+			return 175;
 		}
 		
 		if (selectedOverclock == 4) {
@@ -430,7 +430,7 @@ public abstract class EPC extends Weapon {
 			toReturn -= 2;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn = (int) Math.round(toReturn * 1.5);
+			toReturn = (int) Math.round(toReturn * 1.25);
 		}
 		
 		if (selectedTier5 == 1) {
@@ -461,11 +461,7 @@ public abstract class EPC extends Weapon {
 	}
 	protected double getHeatPerRegularShot() {
 		double toReturn = heatPerRegularShot;
-		
-		if (selectedTier5 == 1) {
-			toReturn *= 0.8;
-		}
-		
+
 		if (selectedOverclock == 2 || selectedOverclock == 3) {
 			toReturn *= 1.5;
 		}
@@ -477,7 +473,7 @@ public abstract class EPC extends Weapon {
 		if (selectedTier5 == 1) {
 			// If TFC is equipped, then the Charged Shot only costs 25% max heat, and one Regular Shot to detonate the TFC field
 			// Don't let this return more than the max heat, though!
-			return Math.min(maxHeat * 0.25 + getHeatPerRegularShot(), maxHeat);
+			return Math.min(maxHeat * 0.7 + getHeatPerRegularShot(), maxHeat);
 		}
 		else {
 			return maxHeat;

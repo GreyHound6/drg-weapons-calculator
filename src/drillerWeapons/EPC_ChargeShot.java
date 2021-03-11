@@ -253,13 +253,13 @@ public class EPC_ChargeShot extends EPC {
 			// Disintegrate is functionally identical to Kinetic; both are resistance-less
 			// 65% Electric / 25 % Fire / 10% Disintegrate for the single target part.
 			dDamage[0] = 0.10 * getChargedDirectDamage();  // Kinetic
-			dDamage[2] = 0.25 * getChargedDirectDamage();  // Fire
+			dDamage[2] = 0.45 * getChargedDirectDamage();  // Fire
 			dDamage[4] = 0.65 * getChargedDirectDamage();  // Electric
 			
 			// 65% Explosive / 25% Fire / 10% Disintegrate for the AoE part.
 			aDamage[0] = 0.10 * getChargedAreaDamage();  // Kinetic
 			aDamage[1] = 0.65 * getChargedAreaDamage();  // Explosive
-			aDamage[2] = 0.25 * getChargedAreaDamage();  // Fire
+			aDamage[2] = 0.45 * getChargedAreaDamage();  // Fire
 		}
 		
 		// DoTs are in this order: Electrocute, Neurotoxin, Persistent Plasma, and Radiation

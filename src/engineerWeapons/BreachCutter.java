@@ -63,7 +63,7 @@ public class BreachCutter extends Weapon {
 		burstDamageOnFirstImpact = 50;
 		damageTickRate = 50;  // ticks/sec
 		damagePerTick = 11.5;
-		delayBeforeOpening = 0.3;
+		delayBeforeOpening = 0.2;
 		projectileLifetime = 1.0;
 		projectileWidth = 1.5;
 		magazineSize = 3;
@@ -99,7 +99,7 @@ public class BreachCutter extends Weapon {
 		
 		tier3 = new Mod[2];
 		// Although getStats() shows this change, it has no effect on any numbers in this model. As such, I'm marking as "not modeled".
-		tier3[0] = new Mod("Quick Deploy", "-0.29 Plasma Expansion Delay", modIcons.duration, 3, 0, false);
+		tier3[0] = new Mod("Quick Deploy", "-0.19 Plasma Expansion Delay", modIcons.duration, 3, 0, false);
 		tier3[1] = new Mod("Improved Case Ejector", "-0.5 Reload Time", modIcons.reloadSpeed, 3, 1);
 		
 		tier4 = new Mod[2];
@@ -107,7 +107,7 @@ public class BreachCutter extends Weapon {
 		tier4[1] = new Mod("Disruptive Frequency Tuning", "+100% Stun Chance, 2 sec Stun duration", modIcons.stun, 4, 1);
 		
 		tier5 = new Mod[3];
-		tier5[0] = new Mod("Explosive Goodbye", "When the line either expires or the trigger gets pulled again, the current line explodes for 70 Explosive Damage in a 3m radius AoE, and leaves behind a field of Persistent Plasma "
+		tier5[0] = new Mod("Explosive Goodbye", "When the line either expires or the trigger gets pulled again, the current line explodes for 90 Explosive Damage in a 2.5m radius AoE, and leaves behind a field of Persistent Plasma "
 				+ " that does an average of " + MathUtils.round(DoTInformation.Plasma_DPS, GuiConstants.numDecimalPlaces) + " Fire Damage per second for 4.6 seconds in a 3m radius sphere.", modIcons.addedExplosion, 5, 0);
 		tier5[1] = new Mod("Plasma Trail", "Leaves behind a Persistent Plasma field that does an average of " + MathUtils.round(DoTInformation.Plasma_DPS, GuiConstants.numDecimalPlaces) + " Fire Damage per second for 4.6 seconds "
 				+ "along the entire length of the line's path", modIcons.areaDamage, 5, 1);
@@ -123,8 +123,8 @@ public class BreachCutter extends Weapon {
 				+ "the line to change direction and move back towards the gun. In exchange, -3 Max Ammo", overclockIcons.returnToSender, 3);
 		overclocks[4] = new Overclock(Overclock.classification.balanced, "High Voltage Crossover", "100% chance to electrocute enemies, which deals an average of " + MathUtils.round(4.0 * DoTInformation.Electro_TicksPerSec, GuiConstants.numDecimalPlaces) + " Electric Damage per "
 				+ "Second for 4 seconds. In exchange, x0.67 Magazine Size.", overclockIcons.electricity, 4);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Spinning Death", "Instead of flying in a straight line, the projectile now rotates 2 times per second about the Yaw axis. Additionally: x0.05 Projectile Velocity, x0 Impact Damage, "
-				+ "x5 Projectile Lifetime, x0.2 Damage per Tick, +1.5m Plasma Beam Width, x0.5 Max Ammo, and x0.66 Magazine Size", overclockIcons.special, 5);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Spinning Death", "Instead of flying in a straight line, the projectile now rotates 2 times per second about the Yaw axis. Additionally: x0.05 Projectile Velocity, "
+				+ "x6 Projectile Lifetime, x0.2 Damage per Tick, +1.5m Plasma Beam Width, x0.5 Max Ammo, and x0.66 Magazine Size", overclockIcons.special, 5);
 		overclocks[6] = new Overclock(Overclock.classification.unstable, "Inferno", "The first time the beam hits an enemy, it deals 75 Heat damage and applies a DoT that does 7 Fire Damage and 7 Heat damage at a rate of 2 ticks/sec for 5 seconds (does 11 ticks total). "
 				+ "Additionally, it converts 90% of the Damage per Tick from Electric element to Fire element and adds the amount converted as Heat damage per tick. This also adds +1.5 Damage per Tick (75 DPS). In exchange: -3 Max Ammo, and x0.5 Armor Breaking", overclockIcons.heatDamage, 6);
 	}
@@ -312,12 +312,13 @@ public class BreachCutter extends Weapon {
 		return toReturn;
 	}
 	protected double getImpactDamage() {
-		if (selectedOverclock == 5) {
-			return 0.0;
-		}
-		else {
-			return burstDamageOnFirstImpact;
-		}
+		//if (selectedOverclock == 5) {
+			//return 0.0;
+		//}
+		//else {
+
+		double toReturn = burstDamageOnFirstImpact;
+		return toReturn;
 	}
 	protected double getDamagePerTick() {
 		double toReturn = damagePerTick;
@@ -342,7 +343,7 @@ public class BreachCutter extends Weapon {
 		double toReturn = delayBeforeOpening;
 		
 		if (selectedTier3 == 0) {
-			toReturn -= 0.29;
+			toReturn -= 0.19;
 		}
 		
 		return toReturn;
@@ -358,7 +359,7 @@ public class BreachCutter extends Weapon {
 			toReturn += 0.5;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn *= 5;
+			toReturn *= 6;
 		}
 		
 		return toReturn;
@@ -382,10 +383,7 @@ public class BreachCutter extends Weapon {
 			toReturn += 3;
 		}
 		
-		if (selectedOverclock == 4) {
-			toReturn = (int) Math.round(toReturn * 2.0 / 3.0);
-		}
-		else if (selectedOverclock == 5) {
+		if (selectedOverclock == 4 || selectedOverclock == 5) {
 			toReturn = (int) Math.round(toReturn * 2.0 / 3.0);
 		}
 		
@@ -598,7 +596,7 @@ public class BreachCutter extends Weapon {
 		double dmgPerTick = getDamagePerTick();
 		double explosiveGoodbyeDmg = 0;
 		if (selectedTier5 == 0 && primaryTarget) {
-			explosiveGoodbyeDmg = 70.0;
+			explosiveGoodbyeDmg = 90.0;
 		}
 		
 		if (!ignoreStatusEffects) {
@@ -701,7 +699,7 @@ public class BreachCutter extends Weapon {
 		// According to Elythnwaen, Explosive Goodbye does 40 Explosive Damage in a 3m radius, 2m Full Damage radius. 
 		// No listed falloff percentage, so I'm just going to use the default 0.25
 		// TODO: in the current model, this AoE Efficiency isn't used. I'm unsure if I want to keep this.
-		aoeEfficiency = calculateAverageAreaDamage(3, 2, 0.25);
+		aoeEfficiency = calculateAverageAreaDamage(2.5, 2, 0.25);
 	}
 	
 	// Single-target calculations
@@ -880,11 +878,11 @@ public class BreachCutter extends Weapon {
 			return magSize / getRateOfFire();
 		}
 		else {
-			// Spinning Death without T2.B Mag Size only has one shot before reloading, so much like the Grenade Launcher its time to fire magazine would be zero.
+			// Spinning Death without T1.B Mag Size only has one shot before reloading, so much like the Grenade Launcher its time to fire magazine would be zero.
 			return 0;
 		}
 	}
-	
+
 	@Override
 	public double damageWastedByArmor() {
 		return 0;

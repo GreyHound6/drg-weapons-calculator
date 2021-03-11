@@ -96,7 +96,7 @@ public class Flamethrower extends Weapon {
 		
 		tier2 = new Mod[3];
 		tier2[0] = new Mod("Unfiltered Fuel", "+3 Damage per Particle", modIcons.directDamage, 2, 0);
-		tier2[1] = new Mod("Triple Filtered Fuel", "+15 Heat per Particle", modIcons.heatDamage, 2, 1);
+		tier2[1] = new Mod("Triple Filtered Fuel", "+10 Heat per Particle", modIcons.heatDamage, 2, 1);
 		tier2[2] = new Mod("Sticky Flame Duration", "+3 sec Sticky Flames duration", modIcons.hourglass, 2, 2);
 		
 		tier3 = new Mod[3];
@@ -308,7 +308,7 @@ public class Flamethrower extends Weapon {
 		double toReturn = particleHeat;
 		
 		if (selectedTier2 == 1) {
-			toReturn += 15;
+			toReturn += 10;
 		}
 		
 		return toReturn;

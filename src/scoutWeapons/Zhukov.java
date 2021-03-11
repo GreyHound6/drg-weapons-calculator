@@ -50,7 +50,7 @@ public class Zhukov extends Weapon {
 		weaponPic = WeaponPictures.zhukovs;
 		
 		// Base stats, before mods or overclocks alter them:
-		directDamage = 15;
+		directDamage = 12;
 		carriedAmmo = 720;
 		magazineSize = 60;  // Really 25
 		rateOfFire = 20.0;  // Really 15
@@ -77,8 +77,8 @@ public class Zhukov extends Weapon {
 	@Override
 	protected void initializeModsAndOverclocks() {
 		tier1 = new Mod[2];
-		tier1[0] = new Mod("Expanded Ammo Bags", "+120 Max Ammo", modIcons.carriedAmmo, 1, 0);
-		tier1[1] = new Mod("High Velocity Rounds", "+1 Direct Damage", modIcons.directDamage, 1, 1);
+		tier1[0] = new Mod("Expanded Ammo Bags", "+150 Max Ammo", modIcons.carriedAmmo, 1, 0);
+		tier1[1] = new Mod("High Velocity Rounds", "+2 Direct Damage", modIcons.directDamage, 1, 1);
 		
 		tier2 = new Mod[3];
 		tier2[0] = new Mod("High Capacity Magazine", "+10 Magazine Size", modIcons.magSize, 2, 0);
@@ -86,13 +86,13 @@ public class Zhukov extends Weapon {
 		tier2[2] = new Mod("Quickfire Ejector", "-0.6 Reload Time", modIcons.reloadSpeed, 2, 2);
 		
 		tier3 = new Mod[2];
-		tier3[0] = new Mod("Increased Caliber Rounds", "+2 Direct Damage", modIcons.directDamage, 3, 0);
+		tier3[0] = new Mod("Increased Caliber Rounds", "+3 Direct Damage", modIcons.directDamage, 3, 0);
 		tier3[1] = new Mod("Better Weight Balance", "x0.5 Base Spread", modIcons.baseSpread, 3, 1);
 		
 		tier4 = new Mod[3];
-		tier4[0] = new Mod("Blowthrough Rounds", "+1 Penetration", modIcons.blowthrough, 4, 0);
-		tier4[1] = new Mod("Hollow-Point Bullets", "+30% Weakpoint Bonus", modIcons.weakpointBonus, 4, 1);
-		tier4[2] = new Mod("Expanded Ammo Bags", "+180 Max Ammo", modIcons.carriedAmmo, 4, 2);
+		tier4[0] = new Mod("Blowthrough Rounds", "+2 Penetration", modIcons.blowthrough, 4, 0);
+		tier4[1] = new Mod("Hollow-Point Bullets", "+55% Weakpoint Bonus", modIcons.weakpointBonus, 4, 1);
+		tier4[2] = new Mod("Expanded Ammo Bags", "+300 Max Ammo", modIcons.carriedAmmo, 4, 2);
 		
 		tier5 = new Mod[2];
 		tier5[0] = new Mod("Conductive Bullets", "+30% Direct Damage dealt to enemies either being Electrocuted or affected by Scout's IFG grenade", modIcons.electricity, 5, 0);
@@ -273,10 +273,10 @@ public class Zhukov extends Weapon {
 		int toReturn = directDamage;
 		
 		if (selectedTier1 == 1) {
-			toReturn += 1;
+			toReturn += 2;
 		}
 		if (selectedTier3 == 0) {
-			toReturn += 2;
+			toReturn += 3;
 		}
 		
 		if (selectedOverclock == 3) {
@@ -301,10 +301,10 @@ public class Zhukov extends Weapon {
 		int toReturn = carriedAmmo;
 		
 		if (selectedTier1 == 0) {
-			toReturn += 120;
+			toReturn += 150;
 		}
 		if (selectedTier4 == 2) {
-			toReturn += 180;
+			toReturn += 300;
 		}
 		
 		if (selectedOverclock == 3) {
@@ -374,7 +374,7 @@ public class Zhukov extends Weapon {
 	}
 	private int getMaxPenetrations() {
 		if (selectedTier4 == 0) {
-			return 1;
+			return 2;
 		}
 		else {
 			return 0;
@@ -386,7 +386,7 @@ public class Zhukov extends Weapon {
 			return -1.0;
 		}
 		else if (selectedTier4 == 1){
-			return 0.3;
+			return 0.55;
 		}
 		else {
 			return 0;

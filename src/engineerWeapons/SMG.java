@@ -54,11 +54,11 @@ public class SMG extends Weapon {
 		// Base stats, before mods or overclocks alter them:
 		electrocutionDoTChance = 0.2;
 		// Electrocution DoTs do not stack; it only refreshes the duration.
-		directDamage = 9;
+		directDamage = 11;
 		electricDamage = 0; 
 		// Added onto the direct damage of each bullet; does not affect DoT damage. Affected by weakpoint bonuses and elemental weaknesses/resistances
 		magazineSize = 30;
-		carriedAmmo = 420;
+		carriedAmmo = 480;
 		rateOfFire = 11.0;
 		reloadTime = 2.0;
 		
@@ -88,7 +88,7 @@ public class SMG extends Weapon {
 		tier1[2] = new Mod("Expanded Ammo Bags", "+120 Max Ammo", modIcons.carriedAmmo, 1, 2);
 		
 		tier2 = new Mod[3];
-		tier2[0] = new Mod("High Capacity Magazine", "+10 Magazine Size", modIcons.magSize, 2, 0);
+		tier2[0] = new Mod("High Capacity Magazine", "+15 Magazine Size", modIcons.magSize, 2, 0);
 		tier2[1] = new Mod("Recoil Dampener", "x0.5 Recoil", modIcons.recoil, 2, 1);
 		tier2[2] = new Mod("Improved Gas System", "+3 Rate of Fire", modIcons.rateOfFire, 2, 2);
 		
@@ -107,8 +107,8 @@ public class SMG extends Weapon {
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Super-Slim Rounds", "+10 Magazine Size, x0.8 Base Spread", overclockIcons.magSize, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Well Oiled Machine", "+2 Rate of Fire, -0.2 Reload Time", overclockIcons.rateOfFire, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "EM Refire Booster", "+2 Electric Damage per bullet, +4 Rate of Fire, x1.5 Base Spread", overclockIcons.rateOfFire, 2);
-		overclocks[3] = new Overclock(Overclock.classification.balanced, "Light-Weight Rounds", "+180 Max Ammo, -1 Direct Damage, -2 Rate of Fire", overclockIcons.carriedAmmo, 3);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "EM Refire Booster", "+4 Rate of Fire, x1.5 Base Spread", overclockIcons.rateOfFire, 2);
+		overclocks[3] = new Overclock(Overclock.classification.balanced, "Light-Weight Rounds", "+120 Max Ammo, -2 Direct Damage, -2 Rate of Fire", overclockIcons.carriedAmmo, 3);
 		overclocks[4] = new Overclock(Overclock.classification.unstable, "Turret Arc", "If a bullet fired from the SMG hits a turret and applies an Electrocute DoT, that turret deals constant Electric Damage in a small radius around it for 15 seconds. This is known as Electric Charge state. "
 				+ "Additionally, if 2 turrets are less than 10m apart and both have the Electric Charge, then an arc will pass between them for the remainder of the Electric Charge duration that slows enemies by 70% and does 35 Electric Damage per Second. "
 				+ " -2 Rate of Fire", overclockIcons.electricity, 4, false);
@@ -299,7 +299,7 @@ public class SMG extends Weapon {
 			toReturn += 2;
 		}
 		if (selectedOverclock == 3) {
-			toReturn -= 1;
+			toReturn -= 2;
 		}
 		
 		// Multiplicative bonuses last
@@ -311,12 +311,7 @@ public class SMG extends Weapon {
 	}
 	private double getElectricDamage() {
 		double toReturn = electricDamage;
-		
-		// Additive bonuses first
-		if (selectedOverclock == 2) {
-			toReturn += 2;
-		}
-		
+
 		// Multiplicative bonuses last
 		if (selectedTier4 == 1) {
 			toReturn *= conductiveBulletsMultiplier();
@@ -328,7 +323,7 @@ public class SMG extends Weapon {
 		int toReturn = magazineSize;
 		
 		if (selectedTier2 == 0) {
-			toReturn += 10;
+			toReturn += 15;
 		}
 		
 		if (selectedTier5 == 0) {
@@ -353,7 +348,7 @@ public class SMG extends Weapon {
 		}
 		
 		if (selectedOverclock == 3) {
-			toReturn += 180;
+			toReturn += 120;
 		}
 		
 		return toReturn;

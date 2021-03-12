@@ -96,7 +96,7 @@ public class Autocannon extends Weapon {
 		tier2 = new Mod[3];
 		tier2[0] = new Mod("Tighter Barrel Alignment", "x0.5 Base Spread", modIcons.baseSpread, 2, 0);
 		tier2[1] = new Mod("Improved Gas System", "+0.4 Min Rate of Fire, +1.6 Max Rate of Fire", modIcons.rateOfFire, 2, 1);
-		tier2[2] = new Mod("Lighter Barrel Assembly", "x1.5 RoF Scaling Rate", modIcons.rateOfFire, 2, 2);
+		tier2[2] = new Mod("Lighter Barrel Assembly", "+0.5 Min Rate of Fire, x1.5 RoF Scaling Rate", modIcons.rateOfFire, 2, 2);
 		
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("Supercharged Feed Mechanism", "+0.6 Min Rate of Fire, +1.8 Max Rate of Fire", modIcons.rateOfFire, 3, 0);
@@ -108,16 +108,16 @@ public class Autocannon extends Weapon {
 		tier4[1] = new Mod("Shrapnel Rounds", "+0.6m AoE Radius", modIcons.aoeRadius, 4, 1);
 		
 		tier5 = new Mod[3];
-		tier5[0] = new Mod("Feedback Loop", "x1.2 Direct and Area Damage when at Max Rate of Fire", modIcons.directDamage, 5, 0);
+		tier5[0] = new Mod("Feedback Loop", "x1.15 Direct and Area Damage when at Max Rate of Fire", modIcons.directDamage, 5, 0);
 		tier5[1] = new Mod("Suppressive Fire", "Deal 0.5 Fear to enemies within a 1m radius of bullet impact", modIcons.fear, 5, 1);
 		tier5[2] = new Mod("Damage Resistance At Full RoF", "33% Damage Resistance when at Max Rate of Fire", modIcons.damageResistance, 5, 2);
 		
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Composite Drums", "+110 Max Ammo, -0.5 Reload Time", overclockIcons.carriedAmmo, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Splintering Shells", "+1 Area Damage, +0.3m AoE Radius", overclockIcons.aoeRadius, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Carpet Bomber", "+3 Area Damage, +0.5m AoE Radius, -10 Direct Damage", overclockIcons.areaDamage, 2);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Carpet Bomber", "+3 Area Damage, +0.5m AoE Radius, -9 Direct Damage", overclockIcons.areaDamage, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Combat Mobility", "Increases movement speed while using from 50% to 85% of normal walk speed, -1 Reload Time, x0.7 Base Spread, x0.7 Magazine Size", overclockIcons.movespeed, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Big Bertha", "+9 Direct Damage, x0.7 Base Spread, x0.5 Magazine Size, -165 Max Ammo, -1.5 Max Rate of Fire", overclockIcons.directDamage, 4);
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Big Bertha", "+9 Direct Damage, x0.7 Base Spread, x0.5 Magazine Size, -110 Max Ammo, -1.5 Max Rate of Fire", overclockIcons.directDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Neurotoxin Payload", "40% Chance to inflict a Neurotoxin DoT that deals an average of " + MathUtils.round(DoTInformation.Neuro_DPS, GuiConstants.numDecimalPlaces) +
 				" Poison Damage per Second for 10 seconds to all enemies within the AoE Radius upon impact. +0.3m AoE Radius, -3 Direct Damage, -3 Area Damage", overclockIcons.neurotoxin, 5);
 	}
@@ -299,7 +299,7 @@ public class Autocannon extends Weapon {
 			toReturn += 6;
 		}
 		if (selectedOverclock == 2) {
-			toReturn -= 10;
+			toReturn -= 9;
 		}
 		else if (selectedOverclock == 4) {
 			toReturn += 9;
@@ -374,7 +374,7 @@ public class Autocannon extends Weapon {
 			toReturn += 110;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn -= 165;
+			toReturn -= 110;
 		}
 		return toReturn;
 	}
@@ -396,6 +396,9 @@ public class Autocannon extends Weapon {
 		double toReturn = minRateOfFire;
 		if (selectedTier2 == 1) {
 			toReturn += 0.4;
+		}
+		else if (selectedTier2 == 2) {
+			toReturn += 0.5;
 		}
 		if (selectedTier3 == 0) {
 			toReturn += 0.6;
@@ -471,7 +474,7 @@ public class Autocannon extends Weapon {
 	}
 	
 	private double feedbackLoopMultiplier() {
-		return averageBonusPerMagazineForLongEffects(1.2, getNumBulletsRampup(), getMagazineSize());
+		return averageBonusPerMagazineForLongEffects(1.15, getNumBulletsRampup(), getMagazineSize());
 	}
 	
 	@Override
@@ -492,7 +495,7 @@ public class Autocannon extends Weapon {
 		boolean carriedAmmoModified = selectedTier1 == 2 || selectedOverclock == 0 || selectedOverclock == 4;
 		toReturn[4] = new StatsRow("Max Ammo:", getCarriedAmmo(), modIcons.carriedAmmo, carriedAmmoModified);
 		
-		boolean minRoFModified = selectedTier2 == 1 || selectedTier3 == 0;
+		boolean minRoFModified = selectedTier2 >= 1 || selectedTier3 == 0;
 		toReturn[5] = new StatsRow("Starting Rate of Fire:", getMinRateOfFire(), modIcons.rateOfFire, minRoFModified);
 		
 		boolean maxRoFModified = selectedTier2 == 1 || selectedTier3 == 0 || selectedOverclock == 4;

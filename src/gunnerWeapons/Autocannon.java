@@ -116,8 +116,8 @@ public class Autocannon extends Weapon {
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Composite Drums", "+110 Max Ammo, -0.5 Reload Time", overclockIcons.carriedAmmo, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Splintering Shells", "+1 Area Damage, +0.3m AoE Radius", overclockIcons.aoeRadius, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Carpet Bomber", "+3 Area Damage, +0.5m AoE Radius, -9 Direct Damage", overclockIcons.areaDamage, 2);
-		overclocks[3] = new Overclock(Overclock.classification.balanced, "Combat Mobility", "Increases movement speed while using from 50% to 85% of normal walk speed, -1 Reload Time, x0.7 Base Spread, x0.7 Magazine Size", overclockIcons.movespeed, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Big Bertha", "+9 Direct Damage, x0.7 Base Spread, x0.5 Magazine Size, -110 Max Ammo, -1.5 Max Rate of Fire", overclockIcons.directDamage, 4);
+		overclocks[3] = new Overclock(Overclock.classification.balanced, "Combat Mobility", "Increases movement speed while using from 50% to 85% of normal walk speed, -1 Reload Time, x0.7 Base Spread, -30 Magazine Size", overclockIcons.movespeed, 3);
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Big Bertha", "+9 Direct Damage, x0.7 Base Spread, -40 Magazine Size, -110 Max Ammo, -1.5 Max Rate of Fire", overclockIcons.directDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Neurotoxin Payload", "40% Chance to inflict a Neurotoxin DoT that deals an average of " + MathUtils.round(DoTInformation.Neuro_DPS, GuiConstants.numDecimalPlaces) +
 				" Poison Damage per Second for 10 seconds to all enemies within the AoE Radius upon impact. +0.3m AoE Radius, -3 Direct Damage, -3 Area Damage", overclockIcons.neurotoxin, 5);
 	}
@@ -354,14 +354,14 @@ public class Autocannon extends Weapon {
 	}
 	private int getMagazineSize() {
 		int toReturn = magazineSize;
-		if (selectedTier1 == 1) {
-			toReturn *= 1.5;
-		}
 		if (selectedOverclock == 3) {
-			toReturn *= 0.7;
+			toReturn -= 30;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn *= 0.5;
+			toReturn -= 40;
+		}
+		if (selectedTier1 == 1) {
+			toReturn *= 1.5;
 		}
 		return toReturn;
 	}

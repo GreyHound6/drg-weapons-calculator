@@ -99,7 +99,7 @@ public class Minigun extends Weapon {
 	protected void initializeModsAndOverclocks() {
 		tier1 = new Mod[3];
 		tier1[0] = new Mod("Magnetic Refrigeration", "+2 Cooling Rate", modIcons.coolingRate, 1, 0);
-		tier1[1] = new Mod("Improved Motor", "+10 Rate of Fire", modIcons.rateOfFire, 1, 1);
+		tier1[1] = new Mod("Improved Motor", "+4 Rate of Fire", modIcons.rateOfFire, 1, 1);
 		tier1[2] = new Mod("Improved Platform Stability", "x0.5 Base Spread", modIcons.baseSpread, 1, 2);
 		
 		tier2 = new Mod[2];
@@ -384,7 +384,7 @@ public class Minigun extends Weapon {
 	public double getRateOfFire() {
 		int toReturn = rateOfFire;
 		if (selectedTier1 == 1) {
-			toReturn += 10;
+			toReturn += 4;
 		}
 		if (selectedOverclock == 3) {
 			toReturn -= 4;
@@ -854,7 +854,7 @@ public class Minigun extends Weapon {
 		double effectiveRoF = getRateOfFire() / 2.0;
 		int effectiveMagSize = (int) calculateMaxNumPelletsFiredWithoutOverheating();
 		
-		double baseSpread = 2.5 * getBaseSpread();
+		double baseSpread = 4.0 * getBaseSpread();
 		double spreadPerShot = 0.2;
 		double spreadRecoverySpeed = 1.0;
 		double maxBloom = 3.5;

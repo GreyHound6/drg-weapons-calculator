@@ -745,7 +745,7 @@ public class Revolver extends Weapon {
 		}
 		else if (selectedOverclock == 1 && selectedTier3 != 1) {
 			// Only Chain Hit
-			double ricochetProbability = 0.75 * EnemyInformation.probabilityBulletWillHitWeakpoint();
+			double ricochetProbability = 0.75 * getWeakpointAccuracy() / 100.0;
 			double totalNumRicochets = Math.round(ricochetProbability * (getMagazineSize() + getCarriedAmmo()));
 			ricochetTotalDamage = totalNumRicochets * getDirectDamage();
 		}

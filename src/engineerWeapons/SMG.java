@@ -644,12 +644,12 @@ public class SMG extends Weapon {
 			utilityScores[3] += getElectrocutionDoTChance() * 0.25 * (calculateMaxNumTargets() - 1) * DoTInformation.Electro_SecsDuration * UtilityInformation.Electrocute_Slow_Utility;
 		}
 		if (selectedOverclock == 4) {
-			// Turret Arc can emit a beam up to 10m long that applies a 70% slow, doing 4 Electric Damage per tick, 5 ticks/sec for up to 10 seconds.
+			// Turret Arc can emit a beam up to 10m long that applies a 70% slow, doing 4 Electric Damage per tick, 5 ticks/sec for up to 15 seconds.
 			// Using Grunts' 2m length and 2.9 m/sec movespeed as a baseline, I expect it will take 2 / (0.3 * 2.9) = 2.3 seconds to pass through
 			int numEnemiesSlowedByTurretArc = calculateNumGlyphidsInStream(10.0);
 			utilityScores[3] += numEnemiesSlowedByTurretArc * 2.3 * 0.7;
 		}
-
+		
 		// Fear
 		if (selectedOverclock == 5) {
 			// OC "Turret EM Discharge" inflicts 0.5 Fear in a 5m radius around the sentry. Also, since the enemies will be electrocuted the Fear duration gets increased.
@@ -681,7 +681,7 @@ public class SMG extends Weapon {
 	
 	@Override
 	public double damageWastedByArmor() {
-		damageWastedByArmorPerCreature = EnemyInformation.percentageDamageWastedByArmor(getDirectDamage(), 1, 0.0, 1.0, getWeakpointBonus(), getGeneralAccuracy(), getWeakpointAccuracy());
+		damageWastedByArmorPerCreature = EnemyInformation.percentageDamageWastedByArmor(getDirectDamage() + getElectricDamage(), 1, 0.0, 1.0, getWeakpointBonus(), getGeneralAccuracy(), getWeakpointAccuracy());
 		return 100 * MathUtils.vectorDotProduct(damageWastedByArmorPerCreature[0], damageWastedByArmorPerCreature[1]) / MathUtils.sum(damageWastedByArmorPerCreature[0]);
 	}
 	

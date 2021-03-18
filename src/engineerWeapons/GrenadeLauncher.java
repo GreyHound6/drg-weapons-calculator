@@ -29,6 +29,7 @@ public class GrenadeLauncher extends Weapon {
 	private double aoeRadius;
 	private int carriedAmmo;
 	private int magazineSize;
+	private double rateOfFire;
 	private double reloadTime;
 	private double fearFactor;
 	private double directDamage;
@@ -57,6 +58,7 @@ public class GrenadeLauncher extends Weapon {
 		aoeRadius = 2.5;
 		carriedAmmo = 15;
 		magazineSize = 3;
+		rateOfFire = 2.0;
 		reloadTime = 2.5;
 		fearFactor = 1.0;
 		directDamage = 75;
@@ -98,8 +100,8 @@ public class GrenadeLauncher extends Weapon {
 		tier4[2] = new Mod("Concussive Blast", "Stuns creatures within the blast radius for 3 seconds", modIcons.stun, 4, 2);
 		
 		tier5 = new Mod[2];
-		tier5[0] = new Mod("Proximity Trigger", "After being fired, grenades that pass within 2m of an enemy will detonate after a 0.1 sec delay. If it never passes that close to an enemy, it will automatically detonate when it stops moving. "
-				+ "Note: the trigger takes 0.2 seconds to arm (indicated by a green light) and until then the grenade functions as usual.", modIcons.special, 5, 0, false);
+		tier5[0] = new Mod("Proximity Trigger", "After 0.2 seconds of arming time, any grenade that passes within 2m of an enemy will detonate after a 0.1 second delay. After being armed, grenades will emit a green light. "
+				+ "Grenades no longer explode upon impacting terrain, but instead automatically self-detonate 3.3 seconds after being fired.", modIcons.special, 5, 0, false);
 		tier5[1] = new Mod("Spiky Grenade", "+35 Direct Damage to any target directly impacted by a grenade.", modIcons.directDamage, 5, 1);
 		
 		overclocks = new Overclock[6];
@@ -516,7 +518,7 @@ public class GrenadeLauncher extends Weapon {
 		}
 		
 		double damagePerProjectile = directDamage + areaDamage;
-		double baseDPS = damagePerProjectile / reloadTime;
+		double baseDPS = damagePerProjectile / ((1.0/rateOfFire) + reloadTime);
 		
 		double burnDPS = 0.0;
 		// Incendiary Compound
@@ -543,7 +545,7 @@ public class GrenadeLauncher extends Weapon {
 
 	@Override
 	public double calculateAdditionalTargetDPS() {
-		double totalDPS = getAreaDamage() * aoeEfficiency[1] / reloadTime;
+		double totalDPS = getAreaDamage() * aoeEfficiency[1] / ((1.0/rateOfFire) + reloadTime);
 		if (selectedTier3 == 0 && !statusEffects[1]) {
 			totalDPS += DoTInformation.Burn_DPS;
 		}
@@ -563,8 +565,6 @@ public class GrenadeLauncher extends Weapon {
 			// damage dealt by Incendiary Compound to reflect how it would be used as "trash clear" instead of "large enemy killer".
 			// I'm also choosing to model this as if the player lets the enemies burn for the full duration, instead of continuing to fire grenades until they die.
 			double burnDoTDamagePerEnemy = DoTInformation.Burn_SecsDuration * DoTInformation.Burn_DPS;
-			
-			// I'm choosing to model this as if the player lets the enemies burn for the full duration, instead of continuing to fire grenades until they die.
 			burnDoTTotalDamage = numShots * aoeEfficiency[2] * burnDoTDamagePerEnemy;
 		}
 		
@@ -587,7 +587,7 @@ public class GrenadeLauncher extends Weapon {
 	@Override
 	public double calculateFiringDuration() {
 		// This is equivalent to counting how many times it has to reload, which is one less than the carried ammo + 1 in the chamber
-		return getCarriedAmmo() * reloadTime;
+		return getCarriedAmmo() * ((1.0/rateOfFire) + reloadTime);
 	}
 	
 	@Override
@@ -641,8 +641,8 @@ public class GrenadeLauncher extends Weapon {
 			dot_probability[3] = 1.0;
 		}
 		
-		breakpoints = EnemyInformation.calculateBreakpoints(directDamage, areaDamage, dot_dps, dot_duration, dot_probability,
-															0.0, getArmorBreaking(), 1.0/reloadTime, heatPerGrenade, 0.0,
+		breakpoints = EnemyInformation.calculateBreakpoints(directDamage, areaDamage, dot_dps, dot_duration, dot_probability, 
+															0.0, getArmorBreaking(), 1.0/((1.0/rateOfFire) + reloadTime), heatPerGrenade, 0.0,
 															statusEffects[1], statusEffects[3], false, false);
 		return MathUtils.sum(breakpoints);
 	}
@@ -690,7 +690,7 @@ public class GrenadeLauncher extends Weapon {
 	@Override
 	public double averageTimeToCauterize() {
 		if (selectedTier3 == 0) {
-			return EnemyInformation.averageTimeToIgnite(0, getHeatPerGrenade(), 1.0 / reloadTime, 0);
+			return EnemyInformation.averageTimeToIgnite(0, getHeatPerGrenade(), 1.0 / ((1.0/rateOfFire) + reloadTime), 0);
 		}
 		else {
 			return -1;
@@ -717,8 +717,7 @@ public class GrenadeLauncher extends Weapon {
 	
 	@Override
 	public double timeToFireMagazine() {
-		// Grenade Launcher fires its projectile instantly, and then reloads.
-		return 0;
+		return 1.0 / rateOfFire;
 	}
 	
 	@Override

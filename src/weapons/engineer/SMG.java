@@ -105,13 +105,13 @@ public class SMG extends Weapon {
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Super-Slim Rounds", "+10 Magazine Size, x0.8 Base Spread", overclockIcons.magSize, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Well Oiled Machine", "+2 Rate of Fire, -0.2 Reload Time", overclockIcons.rateOfFire, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "EM Refire Booster", "+2 Electric Damage per bullet, +4 Rate of Fire, x1.5 Base Spread", overclockIcons.rateOfFire, 2);
-		overclocks[3] = new Overclock(Overclock.classification.balanced, "Light-Weight Rounds", "+180 Max Ammo, -1 Direct Damage, -2 Rate of Fire", overclockIcons.carriedAmmo, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Turret Arc", "If a bullet fired from the SMG hits a turret and applies an Electrocute DoT, that turret will apply an 80% slow and 30 Electric DPS in a 2m radius around it for 20 seconds. "
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "EM Refire Booster", "+4 Rate of Fire, x1.5 Base Spread", overclockIcons.rateOfFire, 2);
+		overclocks[3] = new Overclock(Overclock.classification.balanced, "Light-Weight Rounds", "+120 Max Ammo, -2 Direct Damage, -2 Rate of Fire", overclockIcons.carriedAmmo, 3);
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Turret Arc", "If a bullet fired from the SMG hits a turret and applies an Electrocute DoT, that turret will apply an 80% slow and 35 Electric DPS in a 2m radius around it for 20 seconds. "
 				+ "Additionally, if 2 turrets are less than 15m apart and both are electrocuted at the same time, then an electric beam will pass between them that also slows and damages enemies until the first turret's electrocute expires. "
-				+ "-120 Max Ammo, -2 Rate of Fire", overclockIcons.electricity, 4, false);
+				+ "-2 Rate of Fire", overclockIcons.electricity, 4, false);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Turret EM Discharge", "If a bullet fired from the SMG hits a turret and applies an Electrocute DoT, it triggers an explosion that deals 60 Electric Damage and 0.5 Fear to all enemies "
-				+ "within a 5m radius, as well as Electrocuting them. There's a 1.5 second cooldown between explosions. -2 Direct Damage, -5 Magazine Size.", overclockIcons.areaDamage, 5, false);
+				+ "within a 5m radius, as well as Electrocuting them. There's a 1 second cooldown between explosions. -2 Direct Damage, -5 Magazine Size.", overclockIcons.areaDamage, 5, false);
 		
 		// This boolean flag has to be set to True in order for Weapon.isCombinationValid() and Weapon.buildFromCombination() to work.
 		modsAndOCsInitialized = true;
@@ -159,7 +159,7 @@ public class SMG extends Weapon {
 			toReturn += 2;
 		}
 		if (selectedOverclock == 3) {
-			toReturn -= 1;
+			toReturn -= 2;
 		}
 		else if (selectedOverclock == 5) {
 			toReturn -= 2;
@@ -510,7 +510,7 @@ public class SMG extends Weapon {
 			utilityScores[3] += getElectrocutionDoTChance() * 0.25 * (calculateMaxNumTargets() - 1) * DoTInformation.Electro_SecsDuration * UtilityInformation.Electrocute_Slow_Utility;
 		}
 		if (selectedOverclock == 4) {
-			// Turret Arc can emit a beam up to 15m long that applies a 80% slow, doing 6 Electric Damage per tick, 5 ticks/sec for up to 20 seconds.
+			// Turret Arc can emit a beam up to 15m long that applies a 80% slow, doing 7 Electric Damage per tick, 5 ticks/sec for up to 20 seconds.
 			// Using Grunts' 2m length and 2.9 m/sec movespeed as a baseline, I expect it will take 2 / (0.3 * 2.9) = 2.3 seconds to pass through
 			int numEnemiesSlowedByTurretArc = calculateNumGlyphidsInStream(15.0);
 			utilityScores[3] += numEnemiesSlowedByTurretArc * 2.3 * 0.8;

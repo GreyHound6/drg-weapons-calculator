@@ -109,12 +109,12 @@ public class AssaultRifle extends Weapon {
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Compact Ammo", "+5 Magazine Size, x0.7 Recoil", overclockIcons.magSize, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Gas Rerouting", "+1 Rate of Fire, -0.3 Reload Time", overclockIcons.rateOfFire, 1);
 		overclocks[2] = new Overclock(Overclock.classification.clean, "Homebrew Powder", "Anywhere from x1 - x1.2 damage per shot, averaged to x" + homebrewPowderCoefficient, overclockIcons.homebrewPowder, 2);
-		overclocks[3] = new Overclock(Overclock.classification.balanced, "Overclocked Firing Mechanism", "+3 Rate of Fire, x2.5 Recoil", overclockIcons.rateOfFire, 3);
+		overclocks[3] = new Overclock(Overclock.classification.balanced, "Overclocked Firing Mechanism", "+3 Rate of Fire, x2 Recoil", overclockIcons.rateOfFire, 3);
 		overclocks[4] = new Overclock(Overclock.classification.balanced, "Bullets of Mercy", "+25% Damage dealt to enemies that are burning, electrocuted, poisoned, stunned, or frozen. In exchange, -5 Magazine Size", overclockIcons.directDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "AI Stability Engine", "+40% Weakpoint Bonus, x0 Recoil, x2.11 Spread Recovery Speed, -2 Direct Damage, -2 Rate of Fire", overclockIcons.baseSpread, 5);
 		overclocks[6] = new Overclock(Overclock.classification.unstable, "Electrifying Reload", "If any bullets from a magazine damage an enemy's healthbar, then those enemies will have an Electrocute DoT applied when that "
-				+ "magazine gets reloaded. Electrocute does an average of " + MathUtils.round(DoTInformation.Electro_DPS, GuiConstants.numDecimalPlaces) + " Electric Damage per Second for 4 seconds. -5 Magazine Size", overclockIcons.specialReload, 6);
-
+				+ "magazine gets reloaded. Electrocute does an average of " + MathUtils.round(DoTInformation.Electro_DPS, GuiConstants.numDecimalPlaces) + " Electric Damage per Second for 6 seconds. -2 Direct Damage, -5 Magazine Size", overclockIcons.specialReload, 6);
+		
 		// This boolean flag has to be set to True in order for Weapon.isCombinationValid() and Weapon.buildFromCombination() to work.
 		modsAndOCsInitialized = true;
 	}
@@ -153,6 +153,9 @@ public class AssaultRifle extends Weapon {
 		}
 		
 		if (selectedOverclock == 5) {
+			toReturn -= 2;
+		}
+		else if (selectedOverclock == 6) {
 			toReturn -= 2;
 		}
 		
@@ -295,7 +298,7 @@ public class AssaultRifle extends Weapon {
 			toReturn *= 0.7;
 		}
 		else if (selectedOverclock == 3) {
-			toReturn *= 2.5;
+			toReturn *= 2.0;
 		}
 		else if (selectedOverclock == 5) {
 			toReturn *= 0;
@@ -308,7 +311,7 @@ public class AssaultRifle extends Weapon {
 	public StatsRow[] getStats() {
 		StatsRow[] toReturn = new StatsRow[12];
 		
-		boolean directDamageModified = selectedTier2 == 0 || selectedTier3 == 1 || selectedOverclock == 2 || selectedOverclock == 5;
+		boolean directDamageModified = selectedTier2 == 0 || selectedTier3 == 1 || selectedOverclock == 2 || selectedOverclock == 5 || selectedOverclock == 6;
 		toReturn[0] = new StatsRow("Direct Damage:", getDirectDamage(), modIcons.directDamage, directDamageModified);
 		
 		boolean magSizeModified = selectedTier3 == 2 || selectedOverclock == 0 || selectedOverclock == 4 || selectedOverclock == 6;
@@ -409,7 +412,7 @@ public class AssaultRifle extends Weapon {
 		
 		double electroDPS = 0;
 		if (selectedOverclock == 6) {
-			double electroDoTUptimeCoefficient = Math.min(4.0 / duration, 1);
+			double electroDoTUptimeCoefficient = Math.min(6.0 / duration, 1);
 			electroDPS += electroDoTUptimeCoefficient * DoTInformation.Electro_DPS;
 		}
 		
@@ -432,7 +435,7 @@ public class AssaultRifle extends Weapon {
 		
 		double electrocutionDoTTotalDamage = 0;
 		if (selectedOverclock == 6) {
-			double electrocuteDoTDamagePerEnemy = calculateAverageDoTDamagePerEnemy(0, 4.0, DoTInformation.Electro_DPS);
+			double electrocuteDoTDamagePerEnemy = calculateAverageDoTDamagePerEnemy(0, 6.0, DoTInformation.Electro_DPS);
 			double estimatedNumEnemiesKilled = calculateFiringDuration() / averageTimeToKill();
 			
 			electrocutionDoTTotalDamage = electrocuteDoTDamagePerEnemy * estimatedNumEnemiesKilled;
@@ -505,7 +508,7 @@ public class AssaultRifle extends Weapon {
 		
 		if (selectedOverclock == 6) {
 			dot_dps[0] = DoTInformation.Electro_DPS;
-			dot_duration[0] = 4.0;
+			dot_duration[0] = 6.0;
 			dot_probability[0] = 1.0;
 		}
 		
@@ -534,14 +537,14 @@ public class AssaultRifle extends Weapon {
 		if (selectedOverclock == 6) {
 			// This formula is entirely made up. It's designed to increase number electrocuted with Mag Size, and decrease it with Rate of Fire.
 			int numEnemiesElectrocutedPerMagazine = (int) Math.ceil(2.0 * getMagazineSize() / getRateOfFire());
-			utilityScores[3] = numEnemiesElectrocutedPerMagazine * 4.0 * UtilityInformation.Electrocute_Slow_Utility;
+			utilityScores[3] = numEnemiesElectrocutedPerMagazine * 6.0 * UtilityInformation.Electrocute_Slow_Utility;
 		}
 		else {
 			utilityScores[3] = 0;
 		}
 		
 		// Innate Weakpoint stun = 10% chance for 1.5 sec stun (improved to 40% by Mod Tier 5 "Stun")
-		utilityScores[5] = EnemyInformation.probabilityBulletWillHitWeakpoint() * getWeakpointStunChance() * stunDuration * UtilityInformation.Stun_Utility;
+		utilityScores[5] = (getWeakpointAccuracy() / 100.0) * getWeakpointStunChance() * stunDuration * UtilityInformation.Stun_Utility;
 		
 		return MathUtils.sum(utilityScores);
 	}

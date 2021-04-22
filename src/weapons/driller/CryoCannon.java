@@ -97,7 +97,7 @@ public class CryoCannon extends Weapon {
 		tier2[2] = new Mod("Bypassed Integrity Check", "-1 sec Repressurization Delay", modIcons.coolingRate, 2, 2);
 		
 		tier3 = new Mod[2];
-		tier3[0] = new Mod("Improved Pump", "x1.7 Pressure Gain Rate", modIcons.chargeSpeed, 3, 0);
+		tier3[0] = new Mod("Improved Pump", "x1.75 Pressure Gain Rate", modIcons.chargeSpeed, 3, 0);
 		tier3[1] = new Mod("Increased Flow Volume", "+1.6 Flow Rate", modIcons.rateOfFire, 3, 1);
 		
 		tier4 = new Mod[3];
@@ -111,14 +111,14 @@ public class CryoCannon extends Weapon {
 		tier5[1] = new Mod("Cold Radiance", "After every full second of firing, deal 45 Cold in a 4m radius around you. This Cold/sec stacks with the direct stream and Ice Path's cold sources as well.", modIcons.coldDamage, 5, 1);
 		
 		overclocks = new Overclock[6];
-		overclocks[0] = new Overclock(Overclock.classification.clean, "Improved Thermal Efficiency", "+75 Tank Size, x0.75 Pressure Drop Rate", overclockIcons.magSize, 0);
-		overclocks[1] = new Overclock(Overclock.classification.clean, "Perfectly Tuned Cooler", "+1 Cold per Particle, +0.8 Flow Rate", overclockIcons.coldDamage, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Flow Rate Expansion", "x2.75 Pressure Gain Rate, +0.8 Flow Rate, x1.75 Pressure Drop Rate", overclockIcons.duration, 2);
-		overclocks[3] = new Overclock(Overclock.classification.balanced, "Ice Spear", "Press the Reload button to consume 35 ammo and fire an Ice Spear that does 350 Direct Damage and 150 Area Damage in a 1.4m radius and stuns enemies for 3 seconds. "
+		overclocks[0] = new Overclock(Overclock.classification.clean, "Improved Thermal Efficiency", "+25 Tank Size, x0.75 Pressure Drop Rate", overclockIcons.magSize, 0);
+		overclocks[1] = new Overclock(Overclock.classification.balanced, "Tuned Cooler", "+1 Cold per Particle, +0.8 Flow Rate, x0.8 Pressure Gain Rate, +0.2 sec Chargeup Time", overclockIcons.coldDamage, 1);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Flow Rate Expansion", "x2.7 Pressure Gain Rate, +0.8 Flow Rate, x2.25 Pressure Drop Rate", overclockIcons.duration, 2);
+		overclocks[3] = new Overclock(Overclock.classification.balanced, "Ice Spear", "Press the Reload button to consume 50 ammo and fire an Ice Spear that does 350 Direct Damage and 150 Area Damage in a 1.4m radius and stuns enemies for 3 seconds. "
 				+ "In exchange, +1 sec Repressurization Delay", overclockIcons.projectileVelocity, 3, false);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Ice Storm", "x1.5 Damage per Particle, -3 Cold per Particle, -25 Tank Size, x1.5 Pressure Drop Rate", overclockIcons.directDamage, 4);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Snowball", "Press the Reload button to consume 25 ammo and fire a Snowball that does 200 Cold in a 4m radius, which will freeze most enemies instantly. "
-				+ "In exchange, -50 Tank Size, +1 sec Repressurization Delay", overclockIcons.aoeRadius, 5);
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Ice Storm", "x2 Damage per Particle, x2 Damage vs Frozen Enemies, -3 Cold per Particle, -75 Tank Size, x1.5 Pressure Drop Rate", overclockIcons.directDamage, 4);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Snowball", "Press the Reload button to consume 35 ammo and fire a Snowball that does 200 Cold in a 4m radius, which will freeze most enemies instantly. "
+				+ "In exchange, -100 Tank Size, +1 sec Repressurization Delay", overclockIcons.aoeRadius, 5);
 		
 		// This boolean flag has to be set to True in order for Weapon.isCombinationValid() and Weapon.buildFromCombination() to work.
 		modsAndOCsInitialized = true;
@@ -193,7 +193,7 @@ public class CryoCannon extends Weapon {
 			toReturn += 75;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn -= 25;
+			toReturn -= 75;
 		}
 		else if (selectedOverclock == 5) {
 			toReturn -= 50;
@@ -208,6 +208,10 @@ public class CryoCannon extends Weapon {
 			toReturn -= 0.4;
 		}
 		
+		if (selectedOverclock == 1) {
+			toReturn += 0.2;
+		}
+
 		return toReturn;
 	}
 	private double getPressureDropModifier() {
@@ -259,10 +263,13 @@ public class CryoCannon extends Weapon {
 		double modifier = 1.0;
 		
 		if (selectedTier3 == 0) {
-			modifier *= 1.7;
+			modifier *= 1.75;
 		}
 		
-		if (selectedOverclock == 2) {
+		if (selectedOverclock == 1) {
+			modifier *= 0.8;
+		}
+		else if (selectedOverclock == 2) {
 			modifier *= 2.75;
 		}
 		
@@ -280,7 +287,7 @@ public class CryoCannon extends Weapon {
 	
 	@Override
 	public StatsRow[] getStats() {
-		StatsRow[] toReturn = new StatsRow[15];
+		StatsRow[] toReturn = new StatsRow[16];
 		
 		// Stats about the direct stream's DPS
 		toReturn[0] = new StatsRow("Damage per Particle:", getParticleDamage(), modIcons.directDamage, selectedTier4 == 0 || selectedOverclock == 4);
@@ -289,36 +296,38 @@ public class CryoCannon extends Weapon {
 		// Again, choosing to display Cold as positive even though it's a negative value.
 		toReturn[1] = new StatsRow("Cold per Particle:", -1 * getParticleCold(), modIcons.coldDamage, coldModified);
 		
-		toReturn[2] = new StatsRow("Avg Freeze Multiplier (doesn't affect itself):", averageFreezeMultiplier(), modIcons.special, false);
+		toReturn[2] = new StatsRow("Avg Freeze Multiplier for other weapons:", averageFreezeMultiplier(UtilityInformation.Frozen_Damage_Multiplier), modIcons.special, false);
 		
-		toReturn[3] = new StatsRow("Cold Stream Reach:", getColdStreamReach(), modIcons.distance, selectedTier2 == 1);
+		toReturn[3] = new StatsRow("Avg Freeze Multiplier for itself:", averageFreezeMultiplier(2.0), modIcons.special, selectedOverclock == 4, selectedOverclock == 4);
+
+		toReturn[4] = new StatsRow("Cold Stream Reach:", getColdStreamReach(), modIcons.distance, selectedTier2 == 1);
 		
 		boolean tankSizeModified = selectedTier2 == 0 || selectedTier4 == 2 || selectedOverclock == 0 || selectedOverclock == 4 || selectedOverclock == 5;
-		toReturn[4] = new StatsRow("Tank Size:", getTankSize(), modIcons.carriedAmmo, tankSizeModified);
+		toReturn[5] = new StatsRow("Tank Size:", getTankSize(), modIcons.carriedAmmo, tankSizeModified);
 		
-		toReturn[5] = new StatsRow("Chargeup Time:", getChargeupTime(), modIcons.chargeSpeed, selectedTier1 == 1);
+		toReturn[6] = new StatsRow("Chargeup Time:", getChargeupTime(), modIcons.chargeSpeed, selectedTier1 == 1 || selectedOverclock == 1);
 		
 		boolean pressureDropModified = selectedTier1 == 0 || selectedOverclock % 2 == 0 ;
-		toReturn[6] = new StatsRow("Pressure Drop Rate:", convertDoubleToPercentage(getPressureDropModifier()), modIcons.magSize, pressureDropModified);
-		toReturn[7] = new StatsRow("Pressure Drop Duration:", pressureDropDuration / getPressureDropModifier(), modIcons.hourglass, pressureDropModified);
+		toReturn[7] = new StatsRow("Pressure Drop Rate:", convertDoubleToPercentage(getPressureDropModifier()), modIcons.magSize, pressureDropModified);
+		toReturn[8] = new StatsRow("Pressure Drop Duration:", pressureDropDuration / getPressureDropModifier(), modIcons.hourglass, pressureDropModified);
 		
 		boolean flowRateModified = selectedTier3 == 1 || selectedOverclock == 1 || selectedOverclock == 2;
-		toReturn[8] = new StatsRow("Flow Rate:", getFlowRate(), modIcons.rateOfFire, flowRateModified);
+		toReturn[9] = new StatsRow("Flow Rate:", getFlowRate(), modIcons.rateOfFire, flowRateModified);
 		
 		boolean delayModified = selectedTier2 == 2 || selectedOverclock == 3 || selectedOverclock == 5;
-		toReturn[9] = new StatsRow("Repressurization Delay:", getRepressurizationDelay(), modIcons.coolingRate, delayModified);
+		toReturn[10] = new StatsRow("Repressurization Delay:", getRepressurizationDelay(), modIcons.coolingRate, delayModified);
 		
-		boolean pressureGainModified = selectedTier3 == 0 || selectedOverclock == 2;
-		toReturn[10] = new StatsRow("Pressure Gain Rate:", convertDoubleToPercentage(getPressureGainModifier()), modIcons.chargeSpeed, pressureGainModified);
-		toReturn[11] = new StatsRow("Pressure Gain Duration:", pressureGainDuration / getPressureGainModifier(), modIcons.hourglass, pressureGainModified);
+		boolean pressureGainModified = selectedTier3 == 0 || selectedOverclock == 1 || selectedOverclock == 2;
+		toReturn[11] = new StatsRow("Pressure Gain Rate:", convertDoubleToPercentage(getPressureGainModifier()), modIcons.chargeSpeed, pressureGainModified);
+		toReturn[12] = new StatsRow("Pressure Gain Duration:", pressureGainDuration / getPressureGainModifier(), modIcons.hourglass, pressureGainModified);
 		
 		// Stats about the Ice Path
 		// I'm choosing to display this as a positive number, even though internally it's negative.
-		toReturn[12] = new StatsRow("Ice Path Cold per Tick:", -1 * icePathColdPerTick, modIcons.coldDamage, false);
+		toReturn[13] = new StatsRow("Ice Path Cold per Tick:", -1 * icePathColdPerTick, modIcons.coldDamage, false);
 		
-		toReturn[13] = new StatsRow("Ice Path Ticks per Sec:", icePathTicksPerSec, modIcons.blank, false);
+		toReturn[14] = new StatsRow("Ice Path Ticks per Sec:", icePathTicksPerSec, modIcons.blank, false);
 		
-		toReturn[14] = new StatsRow("Ice Path Duration", icePathDuration, modIcons.hourglass, false);
+		toReturn[15] = new StatsRow("Ice Path Duration", icePathDuration, modIcons.hourglass, false);
 		
 		return toReturn;
 	}
@@ -351,8 +360,11 @@ public class CryoCannon extends Weapon {
 	}
 	
 	private double totalDamageDealtPerBurst(boolean primaryTarget) {
-		// Contrary to what some people have told me, CryoCannon does NOT gain bonus damage vs Frozen targets.
+		// Contrary to what some people have told me, CryoCannon does NOT gain bonus damage vs Frozen targets unless OC "Ice Storm" is equipped.
 		double dmgPerParticle = getParticleDamage();
+		if (selectedOverclock == 4) {
+			dmgPerParticle *= averageFreezeMultiplier(2.0);
+		}
 		double firingTime = pressureDropDuration / getPressureDropModifier();
 		double flowRate = getFlowRate();
 		
@@ -388,7 +400,7 @@ public class CryoCannon extends Weapon {
 		return firingTime * flowRate * dmgPerParticle + fragileDamage + temperatureShock;
 	}
 	
-	private double averageFreezeMultiplier() {
+	private double averageFreezeMultiplier(double baseMultiplier) {
 		double firingTime = pressureDropDuration / getPressureDropModifier();
 		double flowRate = getFlowRate();
 		
@@ -411,13 +423,13 @@ public class CryoCannon extends Weapon {
 			if (currentlyFrozen) {
 				if (firingTime > freezeDuration) {
 					particlesFired = Math.round(freezeDuration * flowRate);
-					totalDamage += particlesFired * UtilityInformation.Frozen_Damage_Multiplier;
+					totalDamage += particlesFired * baseMultiplier;
 					totalParticles += particlesFired;
 					firingTime -= freezeDuration;
 					currentlyFrozen = false;
 				}
 				else {
-					totalDamage += firingTime * flowRate * UtilityInformation.Frozen_Damage_Multiplier;
+					totalDamage += firingTime * flowRate * baseMultiplier;
 					totalParticles += firingTime * flowRate;
 					firingTime = 0;
 				}
@@ -446,58 +458,58 @@ public class CryoCannon extends Weapon {
 			TriggerHappyBro had the idea to model this using a recursive function, and I'm choosing to implement it. I had originally thought to do it iteratively using a while-loop,
 			but it was returning a very weird dataset that wasn't accounting for overkill properly. As a result, I switched to this recursive method because it produces more reliable
 			results even thought it's a little less computationally efficient.
-
+			
 			Fundamentally, this method just has to calculate three things at each step:
 				1. How much damage Fragile could do if it procs on this particle
 				2. How much damage Fragile could do on later procs if it does happen on this particle
 				3. How much damage Fragile could do on later procs if it doesn't happen on this particle
-
+			
 			Once those three values are calculated, it just multiplies each returned value by its expected probability to happen. Because the probability that Fragile procs is multiplied
 			against both the damage dealt by the proc and the potential damage afterward, those two are added together to save one CPU cycle.
-
-			I did a little work on WolframAlpha, and found via the integral of x * (1 - x/100) from 0 to 100 divided by 100 that the true average of damage * probability
+			
+			I did a little work on WolframAlpha, and found via the integral of x * (1 - x/100) from 0 to 100 divided by 100 that the true average of damage * probability 
 			should be 100/6, so I would expect the average first proc of Fragile to be at 78.8675 internal hp.
-
+			
 			I spent about 5 weeks trying to find or create a formula that would let me recreate this method's data mathematically, but ultimately failed. I know it's a f(x, y) = z function
-			and that it has an approximately 1/x partial derivative with respect to Damage per Particle and some kind of piece-wise linear partial derivative with respect to Difficulty
+			and that it has an approximately 1/x partial derivative with respect to Damage per Particle and some kind of piece-wise linear partial derivative with respect to Difficulty 
 			Scaling Resistance, but I was unable to create the function needed to approximate these outputs. As a result I have to settle for this recursive function because it works.
 		*/
-
+		
 		currentTrueHP -= particleDamage / resistance;
-
+		
 		// Base case: damage from frost particle kills enemy outright
 		if (currentTrueHP <= 0) {
 			return 0;
 		}
-
+		
 		double probability = 1.0 - currentTrueHP / 100.0;
 		double fragileDamage = Math.min(currentTrueHP, currentTrueHP / resistance);
 		double fragileProcs = recursiveFragileDamage(currentTrueHP - fragileDamage, particleDamage, resistance);
 		double noProc = recursiveFragileDamage(currentTrueHP, particleDamage, resistance);
-
+		
 		return probability * (fragileDamage + fragileProcs) + (1.0 - probability) * noProc;
 	}
-
+	
 	private double recursiveFragileAmmoSpent(double currentTrueHP, double particleDamage, double resistance) {
 		/*
 			Same logic as the Damage method, but this one counts ammo spent.
 		*/
-
+		
 		currentTrueHP -= particleDamage / resistance;
-
+		
 		// Base case: damage from frost particle kills enemy outright
 		if (currentTrueHP <= 0) {
 			return 1.0;
 		}
-
+		
 		double probability = 1.0 - currentTrueHP / 100.0;
 		double fragileDamage = Math.min(currentTrueHP, currentTrueHP / resistance);
 		double fragileProcs = recursiveFragileAmmoSpent(currentTrueHP - fragileDamage, particleDamage, resistance);
 		double noProc = recursiveFragileAmmoSpent(currentTrueHP, particleDamage, resistance);
-
+		
 		return 1.0 + probability * fragileProcs + (1.0 - probability) * noProc;
 	}
-
+	
 	// Because the Cryo Cannon hits multiple targets with its stream, bypasses armor, and doesn't get weakpoint bonuses, this one method should be usable for all the DPS categories.
 	private double calculateDPS(boolean burst, boolean primaryTarget) {
 		double firingTime = pressureDropDuration / getPressureDropModifier();
@@ -533,20 +545,20 @@ public class CryoCannon extends Weapon {
 		double dmgPerParticle = getParticleDamage();
 		double tankSize = getTankSize();
 		double baseDamage = numTargets * dmgPerParticle * tankSize;
-
+		
 		double fragileDamage = 0;
 		if (selectedTier5 == 0) {
 			// Adapted from totalDamagePerBurst() above
-			double averageHealth = EnemyInformation.averageHealthPool(true);  // This already returns health multiplied by resistances, so this is the "effective" hp, not "internal" hp
+			double averageHealth = EnemyInformation.averageHealthPool(true);  // This already returns health multiplied by resistances, so this is the "effective" hp, not "internal" hp 
 			double averageResistance = EnemyInformation.averageDifficultyScalingResistance();
 			double avgNumParticlesBeforeFragileCanProc = Math.ceil((averageHealth - 100.0 * averageResistance) / dmgPerParticle);  // This will get the Effective HP below 100 * Resistance, which is the same as getting Internal HP below 100
 			double expectedNumParticlesForFragileKill = Math.ceil(recursiveFragileAmmoSpent(100.0, dmgPerParticle, averageResistance));  // This number is how many particles it will take to kill the creature once below 100 Internal HP
 			double totalAmmoForAverageFragileKill = avgNumParticlesBeforeFragileCanProc + expectedNumParticlesForFragileKill;
-
+			
 			double totalNumFragileKills = numTargets * Math.floor(tankSize / totalAmmoForAverageFragileKill);
 			fragileDamage = totalNumFragileKills * recursiveFragileDamage(100.0, dmgPerParticle, averageResistance) * averageResistance;
 		}
-
+		
 		return baseDamage + fragileDamage;
 	}
 
@@ -608,7 +620,7 @@ public class CryoCannon extends Weapon {
 		else {
 			utilityScores[5] = 0;
 		}
-
+		
 		// Freeze
 		double freezeDuration = EnemyInformation.averageFreezeDuration();
 		double freezeUptime = freezeDuration / (averageTimeToFreeze(false) + freezeDuration);

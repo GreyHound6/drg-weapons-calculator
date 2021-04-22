@@ -84,7 +84,7 @@ public class GrenadeLauncher extends Weapon {
 		tier1[2] = new Mod("HE Compound", "+20 Area Damage", modIcons.areaDamage, 1, 2);
 		
 		tier2 = new Mod[2];
-		tier2[0] = new Mod("Expanded Ammo Bags", "+2 Max Ammo", modIcons.carriedAmmo, 2, 0);
+		tier2[0] = new Mod("Expanded Ammo Bags", "+3 Max Ammo", modIcons.carriedAmmo, 2, 0);
 		tier2[1] = new Mod("Larger Payload", "+20 Area Damage", modIcons.areaDamage, 2, 1);
 		
 		tier3 = new Mod[3];
@@ -104,11 +104,11 @@ public class GrenadeLauncher extends Weapon {
 		
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Clean Sweep", "+10 Area Damage, +0.5m AoE Radius", overclockIcons.aoeRadius, 0);
-		overclocks[1] = new Overclock(Overclock.classification.clean, "Pack Rat", "+2 Max Ammo", overclockIcons.carriedAmmo, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Compact Rounds", "+5 Max Ammo, -10 Area Damage, -0.5m AoE Radius", overclockIcons.carriedAmmo, 2);
+		overclocks[1] = new Overclock(Overclock.classification.clean, "Pack Rat", "+3 Max Ammo", overclockIcons.carriedAmmo, 1);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Compact Rounds", "+6 Max Ammo, -5 Area Damage, -0.5m AoE Radius", overclockIcons.carriedAmmo, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "RJ250 Compound", "Jump and shoot the ground beneath you to \"blast jump\", which adds up to 11.65 m/sec to your velocity based on how far you are from the explosion center. "
 				+ "Can also be used on allies who are jumping. Additionally: x1.7 Max Ammo, -0.6 Reload Time, and -35 Area Damage.", overclockIcons.grenadeJump, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Fat Boy", "x4 Area Damage, +1m AoE Radius, x0.3 Max Ammo, x0.7 Projectile Velocity. Also leaves behind an 8m radius field that does "
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Fat Boy", "x4 Area Damage, +0.5m AoE Radius, x0.3 Max Ammo, x0.75 Projectile Velocity. Also leaves behind an 8m radius field that does "
 				+ "an average of " + MathUtils.round(DoTInformation.Rad_FB_DPS, GuiConstants.numDecimalPlaces) + " Radiation Damage per Second for 15 seconds.", overclockIcons.areaDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Hyper Propellant", "+270 Direct Damage, +350% Projectile Velocity, changes element from Explosive to Disintegrate, x0.4 AoE Radius, -3 Max Ammo", overclockIcons.projectileVelocity, 5);
 		
@@ -179,7 +179,7 @@ public class GrenadeLauncher extends Weapon {
 			toReturn -= 5;
 		}
 		else if (selectedOverclock == 3) {
-			toReturn -= 35;
+			toReturn -= 15;
 		}
 
 		if (selectedTier4 == 0) {
@@ -261,10 +261,10 @@ public class GrenadeLauncher extends Weapon {
 			toReturn += 3;
 		}
 		else if (selectedOverclock == 2) {
-			toReturn += 5;
+			toReturn += 6;
 		}
 		else if (selectedOverclock == 3) {
-			toReturn *= 1.7;
+			toReturn *= 1.33;
 		}
 		else if (selectedOverclock == 4) {
 			toReturn *= 0.3;

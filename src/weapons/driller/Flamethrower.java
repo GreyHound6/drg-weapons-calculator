@@ -56,7 +56,7 @@ public class Flamethrower extends Weapon {
 		weaponPic = WeaponPictures.flamethrower;
 		
 		// Base stats, before mods or overclocks alter them:
-		particleDamage = 11;
+		particleDamage = 12;
 		particleHeat = 10;
 		carriedFuel = 300;
 		fuelTankSize = 50;
@@ -148,7 +148,7 @@ public class Flamethrower extends Weapon {
 		double toReturn = particleDamage;
 		
 		if (selectedTier2 == 0) {
-			toReturn += 4;
+			toReturn += 3;
 		}
 		
 		if (selectedOverclock == 1) {

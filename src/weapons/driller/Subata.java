@@ -55,7 +55,7 @@ public class Subata extends Weapon {
 		magazineSize = 10;
 		rateOfFire = 6.0;
 		reloadTime = 1.9;
-		weakpointBonus = 0.2;
+		weakpointBonus = 0.3;
 		// Subata has a hidden 50% Armor Breaking penalty (credit to Elythnwaen for pointing this out to me)
 		armorBreaking = 0.5;
 		
@@ -86,12 +86,12 @@ public class Subata extends Weapon {
 		tier2[1] = new Mod("Increased Caliber Rounds", "+2 Direct Damage", modIcons.directDamage, 2, 1);
 		
 		tier3 = new Mod[3];
-		tier3[0] = new Mod("Improved Propellant", "+1 Direct Damage", modIcons.directDamage, 3, 0);
+		tier3[0] = new Mod("Improved Propellant", "+2 Direct Damage", modIcons.directDamage, 3, 0);
 		tier3[1] = new Mod("Recoil Compensator", "-33% Spread per Shot, x0.5 Recoil", modIcons.recoil, 3, 1);
-		tier3[2] = new Mod("Expanded Ammo Bags", "+40 Max Ammo", modIcons.carriedAmmo, 3, 2);
+		tier3[2] = new Mod("Expanded Ammo Bags", "+15 Max Ammo", modIcons.carriedAmmo, 3, 2);
 		
 		tier4 = new Mod[2];
-		tier4[0] = new Mod("Hollow-Point Bullets", "+40% Weakpoint Bonus", modIcons.weakpointBonus, 4, 0);
+		tier4[0] = new Mod("Hollow-Point Bullets", "+50% Weakpoint Bonus", modIcons.weakpointBonus, 4, 0);
 		tier4[1] = new Mod("High Velocity Rounds", "+4 Direct Damage", modIcons.directDamage, 4, 1);
 		
 		tier5 = new Mod[2];
@@ -100,10 +100,10 @@ public class Subata extends Weapon {
 		
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Chain Hit", "Any shot that hits a weakspot has a 75% chance to ricochet into a nearby enemy within 10m.", overclockIcons.ricochet, 0);
-		overclocks[1] = new Overclock(Overclock.classification.clean, "Homebrew Powder", "Anywhere from x0.8 - x1.4 damage per shot, averaged to x" + homebrewPowderCoefficient, overclockIcons.homebrewPowder, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Oversized Magazine", "+10 Magazine Size, +0.5 Reload Time", overclockIcons.magSize, 2);
+		overclocks[1] = new Overclock(Overclock.classification.clean, "Homebrew Powder", "Anywhere from x1 - x1.2 damage per shot, averaged to x" + homebrewPowderCoefficient, overclockIcons.homebrewPowder, 1);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Oversized Magazine", "+7 Magazine Size, +0.5 Reload Time", overclockIcons.magSize, 2);
 		overclocks[3] = new Overclock(Overclock.classification.unstable, "Automatic Fire", "Changes the Subata from semi-automatic to fully automatic, +2 Rate of Fire, +100% Base Spread, x2.5 Recoil", overclockIcons.rateOfFire, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Explosive Reload", "Bullets that deal damage to an enemy's healthbar leave behind a detonator that deals 30 Internal Damage to the enemy upon reloading. "
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Explosive Reload", "Bullets that deal damage to an enemy's healthbar leave behind a detonator that deals 36 Internal Damage to the enemy upon reloading. "
 				+ "If reloading can kill an enemy, an icon will appear next to their healthbar. In exchange: x0.5 Magazine Size and x0.5 Max Ammo ", overclockIcons.specialReload, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Tranquilizer Rounds", "Every bullet has a 50% chance to stun an enemy for 6 seconds. -4 Magazine Size, -2 Rate of Fire.", overclockIcons.stun, 5);
 		
@@ -166,7 +166,7 @@ public class Subata extends Weapon {
 	private int getAreaDamage() {
 		// Equipping the Overclock "Explosive Reload" leaves a detonator inside enemies that does 42 Area Damage per Bullet that deals damage to an enemy upon reloading the Subata
 		if (selectedOverclock == 4) {
-			return 30;
+			return 36;
 		}
 		else { 
 			return 0;
@@ -238,7 +238,7 @@ public class Subata extends Weapon {
 		double toReturn = weakpointBonus;
 		
 		if (selectedTier4 == 0) {
-			toReturn += 0.4;
+			toReturn += 0.5;
 		}
 		
 		return toReturn;

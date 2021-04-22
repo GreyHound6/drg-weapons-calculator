@@ -105,7 +105,7 @@ public class BreachCutter extends Weapon {
 		tier4[1] = new Mod("Disruptive Frequency Tuning", "+100% Stun Chance, 2 sec Stun duration", modIcons.stun, 4, 1);
 		
 		tier5 = new Mod[3];
-		tier5[0] = new Mod("Explosive Goodbye", "After firing a line and a 0.4 second delay, the player can press the fire button again to manually detonate the line dealing 40 Explosive element Area Damage in a 3m radius "
+		tier5[0] = new Mod("Explosive Goodbye", "After firing a line and a 0.3 second delay, the player can press the fire button again to manually detonate the line dealing 90 Explosive element Area Damage in a 3m radius "
 				+ "and leaving behind a 3m radius sphere of Persistent Plasma that does an average of " + MathUtils.round(DoTInformation.Plasma_EPC_DPS, GuiConstants.numDecimalPlaces) + " Fire Damage per second and slows enemies by 20% for 4.6 seconds. "
 				+ "If the player doesn't detonate it manually, the line explodes at the end of its lifetime.", modIcons.addedExplosion, 5, 0);
 		tier5[1] = new Mod("Plasma Trail", "Leaves behind a Persistent Plasma field that does an average of " + MathUtils.round(DoTInformation.Plasma_Trail_DPS, GuiConstants.numDecimalPlaces) + " Fire Damage per second for 4.6 seconds "
@@ -556,7 +556,7 @@ public class BreachCutter extends Weapon {
 		// According to Elythnwaen, Explosive Goodbye does 40 Explosive Damage in a 3m radius, 2m Full Damage radius. 
 		// No listed falloff percentage, so I'm just going to use the default 0.25
 		// TODO: in the current model, this AoE Efficiency isn't used. I'm unsure if I want to keep this.
-		aoeEfficiency = calculateAverageAreaDamage(2.5, 2, 0.25);
+		aoeEfficiency = calculateAverageAreaDamage(3, 2, 0.25);
 	}
 	
 	// Single-target calculations

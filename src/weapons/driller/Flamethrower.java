@@ -102,7 +102,7 @@ public class Flamethrower extends Weapon {
 		tier3[2] = new Mod("More Fuel", "+75 Max Fuel", modIcons.carriedAmmo, 3, 2);
 		
 		tier4 = new Mod[3];
-		tier4[0] = new Mod("It Burns!", "Every ammo consumed deals 0.2 Fear Factor to all enemies hit by that particle", modIcons.fear, 4, 0);
+		tier4[0] = new Mod("It Burns!", "Every ammo consumed deals 0.25 Fear Factor to all enemies hit by that particle", modIcons.fear, 4, 0);
 		tier4[1] = new Mod("Sticky Flame Duration", "+3 sec Sticky Flames duration", modIcons.hourglass, 4, 1);
 		tier4[2] = new Mod("More Fuel", "+75 Max Fuel", modIcons.carriedAmmo, 4, 2);
 		
@@ -291,7 +291,7 @@ public class Flamethrower extends Weapon {
 	}
 	private double getFearFactorPerParticle() {
 		if (selectedTier4 == 0) {
-			return 0.2;
+			return 0.25;
 		}
 		else {
 			return 0.0;

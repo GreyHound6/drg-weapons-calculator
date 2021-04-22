@@ -85,7 +85,7 @@ public class Shotgun extends Weapon {
 		tier1[1] = new Mod("Overstuffed Magazine", "+2 Magazine Size", modIcons.magSize, 1, 1);
 		
 		tier2 = new Mod[3];
-		tier2[0] = new Mod("Expanded Ammo Bags", "+42 Max Ammo", modIcons.carriedAmmo, 2, 0);
+		tier2[0] = new Mod("Expanded Ammo Bags", "+30 Max Ammo", modIcons.carriedAmmo, 2, 0);
 		tier2[1] = new Mod("Loaded Shells", "+2 Pellets per Shot", modIcons.pelletsPerShot, 2, 1);
 		tier2[2] = new Mod("Choke", "x0.5 Base Spread", modIcons.baseSpread, 2, 2);
 		
@@ -100,18 +100,18 @@ public class Shotgun extends Weapon {
 		
 		// Turret Whip has MaxDmgDadius 1.5m, with damage falloff 50% at 2m radius.
 		tier5 = new Mod[2];
-		tier5[0] = new Mod("Turret Whip", "Shoot a Turret with the Shotgun to consume 5 turret ammo and fire a projectile in the direction currently being aimed at by the turret, "
-				+ "with a 3 second cooldown between projectiles. Each projectile travels at 75 m/sec, does 160 Explosive element Area Damage in a 2m radius, has a 100% chance to stun "
+		tier5[0] = new Mod("Turret Whip", "Shoot a Turret with the Shotgun to consume 6 turret ammo and fire a projectile in the direction currently being aimed at by the turret, "
+				+ "with a 3 second cooldown between projectiles. Each projectile travels at 75 m/sec, does 160 Explosive element Area Damage in a 1.75m radius, has a 100% chance to stun "
 				+ "for 1.5 seconds, inflicts 1.0 Fear, does 50% Friendly Fire damage, and has 200% Armor Breaking.", modIcons.special, 5, 0, false);
 		tier5[1] = new Mod("Miner Adjustments", "Changes the Shotgun from semi-automatic to fully automatic, +0.5 Rate of Fire", modIcons.rateOfFire, 5, 1);
 		
 		overclocks = new Overclock[5];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Stunner", "Pellets can now stun an enemy on any body part instead of just weakpoints, and any shots that hit a "
 				+ "target that's already stunned deal x1.3 damage.", overclockIcons.stun, 0);
-		overclocks[1] = new Overclock(Overclock.classification.clean, "Light-Weight Magazines", "+18 Max Ammo, -0.4 Reload Time", overclockIcons.carriedAmmo, 1);
+		overclocks[1] = new Overclock(Overclock.classification.clean, "Light-Weight Magazines", "+20 Max Ammo, -0.4 Reload Time", overclockIcons.carriedAmmo, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Magnetic Pellet Alignment", "x0.5 Base Spread, +30% Weakpoint Bonus, x0.75 Rate of Fire", overclockIcons.baseSpread, 2);
-		overclocks[3] = new Overclock(Overclock.classification.unstable, "Cycle Overload", "+1 Damage per Pellet, +2 Rate of Fire, +0.5 Reload Time, x1.5 Base Spread", overclockIcons.rateOfFire, 3);
-		overclocks[4] = new Overclock(Overclock.classification.unstable, "Mini Shells", "+78 Max Ammo, +6 Magazine Size, x0.5 Recoil, -2 Damage per Pellet, and no longer able to stun enemies", overclockIcons.miniShells, 4);
+		overclocks[3] = new Overclock(Overclock.classification.unstable, "Cycle Overload", "+2 Damage per Pellet, +1.5 Rate of Fire, +0.5 Reload Time, x1.5 Base Spread", overclockIcons.rateOfFire, 3);
+		overclocks[4] = new Overclock(Overclock.classification.unstable, "Mini Shells", "+80 Max Ammo, +2 Magazine Size, x0.5 Recoil, -3 Damage per Pellet, and no longer able to stun enemies", overclockIcons.miniShells, 4);
 		
 		// This boolean flag has to be set to True in order for Weapon.isCombinationValid() and Weapon.buildFromCombination() to work.
 		modsAndOCsInitialized = true;
@@ -168,14 +168,14 @@ public class Shotgun extends Weapon {
 		int toReturn = carriedAmmo;
 		
 		if (selectedTier2 == 0) {
-			toReturn += 42;
+			toReturn += 30;
 		}
 		
 		if (selectedOverclock == 1) {
-			toReturn += 18;
+			toReturn += 20;
 		}
 		else if (selectedOverclock == 4) {
-			toReturn += 78;
+			toReturn += 80;
 		}
 		
 		return toReturn;
@@ -530,7 +530,7 @@ public class Shotgun extends Weapon {
 		// Fear
 		if (selectedTier5 == 0) {
 			// Turret Whip projectile does 1.0 Fear Factor in its 2m radius
-			utilityScores[4] = calculateFearProcProbability(1.0) * calculateNumGlyphidsInRadius(2.0) * EnemyInformation.averageFearDuration() * UtilityInformation.Fear_Utility;
+			utilityScores[4] = calculateFearProcProbability(1.0) * calculateNumGlyphidsInRadius(1.75) * EnemyInformation.averageFearDuration() * UtilityInformation.Fear_Utility;
 		}
 		else {
 			utilityScores[4] = 0;
@@ -542,7 +542,7 @@ public class Shotgun extends Weapon {
 		
 		if (selectedTier5 == 0) {
 			// Turret Whip projectile has 100% chance to stun for 1.5sec in its 2m radius
-			utilityScores[5] += calculateNumGlyphidsInRadius(2.0) * 1.5 * UtilityInformation.Stun_Utility;
+			utilityScores[5] += calculateNumGlyphidsInRadius(1.75) * 1.5 * UtilityInformation.Stun_Utility;
 		}
 		
 		return MathUtils.sum(utilityScores);

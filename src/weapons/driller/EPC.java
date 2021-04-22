@@ -78,7 +78,7 @@ public abstract class EPC extends Weapon {
 		maxHeat = 1.0;
 		coolingRate = 0.4;
 		ammoPerChargedShot = 8;
-		chargeShotWindup = 1.0 / 0.6;  // seconds
+		chargeShotWindup = 1.0 / 0.7;  // seconds
 		heatPerRegularShot = 0.13;
 		heatPerChargedShot = 0.4;
 		heatPerSecondWhileCharged = 2.0;
@@ -121,15 +121,15 @@ public abstract class EPC extends Weapon {
 
 		tier5 = new Mod[3];
 		tier5[0] = new Mod("Flying Nightmare", "Charged Shots now deal their Direct Damage to enemies hit by the projectile while in-flight, but it no longer explodes upon impact (functionally removing Area Damage). Deals x3 damage vs Frozen targets. "
-				+ "Additionally: x1.2 Charged Shot Direct Damage, x0.4 AoE Radius.", modIcons.aoeRadius, 5, 0);
+				+ "Additionally: x1.2 Charged Shot Direct Damage, x0.5 AoE Radius.", modIcons.aoeRadius, 5, 0);
 		tier5[1] = new Mod("Thin Containment Field", "Shoot the Charged Shot with a Regular Shot before it impacts anything to make it detonate for 240 Damage and carve terrain within a 3m radius. "
-				+ "Additionally, x0.8 Heat per Regular Shot and x0.8 Heat per Charged Shot", modIcons.special, 5, 1);
+				+ "Additionally, x0.8 Heat per Charged Shot", modIcons.special, 5, 1);
 		tier5[2] = new Mod("Plasma Burn", "Regular Shots also do [5 plus 25% of their Direct Damage] Heat per shot which can ignite enemies, dealing " + MathUtils.round(DoTInformation.Burn_DPS, GuiConstants.numDecimalPlaces) + " Fire Damage per Second.", modIcons.heatDamage, 5, 2);
 		
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Energy Rerouting", "+16 Battery Size, x1.5 Charge Speed.", overclockIcons.chargeSpeed, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Magnetic Cooling Unit", "+25% Cooling Rate, x0.7 Heat per Second while Charged.", overclockIcons.coolingRate, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Heat Pipe", "-2 Ammo per Charged Shot, x1.3 Charge Speed, x2 Heat per Charged shot, x2 Heat per Second while Charged", overclockIcons.fuel, 2);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Heat Pipe", "-1 Ammo per Charged Shot, x1.3 Charge Speed, x1.5 Heat per Charged shot, x2 Heat per Second while Charged", overclockIcons.fuel, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Heavy Hitter", "x1.6 Regular Shot Direct Damage, x1.5 Heat per Regular Shot, -32 Battery Size", overclockIcons.directDamage, 3);
 		overclocks[4] = new Overclock(Overclock.classification.unstable, "Overcharger", "x1.5 Charged Shot Direct Damage, x1.5 Charged Shot Area Damage, x1.2 Charged Shot AoE Radius, +2 Ammo per Charged Shot, -25% Cooling Rate", overclockIcons.directDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Persistent Plasma", "Upon impact, Charged Shots leave behind a 3m radius field of Persistent Plasma that deals " + MathUtils.round(DoTInformation.Plasma_EPC_DPS, GuiConstants.numDecimalPlaces) +
@@ -237,7 +237,7 @@ public abstract class EPC extends Weapon {
 		}
 		
 		if (selectedTier5 == 0) {
-			toReturn *= 0.4;
+			toReturn *= 0.5;
 		}
 		if (selectedOverclock == 4) {
 			toReturn *= 1.2;
@@ -288,14 +288,14 @@ public abstract class EPC extends Weapon {
 		}
 		
 		if (selectedOverclock == 2) {
-			toReturn -= 2;
+			toReturn -= 1;
 		}
 		else if (selectedOverclock == 4) {
 			toReturn += 2;
 		}
 		
 		if (selectedTier5 == 1) {
-			// Thin Containment Field costs 1 additional ammo to fire a regular shot to detonate the TFC projectile for the +240 AoE damage
+			// Thin Containment Field costs 1 additional ammo to fire a regular shot to detonate the TCF projectile for the +240 AoE damage
 			toReturn += 1;
 		}
 		
@@ -338,7 +338,7 @@ public abstract class EPC extends Weapon {
 		}
 
 		if (selectedOverclock == 2) {
-			toReturn *= 2.0;
+			toReturn *= 1.5;
 		}
 
 		return toReturn;

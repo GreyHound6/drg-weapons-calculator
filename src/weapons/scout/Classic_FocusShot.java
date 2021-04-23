@@ -226,7 +226,7 @@ public class Classic_FocusShot extends Classic {
 		// GreyHound tells me that OC "Hoverclock" slows your velocity by 80% for 1.5 seconds
 		if (selectedOverclock == 0) {
 			// Duration divided by the movespeed multiplier; 1.5 * 5 = 7.5
-			utilityScores[0] += 1.5 / (1.0 - 0.8);
+			utilityScores[0] += 1.75 / (1.0 - 0.8);
 		}
 		
 		// Light Armor Breaking probability

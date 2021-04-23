@@ -50,7 +50,7 @@ public class Zhukov extends Weapon {
 		
 		// Base stats, before mods or overclocks alter them:
 		directDamage = 12;
-		carriedAmmo = 720;
+		carriedAmmo = 660;
 		magazineSize = 60;  // Really 25
 		rateOfFire = 20.0;  // Really 15
 		reloadTime = 1.8;
@@ -86,13 +86,13 @@ public class Zhukov extends Weapon {
 		tier2[2] = new Mod("Quickfire Ejector", "-0.6 Reload Time", modIcons.reloadSpeed, 2, 2);
 		
 		tier3 = new Mod[2];
-		tier3[0] = new Mod("Increased Caliber Rounds", "+1 Direct Damage", modIcons.directDamage, 3, 0);
+		tier3[0] = new Mod("Increased Caliber Rounds", "+3 Direct Damage", modIcons.directDamage, 3, 0);
 		tier3[1] = new Mod("Better Weight Balance", "x0.4 Base Spread", modIcons.baseSpread, 3, 1);
 		
 		tier4 = new Mod[3];
-		tier4[0] = new Mod("Blowthrough Rounds", "+1 Penetration", modIcons.blowthrough, 4, 0);
-		tier4[1] = new Mod("Hollow-Point Bullets", "+30% Weakpoint Bonus", modIcons.weakpointBonus, 4, 1);
-		tier4[2] = new Mod("Expanded Ammo Bags", "+100 Max Ammo", modIcons.carriedAmmo, 4, 2);
+		tier4[0] = new Mod("Blowthrough Rounds", "+2 Penetrations", modIcons.blowthrough, 4, 0);
+		tier4[1] = new Mod("Hollow-Point Bullets", "+55% Weakpoint Bonus", modIcons.weakpointBonus, 4, 1);
+		tier4[2] = new Mod("Expanded Ammo Bags", "+300 Max Ammo", modIcons.carriedAmmo, 4, 2);
 		
 		tier5 = new Mod[2];
 		tier5[0] = new Mod("Conductive Bullets", "+30% Direct Damage dealt to enemies either being Electrocuted or affected by Scout's IFG grenade", modIcons.electricity, 5, 0);
@@ -103,7 +103,7 @@ public class Zhukov extends Weapon {
 		overclocks[1] = new Overclock(Overclock.classification.balanced, "Custom Casings", "+30 Mag Size, -4 Rate of Fire", overclockIcons.magSize, 1);
 		overclocks[2] = new Overclock(Overclock.classification.unstable, "Cryo Minelets", "Any bullets that impact terrain get converted to Cryo Minelets. It takes 0.1 seconds to form the minelets, "
 				+ "0.8 seconds to arm them, and they only last for 3 seconds after being armed. If an enemy passes within 1.5m of a minelet, it will detonate and deal 15 Cold Damage to all enemies "
-				+ "within range. In exchange, -10 Magazine Size.", overclockIcons.coldDamage, 2);
+				+ "within range. In exchange, -10 Magazine Size and -1 Direct Damage.", overclockIcons.coldDamage, 2);
 		overclocks[3] = new Overclock(Overclock.classification.unstable, "Embedded Detonators", "Bullets that deal damage to an enemy's healthbar leave behind a detonator that deals 30 Internal Damage to the enemy "
 				+ "upon reloading. If reloading can kill an enemy, an icon will appear next to their healthbar. In exchange: -6 Direct Damage, -20 Magazine Size, -480 Max Ammo.", overclockIcons.specialReload, 3);
 		overclocks[4] = new Overclock(Overclock.classification.unstable, "Gas Recycling", "+5 Direct Damage, but it can no longer gain bonus damage from hitting a Weakpoint. Additionally, x1.5 Base Spread "
@@ -262,7 +262,7 @@ public class Zhukov extends Weapon {
 		}
 
 		if (selectedTier4 == 1){
-			toReturn += 0.3;
+			toReturn += 0.55;
 		}
 
 		return toReturn;

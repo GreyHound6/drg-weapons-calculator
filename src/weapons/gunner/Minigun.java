@@ -747,7 +747,7 @@ public class Minigun extends Weapon {
 		double effectiveRoF = getRateOfFire() / 2.0;
 		int effectiveMagSize = (int) calculateMaxNumPelletsFiredWithoutOverheating();
 		
-		double baseSpread = 4.5 * getBaseSpread();
+		double baseSpread = 3.0 * getBaseSpread();
 		double spreadPerShot = 0.2;
 		double spreadRecoverySpeed = 1.0;
 		double maxBloom = getMaxBloom();

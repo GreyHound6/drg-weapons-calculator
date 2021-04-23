@@ -110,7 +110,7 @@ public class BurstPistol extends Weapon {
 				+ "0.8 seconds to arm them, and they only last for 5 seconds after being armed. If an enemy passes within 1.5m of a minelet, it will detonate and inflict an Electrocute DoT to all enemies "
 				+ "within range. The Electrocute DoTs deal an average of " + MathUtils.round(DoTInformation.Electro_TicksPerSec * 3, GuiConstants.numDecimalPlaces)
 				+ " Electric Damage per Second for 6 seconds. In exchange, -2 Direct Damage and -12 Magazine Size.", overclockIcons.electricity, 4);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Micro Flechettes", "+30 Magazine Size, x2 Max Ammo, x0.5 Spread per Shot, x0.5 Recoil, -11 Damage per bullet", overclockIcons.miniShells, 5);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Micro Flechettes", "+30 Magazine Size, x2 Max Ammo, x0.5 Spread per Shot, x0.5 Recoil, -10 Damage per bullet", overclockIcons.miniShells, 5);
 		overclocks[6] = new Overclock(Overclock.classification.unstable, "Lead Spray", "x1.5 Direct Damage, x4 Base Spread", overclockIcons.special, 6);
 		
 		// This boolean flag has to be set to True in order for Weapon.isCombinationValid() and Weapon.buildFromCombination() to work.
@@ -159,7 +159,7 @@ public class BurstPistol extends Weapon {
 			toReturn -= 2;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn -= 11;
+			toReturn -= 10;
 		}
 		else if (selectedOverclock == 6) {
 			toReturn *= 1.5;

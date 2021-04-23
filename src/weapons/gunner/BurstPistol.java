@@ -57,7 +57,7 @@ public class BurstPistol extends Weapon {
 		delayBetweenBulletsDuringBurst = 0.05;
 		carriedAmmo = 144;
 		magazineSize = 24;
-		rateOfFire = 3.0;
+		rateOfFire = 3.5;
 		reloadTime = 2.2;
 		armorBreaking = 0.5;
 		
@@ -102,10 +102,10 @@ public class BurstPistol extends Weapon {
 		tier5[1] = new Mod("Longer Burst", "+3 Bullets per Burst", modIcons.rateOfFire, 5, 1);
 		
 		overclocks = new Overclock[7];
-		overclocks[0] = new Overclock(Overclock.classification.clean, "Composite Casings", "+36 Max Ammo, +1 Rate of Fire", overclockIcons.rateOfFire, 0);
-		overclocks[1] = new Overclock(Overclock.classification.clean, "Full Chamber Seal", "+1 Direct Damage, -0.2 Reload Time", overclockIcons.directDamage, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Compact Mags", "+84 Max Ammo, -1 Rate of Fire, +0.4 Reload Time", overclockIcons.carriedAmmo, 2);
-		overclocks[3] = new Overclock(Overclock.classification.balanced, "Experimental Rounds", "+9 Direct Damage, -6 Magazine Size, -30 Max Ammo", overclockIcons.directDamage, 3);
+		overclocks[0] = new Overclock(Overclock.classification.clean, "Composite Casings", "+24 Max Ammo, +1 Rate of Fire", overclockIcons.rateOfFire, 0);
+		overclocks[1] = new Overclock(Overclock.classification.clean, "Full Chamber Seal", "+3 Direct Damage, -0.3 Reload Time", overclockIcons.directDamage, 1);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Compact Mags", "+72 Max Ammo, -1 Rate of Fire, +0.4 Reload Time", overclockIcons.carriedAmmo, 2);
+		overclocks[3] = new Overclock(Overclock.classification.balanced, "Experimental Rounds", "+9 Direct Damage, -6 Magazine Size, -24 Max Ammo", overclockIcons.directDamage, 3);
 		overclocks[4] = new Overclock(Overclock.classification.unstable, "Electro Minelets", "Any bullets that impact terrain get converted to Electro Minelets. It takes 0.1 seconds to form the minelets, "
 				+ "0.8 seconds to arm them, and they only last for 5 seconds after being armed. If an enemy passes within 1.5m of a minelet, it will detonate and inflict an Electrocute DoT to all enemies "
 				+ "within range. The Electrocute DoTs deal an average of " + MathUtils.round(DoTInformation.Electro_TicksPerSec * 3, GuiConstants.numDecimalPlaces)
@@ -190,10 +190,10 @@ public class BurstPistol extends Weapon {
 			toReturn += 72;
 		}
 		else if (selectedOverclock == 3) {
-			toReturn -= 30;
+			toReturn -= 24;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn *= 2.25;
+			toReturn *= 2.0;
 		}
 		
 		return toReturn;

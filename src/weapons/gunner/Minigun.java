@@ -100,7 +100,7 @@ public class Minigun extends Weapon {
 		tier1 = new Mod[3];
 		tier1[0] = new Mod("Magnetic Refrigeration", "+1.5 Cooling Rate, -0.15 sec Cooling Delay", modIcons.coolingRate, 1, 0);
 		tier1[1] = new Mod("Improved Motor", "+4 Rate of Fire", modIcons.rateOfFire, 1, 1);
-		tier1[2] = new Mod("Improved Platform Stability", "x0.25 Base Spread", modIcons.baseSpread, 1, 2);
+		tier1[2] = new Mod("Improved Platform Stability", "x0.33 Base Spread", modIcons.baseSpread, 1, 2);
 		
 		tier2 = new Mod[2];
 		tier2[0] = new Mod("Oversized Drum", "+600 Max Ammo", modIcons.carriedAmmo, 2, 0);
@@ -114,7 +114,7 @@ public class Minigun extends Weapon {
 		tier4 = new Mod[3];
 		tier4[0] = new Mod("Variable Chamber Pressure", "+15% Damage per Pellet after reaching Base Spread", modIcons.directDamage, 4, 0);
 		tier4[1] = new Mod("Lighter Barrel Assembly", "-0.4 seconds spinup time", modIcons.chargeSpeed, 4, 1);
-		tier4[2] = new Mod("Magnetic Bearings", "Increases Max Bloom from 3.5 to 4.25. This effectively raises the delay before Minigun loses Max Stability from 0.5 seconds to 1.25. Additionally, +1 second spindown time", modIcons.special, 4, 2);
+		tier4[2] = new Mod("Magnetic Bearings", "Increases Max Bloom from 3.5 to 4.25. This effectively raises the delay before Minigun loses Max Stability from 0.5 seconds to 1.25. Additionally, +4 second spindown time", modIcons.special, 4, 2);
 		
 		tier5 = new Mod[3];
 		tier5[0] = new Mod("Aggressive Venting", "After overheating, deal 60 Heat Damage and 10 Fear to all enemies within a 10m radius. Additionally, reduces Overheat duration from 10 seconds to 5.", modIcons.addedExplosion, 5, 0);
@@ -130,7 +130,7 @@ public class Minigun extends Weapon {
 				+ "weapon's heat meter, which translates to 2/3 the firing period", overclockIcons.heatDamage, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Compact Feed Mechanism", "+800 Max Ammo, -4 Rate of Fire", overclockIcons.carriedAmmo, 3);
 		overclocks[4] = new Overclock(Overclock.classification.balanced, "Exhaust Vectoring", "+2 Damage per Pellet, x2.5 Base Spread", overclockIcons.directDamage, 4);
-		overclocks[5] = new Overclock(Overclock.classification.unstable, "Bullet Hell", "75% chance for bullets that impact an enemy or terrain to ricochet into another enemy within 6m. -3 Damage per Pellet, x6 Base Spread", overclockIcons.ricochet, 5);
+		overclocks[5] = new Overclock(Overclock.classification.unstable, "Bullet Hell", "75% chance for bullets that impact an enemy or terrain to ricochet into another enemy within 6m. -2 Damage per Pellet, x5 Base Spread", overclockIcons.ricochet, 5);
 		overclocks[6] = new Overclock(Overclock.classification.unstable, "Lead Storm", "+4 Damage per Pellet, x0 Movespeed while using, x0.25 Stun Chance per Pellet, x0.5 Stun Duration", overclockIcons.directDamage, 6);
 		
 		// This boolean flag has to be set to True in order for Weapon.isCombinationValid() and Weapon.buildFromCombination() to work.
@@ -174,7 +174,7 @@ public class Minigun extends Weapon {
 			toReturn += 2;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn -= 3;
+			toReturn -= 2;
 		}
 		else if (selectedOverclock == 6) {
 			toReturn += 4;
@@ -276,7 +276,7 @@ public class Minigun extends Weapon {
 	private int getSpindownTime() {
 		int toReturn = spindownTime;
 		if (selectedTier4 == 2) {
-			toReturn += 1;
+			toReturn += 4;
 		}
 		return toReturn;
 	}
@@ -290,19 +290,19 @@ public class Minigun extends Weapon {
 	private double getBaseSpread() {
 		double toReturn = 1.0;
 		if (selectedTier1 == 2) {
-			toReturn *= 0.25;
+			toReturn *= 0.33;
 		}
 		if (selectedOverclock == 4) {
 			toReturn *= 2.5;
 		}
 		else if (selectedOverclock == 5) {
-			toReturn *= 6.0;
+			toReturn *= 5.0;
 		}
 		return toReturn;
 	}
 	private double getMaxBloom() {
 		if (selectedTier4 == 2) {
-			return 4.25;
+			return 6.5;
 		}
 		else {
 			return 3.5;

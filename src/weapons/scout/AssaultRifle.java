@@ -55,7 +55,7 @@ public class AssaultRifle extends Weapon {
 		
 		// Base stats, before mods or overclocks alter them:
 		directDamage = 18;
-		carriedAmmo = 300;
+		carriedAmmo = 325;
 		magazineSize = 25;
 		rateOfFire = 7.0;
 		weakpointStunChance = 0.1;

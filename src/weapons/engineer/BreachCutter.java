@@ -125,7 +125,7 @@ public class BreachCutter extends Weapon {
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Spinning Death", "Instead of flying in a straight line, the projectile now rotates 2 times per second about the Yaw axis. Additionally: x0.05 Projectile Velocity, "
 				+ "x6 Projectile Lifetime, x0.3 Damage per Tick, +1.5m Plasma Beam Width, x0.5 Max Ammo, and x0.66 Magazine Size", overclockIcons.special, 5);
 		overclocks[6] = new Overclock(Overclock.classification.unstable, "Inferno", "The first time the beam hits an enemy, it inflicts 75 Heat and applies a DoT that does 7 Fire Damage and 7 Heat at a rate of 2 ticks/sec for 5 seconds (does 11 ticks total). "
-				+ "Additionally, it converts 90% of the Damage per Tick from Electric element to Fire element and adds the amount converted as Heat per tick. In exchange: -1.5 Damage per Tick and x0.25 Armor Breaking", overclockIcons.heatDamage, 6);
+				+ "Additionally, it converts 90% of the Damage per Tick from Electric element to Fire element and adds the amount converted as Heat per tick. In exchange: -2.5 Damage per Tick and x0.25 Armor Breaking", overclockIcons.heatDamage, 6);
 		
 		// This boolean flag has to be set to True in order for Weapon.isCombinationValid() and Weapon.buildFromCombination() to work.
 		modsAndOCsInitialized = true;
@@ -187,7 +187,7 @@ public class BreachCutter extends Weapon {
 			toReturn *= 0.3;
 		}
 		else if (selectedOverclock == 6) {
-			toReturn -= 1.5;
+			toReturn -= 2.5;
 		}
 		
 		return toReturn;

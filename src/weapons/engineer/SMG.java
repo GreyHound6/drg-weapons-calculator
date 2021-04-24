@@ -111,7 +111,7 @@ public class SMG extends Weapon {
 				+ "Additionally, if 2 turrets are less than 15m apart and both are electrocuted at the same time, then an electric beam will pass between them that also slows and damages enemies until the first turret's electrocute expires. "
 				+ "-2 Rate of Fire", overclockIcons.electricity, 4, false);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Turret EM Discharge", "If a bullet fired from the SMG hits a turret and applies an Electrocute DoT, it triggers an explosion that deals 60 Electric Damage and 0.5 Fear to all enemies "
-				+ "within a 5m radius, as well as Electrocuting them. There's a 1 second cooldown between explosions. -2 Direct Damage, -5 Magazine Size.", overclockIcons.areaDamage, 5, false);
+				+ "within a 5m radius, as well as Electrocuting them. There's a 1.5 second cooldown between explosions. -2 Direct Damage, -5 Magazine Size.", overclockIcons.areaDamage, 5, false);
 		
 		// This boolean flag has to be set to True in order for Weapon.isCombinationValid() and Weapon.buildFromCombination() to work.
 		modsAndOCsInitialized = true;

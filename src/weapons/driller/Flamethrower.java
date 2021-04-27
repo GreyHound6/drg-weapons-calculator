@@ -68,7 +68,7 @@ public class Flamethrower extends Weapon {
 		stickyFlamesHeatPerTick = 5;
 		stickyFlamesTicksPerSec = 2.0 / 0.5;
 		stickyFlamesDuration = 2.0;
-		stickyFlamesSlow = 0.25;
+		stickyFlamesSlow = 0.2;
 		
 		initializeModsAndOverclocks();
 		// Grab initial values before customizing mods and overclocks

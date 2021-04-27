@@ -84,10 +84,9 @@ public class Shotgun extends Weapon {
 		tier1[0] = new Mod("Supercharged Feed Mechanism", "+1 Rate of Fire", modIcons.rateOfFire, 1, 0);
 		tier1[1] = new Mod("Overstuffed Magazine", "+2 Magazine Size", modIcons.magSize, 1, 1);
 		
-		tier2 = new Mod[3];
+		tier2 = new Mod[2];
 		tier2[0] = new Mod("Expanded Ammo Bags", "+30 Max Ammo", modIcons.carriedAmmo, 2, 0);
 		tier2[1] = new Mod("Loaded Shells", "+2 Pellets per Shot", modIcons.pelletsPerShot, 2, 1);
-		tier2[2] = new Mod("Choke", "x0.5 Base Spread", modIcons.baseSpread, 2, 2);
 		
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("Recoil Dampener", "x0.4 Recoil", modIcons.recoil, 3, 0);
@@ -96,7 +95,7 @@ public class Shotgun extends Weapon {
 		
 		tier4 = new Mod[2];
 		tier4[0] = new Mod("Tungsten Coated Buckshot", "+400% Armor Breaking", modIcons.armorBreaking, 4, 0);
-		tier4[1] = new Mod("Bigger Pellets", "+1 Damage per Pellet", modIcons.directDamage, 4, 1);
+		tier4[1] = new Mod("Choke", "x0.8 Base Spread", modIcons.baseSpread, 4, 1);
 		
 		// Turret Whip has MaxDmgDadius 1.5m, with damage falloff 50% at 2m radius.
 		tier5 = new Mod[2];
@@ -141,10 +140,6 @@ public class Shotgun extends Weapon {
 	
 	private int getDamagePerPellet() {
 		int toReturn = damagePerPellet;
-		
-		if (selectedTier4 == 1) {
-			toReturn += 1;
-		}
 		
 		if (selectedOverclock == 3) {
 			toReturn += 2;
@@ -272,8 +267,8 @@ public class Shotgun extends Weapon {
 	private double getBaseSpread() {
 		double toReturn = 1.0;
 		
-		if (selectedTier2 == 2) {
-			toReturn *= 0.5;
+		if (selectedTier4 == 1) {
+			toReturn *= 0.8;
 		}
 		
 		if (selectedOverclock == 2) {
@@ -303,7 +298,7 @@ public class Shotgun extends Weapon {
 	public StatsRow[] getStats() {
 		StatsRow[] toReturn = new StatsRow[12];
 		
-		boolean damageModified = selectedTier4 == 1 || selectedOverclock == 3 || selectedOverclock == 4;
+		boolean damageModified = selectedOverclock == 3 || selectedOverclock == 4;
 		toReturn[0] = new StatsRow("Damage per Pellet:", getDamagePerPellet(), modIcons.directDamage, damageModified);
 		
 		toReturn[1] = new StatsRow("Number of Pellets/Shot:", getNumberOfPellets(), modIcons.pelletsPerShot, selectedTier2 == 1);
@@ -335,7 +330,7 @@ public class Shotgun extends Weapon {
 		
 		toReturn[9] = new StatsRow("Stun Duration:", getStunDuration(), modIcons.stun, selectedOverclock == 4);
 		
-		boolean baseSpreadModified = selectedTier2 == 2 || selectedOverclock == 2 || selectedOverclock == 3;
+		boolean baseSpreadModified = selectedTier4 == 1 || selectedOverclock == 2 || selectedOverclock == 3;
 		toReturn[10] = new StatsRow("Base Spread:", convertDoubleToPercentage(getBaseSpread()), modIcons.baseSpread, baseSpreadModified, baseSpreadModified);
 		
 		boolean recoilModified = selectedTier3 == 0 || selectedOverclock == 4;

@@ -102,12 +102,12 @@ public class Boomstick extends Weapon {
 		tier2[1] = new Mod("Quickfire Ejector", "-0.7 Reload Time", modIcons.reloadSpeed, 2, 1);
 		
 		tier3 = new Mod[3];
-		tier3[0] = new Mod("Improved Stun", "+20% Stun Chance per Pellet, +3.5 seconds Stun duration", modIcons.stun, 3, 0);
+		tier3[0] = new Mod("Super Blowthrough Rounds", "+3 Penetrations", modIcons.blowthrough, 3, 0);
 		tier3[1] = new Mod("Expanded Ammo Bags", "+12 Max Ammo", modIcons.carriedAmmo, 3, 1);
 		tier3[2] = new Mod("High Capacity Shells", "+3 Pellets per Shot", modIcons.pelletsPerShot, 3, 2);
 		
 		tier4 = new Mod[3];
-		tier4[0] = new Mod("Super Blowthrough Rounds", "+2 Penetrations", modIcons.blowthrough, 4, 0);
+		tier4[0] = new Mod("Improved Stun", "+20% Stun Chance per Pellet, +3.5 seconds Stun duration", modIcons.stun, 4, 0);
 		tier4[1] = new Mod("Tungsten Coated Buckshot", "+600% Armor Breaking", modIcons.armorBreaking, 4, 1);
 		tier4[2] = new Mod("Improved Blast Wave", "+35 Blastwave Damage to any enemies in the area extending 4m infront of you.", modIcons.special, 4, 2);
 		
@@ -254,7 +254,7 @@ public class Boomstick extends Weapon {
 	private double getStunChancePerPellet() {
 		double toReturn = stunChance;
 
-		if (selectedTier3 == 0) {
+		if (selectedTier4 == 0) {
 			toReturn += 0.2;
 		}
 
@@ -263,15 +263,15 @@ public class Boomstick extends Weapon {
 	private double getStunDuration() {
 		double toReturn = stunDuration;
 		
-		if (selectedTier3 == 0) {
+		if (selectedTier4 == 0) {
 			toReturn += 3.5;
 		}
 		
 		return toReturn;
 	}
 	private int getMaxPenetrations() {
-		if (selectedTier4 == 0) {
-			return 2;
+		if (selectedTier3 == 0) {
+			return 3;
 		}
 		else {
 			return 0;
@@ -323,11 +323,11 @@ public class Boomstick extends Weapon {
 		
 		toReturn[9] = new StatsRow("Fear Factor:", 0.65, modIcons.fear, selectedTier5 == 1, selectedTier5 == 1);
 		
-		toReturn[10] = new StatsRow("Stun Chance per Pellet:", convertDoubleToPercentage(getStunChancePerPellet()), modIcons.homebrewPowder, selectedTier3 == 0);
+		toReturn[10] = new StatsRow("Stun Chance per Pellet:", convertDoubleToPercentage(getStunChancePerPellet()), modIcons.homebrewPowder, selectedTier4 == 0);
 		
-		toReturn[11] = new StatsRow("Stun Duration:", getStunDuration(), modIcons.stun, selectedTier3 == 0);
+		toReturn[11] = new StatsRow("Stun Duration:", getStunDuration(), modIcons.stun, selectedTier4 == 0);
 		
-		toReturn[12] = new StatsRow("Max Penetrations:", getMaxPenetrations(), modIcons.blowthrough, selectedTier4 == 0, selectedTier4 == 0);
+		toReturn[12] = new StatsRow("Max Penetrations:", getMaxPenetrations(), modIcons.blowthrough, selectedTier3 == 0, selectedTier3 == 0);
 		
 		toReturn[13] = new StatsRow("Base Spread:", convertDoubleToPercentage(getBaseSpread()), modIcons.baseSpread, selectedOverclock == 4, selectedOverclock == 4);
 		
@@ -458,7 +458,7 @@ public class Boomstick extends Weapon {
 	public double calculateAdditionalTargetDPS() {
 		double magSize = getMagazineSize();
 		double secondaryDamagePerShot;
-		if (selectedTier4 == 0) {
+		if (selectedTier3 == 0) {
 			secondaryDamagePerShot = getDamagePerPellet() * getNumberOfPellets() + getBlastwaveDamage();
 		}
 		else {

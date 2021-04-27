@@ -86,10 +86,9 @@ public class Autocannon extends Weapon {
 
 	@Override
 	protected void initializeModsAndOverclocks() {
-		tier1 = new Mod[3];
-		tier1[0] = new Mod("Increased Caliber Rounds", "+5 Direct Damage", modIcons.directDamage, 1, 0);
-		tier1[1] = new Mod("High Capacity Magazine", "x1.5 Magazine Size", modIcons.magSize, 1, 1);
-		tier1[2] = new Mod("Expanded Ammo Bags", "+110 Max Ammo", modIcons.carriedAmmo, 1, 2);
+		tier1 = new Mod[2];
+		tier1[0] = new Mod("High Capacity Magazine", "x1.5 Magazine Size", modIcons.magSize, 1, 0);
+		tier1[1] = new Mod("Expanded Ammo Bags", "+110 Max Ammo", modIcons.carriedAmmo, 1, 1);
 		
 		tier2 = new Mod[3];
 		tier2[0] = new Mod("Tighter Barrel Alignment", "x0.6 Base Spread", modIcons.baseSpread, 2, 0);
@@ -98,8 +97,8 @@ public class Autocannon extends Weapon {
 		
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("Supercharged Feed Mechanism", "+0.3 Min Rate of Fire, +2 Max Rate of Fire", modIcons.rateOfFire, 3, 0);
-		tier3[1] = new Mod("Loaded Rounds", "+2 Area Damage", modIcons.areaDamage, 3, 1);
-		tier3[2] = new Mod("High Velocity Rounds", "+6 Direct Damage", modIcons.directDamage, 3, 2);
+		tier3[1] = new Mod("Loaded Rounds", "+3 Area Damage", modIcons.areaDamage, 3, 1);
+		tier3[2] = new Mod("High Velocity Rounds", "+8 Direct Damage", modIcons.directDamage, 3, 2);
 		
 		tier4 = new Mod[2];
 		tier4[0] = new Mod("Hardened Rounds", "+400% Armor Breaking", modIcons.armorBreaking, 4, 0);
@@ -149,11 +148,8 @@ public class Autocannon extends Weapon {
 		double toReturn = directDamage;
 		
 		// Additive bonuses first
-		if (selectedTier1 == 0) {
-			toReturn += 5;
-		}
 		if (selectedTier3 == 2) {
-			toReturn += 6;
+			toReturn += 8;
 		}
 		if (selectedOverclock == 2) {
 			toReturn -= 7;
@@ -177,7 +173,7 @@ public class Autocannon extends Weapon {
 		
 		// Additive bonuses first
 		if (selectedTier3 == 1) {
-			toReturn += 2;
+			toReturn += 3;
 		}
 		if (selectedOverclock == 1) {
 			toReturn += 1;
@@ -217,14 +213,14 @@ public class Autocannon extends Weapon {
 		else if (selectedOverclock == 4) {
 			toReturn -= 50;
 		}
-		if (selectedTier1 == 1) {
+		if (selectedTier1 == 0) {
 			toReturn *= 1.5;
 		}
 		return toReturn;
 	}
 	private int getCarriedAmmo() {
 		int toReturn = carriedAmmo;
-		if (selectedTier1 == 2) {
+		if (selectedTier1 == 1) {
 			toReturn += 110;
 		}
 		if (selectedOverclock == 0) {
@@ -352,7 +348,7 @@ public class Autocannon extends Weapon {
 	public StatsRow[] getStats() {
 		StatsRow[] toReturn = new StatsRow[16];
 		
-		boolean directDamageModified = selectedTier1 == 0 || selectedTier3 == 2 || selectedTier5 == 0 || selectedOverclock == 2 || selectedOverclock == 4 || selectedOverclock == 5;
+		boolean directDamageModified = selectedTier3 == 2 || selectedTier5 == 0 || selectedOverclock == 2 || selectedOverclock == 4 || selectedOverclock == 5;
 		toReturn[0] = new StatsRow("Direct Damage:", getDirectDamage(), modIcons.directDamage, directDamageModified);
 		
 		boolean areaDamageModified = selectedTier3 == 1 || selectedTier5 == 0 || selectedOverclock == 1 || selectedOverclock == 2 || selectedOverclock == 5;
@@ -361,9 +357,9 @@ public class Autocannon extends Weapon {
 		boolean aoeRadiusModified = selectedTier4 == 1 || selectedOverclock == 1 || selectedOverclock == 2 || selectedOverclock == 5;
 		toReturn[2] = new StatsRow("AoE Radius:", aoeEfficiency[0], modIcons.aoeRadius, aoeRadiusModified);
 		
-		toReturn[3] = new StatsRow("Magazine Size:", getMagazineSize(), modIcons.magSize, selectedTier1 == 1 || selectedOverclock == 3 || selectedOverclock == 4);
+		toReturn[3] = new StatsRow("Magazine Size:", getMagazineSize(), modIcons.magSize, selectedTier1 == 0 || selectedOverclock == 3 || selectedOverclock == 4);
 		
-		boolean carriedAmmoModified = selectedTier1 == 2 || selectedOverclock == 0 || selectedOverclock == 4;
+		boolean carriedAmmoModified = selectedTier1 == 1 || selectedOverclock == 0 || selectedOverclock == 4;
 		toReturn[4] = new StatsRow("Max Ammo:", getCarriedAmmo(), modIcons.carriedAmmo, carriedAmmoModified);
 		
 		boolean minRoFModified = selectedTier2 > 0 || selectedTier3 == 0 || selectedOverclock == 3;

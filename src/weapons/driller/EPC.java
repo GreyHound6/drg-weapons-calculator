@@ -129,7 +129,7 @@ public abstract class EPC extends Weapon {
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Energy Rerouting", "+16 Battery Size, x1.5 Charge Speed.", overclockIcons.chargeSpeed, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Magnetic Cooling Unit", "+25% Cooling Rate, x0.7 Heat per Second while Charged.", overclockIcons.coolingRate, 1);
-		overclocks[2] = new Overclock(Overclock.classification.balanced, "Heat Pipe", "-1 Ammo per Charged Shot, x1.3 Charge Speed, x1.5 Heat per Charged shot, x2 Heat per Second while Charged", overclockIcons.fuel, 2);
+		overclocks[2] = new Overclock(Overclock.classification.balanced, "Heat Pipe", "-1 Ammo per Charged Shot, x1.3 Charge Speed, x1.5 Heat per Charged shot, x1.25 Heat per Second while Charged", overclockIcons.fuel, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Heavy Hitter", "x1.6 Regular Shot Direct Damage, x1.5 Heat per Regular Shot, -32 Battery Size", overclockIcons.directDamage, 3);
 		overclocks[4] = new Overclock(Overclock.classification.unstable, "Overcharger", "x1.5 Charged Shot Direct Damage, x1.5 Charged Shot Area Damage, x1.2 Charged Shot AoE Radius, +2 Ammo per Charged Shot, -25% Cooling Rate", overclockIcons.directDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Persistent Plasma", "Upon impact, Charged Shots leave behind a 3m radius field of Persistent Plasma that deals " + MathUtils.round(DoTInformation.Plasma_EPC_DPS, GuiConstants.numDecimalPlaces) +
@@ -354,7 +354,7 @@ public abstract class EPC extends Weapon {
 			toReturn *= 0.7;
 		}
 		else if (selectedOverclock == 2) {
-			toReturn *= 2.0;
+			toReturn *= 1.25;
 		}
 
 		return toReturn;

@@ -83,7 +83,7 @@ public class AssaultRifle extends Weapon {
 	@Override
 	protected void initializeModsAndOverclocks() {
 		tier1 = new Mod[2];
-		tier1[0] = new Mod("Gyro Stabilisation", "x0 Base Spread", modIcons.baseSpread, 1, 0);
+		tier1[0] = new Mod("Floating Barrel", "x0.5 Recoil", modIcons.recoil, 1, 0);
 		tier1[1] = new Mod("Supercharged Feed Mechanism", "+2 Rate of Fire", modIcons.rateOfFire, 1, 1);
 		
 		tier2 = new Mod[2];
@@ -91,14 +91,13 @@ public class AssaultRifle extends Weapon {
 		tier2[1] = new Mod("Expanded Ammo Bags", "+75 Max Ammo", modIcons.carriedAmmo, 2, 1);
 		
 		tier3 = new Mod[3];
-		tier3[0] = new Mod("Floating Barrel", "x0.5 Recoil", modIcons.recoil, 3, 0);
-		tier3[1] = new Mod("Improved Propellant", "+1 Direct Damage", modIcons.directDamage, 3, 1);
-		tier3[2] = new Mod("High Capacity Magazine", "+10 Magazine Size", modIcons.magSize, 3, 2);
-		
-		tier4 = new Mod[3];
+		tier3[0] = new Mod("High Capacity Magazine", "+10 Magazine Size", modIcons.magSize, 3, 0);
+		tier3[1] = new Mod("Hardened Rounds", "+500% Armor Breaking", modIcons.armorBreaking, 3, 1);
+		tier3[2] = new Mod("Gyro Stabilisation", "x0 Base Spread", modIcons.baseSpread, 3, 2);
+
+		tier4 = new Mod[2];
 		tier4[0] = new Mod("Hollow-Point Bullets", "+20% Weakpoint Bonus", modIcons.weakpointBonus, 4, 0);
-		tier4[1] = new Mod("Hardened Rounds", "+500% Armor Breaking", modIcons.armorBreaking, 4, 1);
-		tier4[2] = new Mod("Improved Gas System", "+2 Rate of Fire", modIcons.rateOfFire, 4, 2);
+		tier4[1] = new Mod("Improved Gas System", "+2 Rate of Fire", modIcons.rateOfFire, 4, 1);
 		
 		tier5 = new Mod[3];
 		tier5[0] = new Mod("Battle Frenzy", "After killing an enemy, gain +50% Movement Speed for 2.5 seconds", modIcons.movespeed, 5, 0);
@@ -148,9 +147,6 @@ public class AssaultRifle extends Weapon {
 		if (selectedTier2 == 0) {
 			toReturn += 3;
 		}
-		if (selectedTier3 == 1) {
-			toReturn += 1;
-		}
 		
 		if (selectedOverclock == 5) {
 			toReturn -= 2;
@@ -178,7 +174,7 @@ public class AssaultRifle extends Weapon {
 	private int getMagazineSize() {
 		int toReturn = magazineSize;
 		
-		if (selectedTier3 == 2) {
+		if (selectedTier3 == 0) {
 			toReturn += 10;
 		}
 		
@@ -198,7 +194,7 @@ public class AssaultRifle extends Weapon {
 		if (selectedTier1 == 1) {
 			toReturn += 2.0;
 		}
-		if (selectedTier4 == 2) {
+		if (selectedTier4 == 1) {
 			toReturn += 2.0;
 		}
 		
@@ -246,7 +242,7 @@ public class AssaultRifle extends Weapon {
 		return toReturn;
 	}
 	private double getArmorBreaking() {
-		if (selectedTier4 == 1) {
+		if (selectedTier3 == 1) {
 			return 6.0;
 		}
 		else {
@@ -254,7 +250,7 @@ public class AssaultRifle extends Weapon {
 		}
 	}
 	private double getBaseSpread() {
-		if (selectedTier1 == 0) {
+		if (selectedTier3 == 2) {
 			return 0.0;
 		}
 		else {
@@ -290,7 +286,7 @@ public class AssaultRifle extends Weapon {
 	private double getRecoil() {
 		double toReturn = 1.0;
 		
-		if (selectedTier3 == 0) {
+		if (selectedTier1 == 0) {
 			toReturn *= 0.5;
 		}
 		
@@ -311,33 +307,33 @@ public class AssaultRifle extends Weapon {
 	public StatsRow[] getStats() {
 		StatsRow[] toReturn = new StatsRow[12];
 		
-		boolean directDamageModified = selectedTier2 == 0 || selectedTier3 == 1 || selectedOverclock == 2 || selectedOverclock == 5 || selectedOverclock == 6;
+		boolean directDamageModified = selectedTier2 == 0 || selectedOverclock == 2 || selectedOverclock == 5 || selectedOverclock == 6;
 		toReturn[0] = new StatsRow("Direct Damage:", getDirectDamage(), modIcons.directDamage, directDamageModified);
 		
-		boolean magSizeModified = selectedTier3 == 2 || selectedOverclock == 0 || selectedOverclock == 4 || selectedOverclock == 6;
+		boolean magSizeModified = selectedTier3 == 0 || selectedOverclock == 0 || selectedOverclock == 4 || selectedOverclock == 6;
 		toReturn[1] = new StatsRow("Magazine Size:", getMagazineSize(), modIcons.magSize, magSizeModified);
 		
 		toReturn[2] = new StatsRow("Max Ammo:", getCarriedAmmo(), modIcons.carriedAmmo, selectedTier2 == 1);
 		
-		boolean rofModified = selectedTier1 == 1 || selectedTier4 == 2 || selectedOverclock == 1 || selectedOverclock == 3 || selectedOverclock == 5;
+		boolean rofModified = selectedTier1 == 1 || selectedTier4 == 1 || selectedOverclock == 1 || selectedOverclock == 3 || selectedOverclock == 5;
 		toReturn[3] = new StatsRow("Rate of Fire:", getRateOfFire(), modIcons.rateOfFire, rofModified);
 		
 		toReturn[4] = new StatsRow("Reload Time:", getReloadTime(), modIcons.reloadSpeed, selectedOverclock == 1);
 		
 		toReturn[5] = new StatsRow("Weakpoint Bonus:", "+" + convertDoubleToPercentage(getWeakpointBonus()), modIcons.weakpointBonus, selectedTier4 == 0 || selectedOverclock == 5);
 		
-		toReturn[6] = new StatsRow("Armor Breaking:", convertDoubleToPercentage(getArmorBreaking()), modIcons.armorBreaking, selectedTier4 == 1, selectedTier4 == 1);
+		toReturn[6] = new StatsRow("Armor Breaking:", convertDoubleToPercentage(getArmorBreaking()), modIcons.armorBreaking, selectedTier3 == 1, selectedTier3 == 1);
 		
 		toReturn[7] = new StatsRow("Weakpoint Stun Chance:", convertDoubleToPercentage(getWeakpointStunChance()), modIcons.homebrewPowder, selectedTier5 == 2);
 		
 		toReturn[8] = new StatsRow("Stun Duration:", stunDuration, modIcons.stun, false);
 		
-		toReturn[9] = new StatsRow("Base Spread:", convertDoubleToPercentage(getBaseSpread()), modIcons.baseSpread, selectedTier1 == 0, selectedTier1 == 0);
+		toReturn[9] = new StatsRow("Base Spread:", convertDoubleToPercentage(getBaseSpread()), modIcons.baseSpread, selectedTier3 == 2, selectedTier3 == 2);
 		
 		boolean SRSmodified = selectedTier5 == 1 || selectedOverclock == 5;
 		toReturn[10] = new StatsRow("Spread Recovery:", convertDoubleToPercentage(getSpreadRecoverySpeed()), modIcons.baseSpread, SRSmodified, SRSmodified);
 		
-		boolean recoilModified = selectedTier3 == 0 || selectedOverclock == 0 || selectedOverclock == 3 || selectedOverclock == 5;
+		boolean recoilModified = selectedTier1 == 0 || selectedOverclock == 0 || selectedOverclock == 3 || selectedOverclock == 5;
 		toReturn[11] = new StatsRow("Recoil:", convertDoubleToPercentage(getRecoil()), modIcons.recoil, recoilModified, recoilModified);
 		
 		return toReturn;

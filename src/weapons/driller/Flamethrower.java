@@ -98,7 +98,7 @@ public class Flamethrower extends Weapon {
 		
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("Oversized Valves", "+3 Flow Rate", modIcons.rateOfFire, 3, 0);
-		tier3[1] = new Mod("Sticky Flame Slowdown", "Increases Sticky Flames' slow from 25% to 47.5%", modIcons.slowdown, 3, 1);
+		tier3[1] = new Mod("Sticky Flame Slowdown", "Increases Sticky Flames' slow from 20% to 44%", modIcons.slowdown, 3, 1);
 		tier3[2] = new Mod("More Fuel", "+75 Max Fuel", modIcons.carriedAmmo, 3, 2);
 		
 		tier4 = new Mod[3];

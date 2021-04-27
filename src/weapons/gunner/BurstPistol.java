@@ -52,7 +52,7 @@ public class BurstPistol extends Weapon {
 		weaponPic = WeaponPictures.burstPistol;
 		
 		// Base stats, before mods or overclocks alter them:
-		directDamage = 23;
+		directDamage = 25;
 		burstSize = 3;
 		delayBetweenBulletsDuringBurst = 0.05;
 		carriedAmmo = 144;
@@ -78,28 +78,26 @@ public class BurstPistol extends Weapon {
 	
 	@Override
 	protected void initializeModsAndOverclocks() {
-		tier1 = new Mod[3];
+		tier1 = new Mod[2];
 		tier1[0] = new Mod("High Velocity Rounds", "+3 Direct Damage", modIcons.directDamage, 1, 0);
-		tier1[1] = new Mod("Floating Barrel", "x0.6 Spread per Shot, -30% Base Spread", modIcons.baseSpread, 1, 1);
-		tier1[2] = new Mod("Blowthrough Rounds", "+1 Penetration", modIcons.blowthrough, 1, 2);
-		
+		tier1[1] = new Mod("Disabled Safety", "+2 Rate of Fire (translates to less time between bursts)", modIcons.rateOfFire, 1, 1);
+
 		tier2 = new Mod[3];
 		tier2[0] = new Mod("Recoil Dampener", "x0.5 Recoil", modIcons.recoil, 2, 0);
 		tier2[1] = new Mod("Quickfire Ejector", "-0.7 Reload Time", modIcons.reloadSpeed, 2, 1);
-		tier2[2] = new Mod("Disabled Safety", "+2 Rate of Fire (translates to less time between bursts)", modIcons.rateOfFire, 2, 2);
-		
+		tier2[2] = new Mod("High Capacity Magazine", "+12 Magazine Size", modIcons.magSize, 2, 2);
+
 		tier3 = new Mod[2];
-		tier3[0] = new Mod("High Capacity Magazine", "+12 Magazine Size", modIcons.magSize, 3, 0);
-		tier3[1] = new Mod("Increased Caliber Rounds", "+3 Direct Damage", modIcons.directDamage, 3, 1);
+		tier3[0] = new Mod("Floating Barrel", "x0.6 Spread per Shot, -30% Base Spread", modIcons.baseSpread, 3, 0);
+		tier3[1] = new Mod("Hardened Rounds", "+200% Armor Breaking", modIcons.armorBreaking, 3, 1);
 		
-		tier4 = new Mod[3];
-		tier4[0] = new Mod("Hardened Rounds", "+200% Armor Breaking", modIcons.armorBreaking, 4, 0);
-		tier4[1] = new Mod("Expanded Ammo Bags", "+48 Max Ammo", modIcons.carriedAmmo, 4, 1);
-		tier4[2] = new Mod("Hollow-Point Bullets", "+25% Weakpoint Bonus", modIcons.weakpointBonus, 4, 2);
+		tier4 = new Mod[2];
+		tier4[0] = new Mod("Expanded Ammo Bags", "+48 Max Ammo", modIcons.carriedAmmo, 4, 0);
+		tier4[1] = new Mod("Hollow-Point Bullets", "+25% Weakpoint Bonus", modIcons.weakpointBonus, 4, 1);
 		
 		tier5 = new Mod[2];
 		tier5[0] = new Mod("Burst Stun", "Stun an enemy for 4 seconds if all 3 shots in a burst hit", modIcons.stun, 5, 0);
-		tier5[1] = new Mod("Longer Burst", "+3 Bullets per Burst", modIcons.rateOfFire, 5, 1);
+		tier5[1] = new Mod("Blowthrough Rounds", "+1 Penetration", modIcons.blowthrough, 5, 1);
 		
 		overclocks = new Overclock[7];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Composite Casings", "+24 Max Ammo, +1 Rate of Fire", overclockIcons.rateOfFire, 0);
@@ -145,10 +143,7 @@ public class BurstPistol extends Weapon {
 		if (selectedTier1 == 0) {
 			toReturn += 3;
 		}
-		if (selectedTier3 == 1) {
-			toReturn += 3;
-		}
-		
+
 		if (selectedOverclock == 1) {
 			toReturn += 3;
 		}
@@ -169,17 +164,12 @@ public class BurstPistol extends Weapon {
 	}
 	private int getBurstSize() {
 		int toReturn = burstSize;
-		
-		if (selectedTier5 == 1) {
-			toReturn += 3;
-		}
-		
 		return toReturn;
 	}
 	private int getCarriedAmmo() {
 		int toReturn = carriedAmmo;
 		
-		if (selectedTier4 == 1) {
+		if (selectedTier4 == 0) {
 			toReturn += 48;
 		}
 		
@@ -201,7 +191,7 @@ public class BurstPistol extends Weapon {
 	private int getMagazineSize() {
 		int toReturn = magazineSize;
 		
-		if (selectedTier3 == 0) {
+		if (selectedTier2 == 2) {
 			toReturn += 12;
 		}
 		
@@ -221,7 +211,7 @@ public class BurstPistol extends Weapon {
 	public double getRateOfFire() {
 		double toReturn = rateOfFire;
 		
-		if (selectedTier2 == 2) {
+		if (selectedTier1 == 1) {
 			toReturn += 2.0;
 		}
 		
@@ -253,14 +243,14 @@ public class BurstPistol extends Weapon {
 	private double getArmorBreaking() {
 		double toReturn = armorBreaking;
 		
-		if (selectedTier4 == 0) {
+		if (selectedTier3 == 1) {
 			toReturn += 2.0;
 		}
 		
 		return toReturn;
 	}
 	private int getMaxPenetrations() {
-		if (selectedTier1 == 2) {
+		if (selectedTier5 == 1) {
 			return 1;
 		}
 		else {
@@ -270,7 +260,7 @@ public class BurstPistol extends Weapon {
 	private double getBaseSpread() {
 		double toReturn = 1.0;
 		
-		if (selectedTier1 == 1) {
+		if (selectedTier3 == 0) {
 			toReturn -= 0.3;
 		}
 		
@@ -283,7 +273,7 @@ public class BurstPistol extends Weapon {
 	private double getSpreadPerShot() {
 		double toReturn = 1.0;
 		
-		if (selectedTier1 == 1) {
+		if (selectedTier3 == 0) {
 			toReturn *= 0.6;
 		}
 		
@@ -307,7 +297,7 @@ public class BurstPistol extends Weapon {
 		return toReturn;
 	}
 	private double getWeakpointBonus() {
-		if (selectedTier4 == 2) {
+		if (selectedTier4 == 1) {
 			return 0.25;
 		}
 		else {
@@ -325,45 +315,43 @@ public class BurstPistol extends Weapon {
 	
 	@Override
 	public StatsRow[] getStats() {
-		StatsRow[] toReturn = new StatsRow[13];
+		StatsRow[] toReturn = new StatsRow[12];
 		
-		boolean directDamageModified = selectedTier1 == 0 || selectedTier3 == 1 || (selectedOverclock > 0 && selectedOverclock < 7 && selectedOverclock != 2);
+		boolean directDamageModified = selectedTier1 == 0 || (selectedOverclock > 0 && selectedOverclock < 7 && selectedOverclock != 2);
 		toReturn[0] = new StatsRow("Direct Damage:", getDirectDamage(), modIcons.directDamage, directDamageModified);
+
+		boolean magSizeModified = selectedTier2 == 2 || (selectedOverclock > 2 && selectedOverclock < 6);
+		toReturn[1] = new StatsRow("Magazine Size:", getMagazineSize(), modIcons.magSize, magSizeModified);
 		
-		toReturn[1] = new StatsRow("Burst Size:", getBurstSize(), modIcons.rateOfFire, selectedTier5 == 1);
+		boolean carriedAmmoModified = selectedTier4 == 0 || selectedOverclock == 0 || selectedOverclock == 2 || selectedOverclock == 3 || selectedOverclock == 5;
+		toReturn[2] = new StatsRow("Max Ammo:", getCarriedAmmo(), modIcons.carriedAmmo, carriedAmmoModified);
 		
-		boolean magSizeModified = selectedTier3 == 0 || (selectedOverclock > 2 && selectedOverclock < 6);
-		toReturn[2] = new StatsRow("Magazine Size:", getMagazineSize(), modIcons.magSize, magSizeModified);
-		
-		boolean carriedAmmoModified = selectedTier4 == 1 || selectedOverclock == 0 || selectedOverclock == 2 || selectedOverclock == 3 || selectedOverclock == 5;
-		toReturn[3] = new StatsRow("Max Ammo:", getCarriedAmmo(), modIcons.carriedAmmo, carriedAmmoModified);
-		
-		boolean RoFModified = selectedTier2 == 2 || selectedOverclock == 0 || selectedOverclock == 2;
-		toReturn[4] = new StatsRow("Rate of Fire:", getRateOfFire(), modIcons.rateOfFire, RoFModified);
+		boolean RoFModified = selectedTier1 == 1 || selectedOverclock == 0 || selectedOverclock == 2;
+		toReturn[3] = new StatsRow("Rate of Fire:", getRateOfFire(), modIcons.rateOfFire, RoFModified);
 		
 		boolean reloadModified = selectedTier2 == 1 || selectedOverclock == 1 || selectedOverclock == 2;
-		toReturn[5] = new StatsRow("Reload Time:", getReloadTime(), modIcons.reloadSpeed, reloadModified);
+		toReturn[4] = new StatsRow("Reload Time:", getReloadTime(), modIcons.reloadSpeed, reloadModified);
 		
-		toReturn[6] = new StatsRow("Weakpoint Bonus:", "+" + convertDoubleToPercentage(getWeakpointBonus()), modIcons.weakpointBonus, selectedTier4 == 2, selectedTier4 == 2);
+		toReturn[5] = new StatsRow("Weakpoint Bonus:", "+" + convertDoubleToPercentage(getWeakpointBonus()), modIcons.weakpointBonus, selectedTier4 == 1, selectedTier4 == 1);
 		
-		toReturn[7] = new StatsRow("Armor Breaking:", convertDoubleToPercentage(getArmorBreaking()), modIcons.armorBreaking, selectedTier4 == 0);
+		toReturn[6] = new StatsRow("Armor Breaking:", convertDoubleToPercentage(getArmorBreaking()), modIcons.armorBreaking, selectedTier3 == 1);
 		
-		toReturn[8] = new StatsRow("Stun Duration:", getBurstStunDuration(), modIcons.stun, selectedTier5 == 0, selectedTier5 == 0);
+		toReturn[7] = new StatsRow("Stun Duration:", getBurstStunDuration(), modIcons.stun, selectedTier5 == 0, selectedTier5 == 0);
 		
-		toReturn[9] = new StatsRow("Max Penetrations:", getMaxPenetrations(), modIcons.blowthrough, selectedTier1 == 2, selectedTier1 == 2);
+		toReturn[8] = new StatsRow("Max Penetrations:", getMaxPenetrations(), modIcons.blowthrough, selectedTier5 == 1, selectedTier5 == 1);
 		
 		boolean baseSpreadModified = selectedTier1 == 1 || selectedOverclock == 6;
-		toReturn[10] = new StatsRow("Base Spread:", convertDoubleToPercentage(getBaseSpread()), modIcons.baseSpread, baseSpreadModified, baseSpreadModified);
+		toReturn[9] = new StatsRow("Base Spread:", convertDoubleToPercentage(getBaseSpread()), modIcons.baseSpread, baseSpreadModified, baseSpreadModified);
 		
 		boolean spreadPerShotModified = selectedTier1 == 1 || selectedOverclock == 5;
-		toReturn[11] = new StatsRow("Spread per Shot:", convertDoubleToPercentage(getSpreadPerShot()), modIcons.baseSpread, spreadPerShotModified, spreadPerShotModified);
+		toReturn[10] = new StatsRow("Spread per Shot:", convertDoubleToPercentage(getSpreadPerShot()), modIcons.baseSpread, spreadPerShotModified, spreadPerShotModified);
 		
 		boolean recoilModified = selectedTier2 == 0 || selectedOverclock == 5;
-		toReturn[12] = new StatsRow("Recoil:", convertDoubleToPercentage(getRecoil()), modIcons.recoil, recoilModified, recoilModified);
+		toReturn[11] = new StatsRow("Recoil:", convertDoubleToPercentage(getRecoil()), modIcons.recoil, recoilModified, recoilModified);
 		
 		return toReturn;
 	}
-	
+
 	/****************************************************************************************
 	* Other Methods
 	****************************************************************************************/
@@ -449,7 +437,7 @@ public class BurstPistol extends Weapon {
 		}
 		
 		double blowthroughDPS = 0;
-		if (selectedTier1 == 2) {
+		if (selectedTier5 == 1) {
 			blowthroughDPS = calculateSingleTargetDPS(false, false, false, false);
 		}
 		

@@ -57,11 +57,11 @@ public class AssaultRifle extends Weapon {
 		directDamage = 18;
 		carriedAmmo = 325;
 		magazineSize = 25;
-		rateOfFire = 7.0;
-		weakpointStunChance = 0.1;
+		rateOfFire = 9.0;
+		weakpointStunChance = 0.15;
 		stunDuration = 1.5;
 		reloadTime = 1.8;
-		weakpointBonus = 0.1;
+		weakpointBonus = 0;
 		
 		accEstimator.setSpreadCurve(new AssaultRifleCurve());
 		
@@ -92,7 +92,7 @@ public class AssaultRifle extends Weapon {
 		
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("High Capacity Magazine", "+10 Magazine Size", modIcons.magSize, 3, 0);
-		tier3[1] = new Mod("Hardened Rounds", "+500% Armor Breaking", modIcons.armorBreaking, 3, 1);
+		tier3[1] = new Mod("Hardened Rounds", "+400% Armor Breaking", modIcons.armorBreaking, 3, 1);
 		tier3[2] = new Mod("Gyro Stabilisation", "x0 Base Spread", modIcons.baseSpread, 3, 2);
 
 		tier4 = new Mod[2];
@@ -107,7 +107,7 @@ public class AssaultRifle extends Weapon {
 		overclocks = new Overclock[7];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Compact Ammo", "+5 Magazine Size, x0.7 Recoil", overclockIcons.magSize, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Gas Rerouting", "+1 Rate of Fire, -0.3 Reload Time", overclockIcons.rateOfFire, 1);
-		overclocks[2] = new Overclock(Overclock.classification.clean, "Homebrew Powder", "Anywhere from x1 - x1.2 damage per shot, averaged to x" + homebrewPowderCoefficient, overclockIcons.homebrewPowder, 2);
+		overclocks[2] = new Overclock(Overclock.classification.clean, "Homebrew Powder", "Anywhere from x1.15 - x1.25 damage per shot, averaged to x" + homebrewPowderCoefficient, overclockIcons.homebrewPowder, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Overclocked Firing Mechanism", "+3 Rate of Fire, x2 Recoil", overclockIcons.rateOfFire, 3);
 		overclocks[4] = new Overclock(Overclock.classification.balanced, "Bullets of Mercy", "+25% Damage dealt to enemies that are burning, electrocuted, poisoned, stunned, or frozen. In exchange, -5 Magazine Size", overclockIcons.directDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "AI Stability Engine", "+40% Weakpoint Bonus, x0 Recoil, x2.11 Spread Recovery Speed, -2 Direct Damage, -2 Rate of Fire", overclockIcons.baseSpread, 5);
@@ -149,7 +149,7 @@ public class AssaultRifle extends Weapon {
 		}
 		
 		if (selectedOverclock == 5) {
-			toReturn -= 2;
+			toReturn -= 3;
 		}
 		else if (selectedOverclock == 6) {
 			toReturn -= 2;
@@ -236,17 +236,17 @@ public class AssaultRifle extends Weapon {
 		}
 		
 		if (selectedOverclock == 5) {
-			toReturn += 0.4;
+			toReturn += 0.3;
 		}
 		
 		return toReturn;
 	}
 	private double getArmorBreaking() {
 		if (selectedTier3 == 1) {
-			return 6.0;
+			return 8.0;
 		}
 		else {
-			return 1.0;
+			return 4.0;
 		}
 	}
 	private double getBaseSpread() {
@@ -468,11 +468,11 @@ public class AssaultRifle extends Weapon {
 
 	@Override
 	public double estimatedAccuracy(boolean weakpointAccuracy) {
-		double baseSpread = 0.9 * getBaseSpread();
+		double baseSpread = 2.0 * getBaseSpread();
 		double spreadPerShot = 1.4;
 		double spreadRecoverySpeed = getSpreadRecoverySpeedValue();
 		double maxBloom = 4.2;
-		double minSpreadWhileMoving = 1.0;
+		double minSpreadWhileMoving = 2.5;
 		
 		double recoilPitch = 35.0 * getRecoil();
 		double recoilYaw = 5.0 * getRecoil();

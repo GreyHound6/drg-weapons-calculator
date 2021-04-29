@@ -91,9 +91,9 @@ public class AssaultRifle extends Weapon {
 		tier2[1] = new Mod("Expanded Ammo Bags", "+75 Max Ammo", modIcons.carriedAmmo, 2, 1);
 		
 		tier3 = new Mod[3];
-		tier3[0] = new Mod("Floating Barrel", "x0.5 Recoil", modIcons.recoil, 3, 0);
+		tier3[0] = new Mod("Floating Barrel", "x0.25 Recoil", modIcons.recoil, 3, 0);
 		tier3[1] = new Mod("Hardened Rounds", "+400% Armor Breaking", modIcons.armorBreaking, 3, 1);
-		tier3[2] = new Mod("Gyro Stabilisation", "x0 Base Spread", modIcons.baseSpread, 3, 2);
+		tier3[2] = new Mod("Gyro Stabilisation", "x0.4 Base Spread", modIcons.baseSpread, 3, 2);
 
 		tier4 = new Mod[2];
 		tier4[0] = new Mod("Hollow-Point Bullets", "+20% Weakpoint Bonus", modIcons.weakpointBonus, 4, 0);
@@ -251,7 +251,7 @@ public class AssaultRifle extends Weapon {
 	}
 	private double getBaseSpread() {
 		if (selectedTier3 == 2) {
-			return 0.0;
+			return 0.4;
 		}
 		else {
 			return 1.0;
@@ -287,7 +287,7 @@ public class AssaultRifle extends Weapon {
 		double toReturn = 1.0;
 		
 		if (selectedTier3 == 0) {
-			toReturn *= 0.5;
+			toReturn *= 0.25;
 		}
 		
 		if (selectedOverclock == 0) {

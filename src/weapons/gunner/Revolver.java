@@ -95,26 +95,26 @@ public class Revolver extends Weapon {
 		tier2[1] = new Mod("Floating Barrel", "-80% Spread per Shot, x0.75 Recoil", modIcons.recoil, 2, 1);
 		tier2[2] = new Mod("Expanded Ammo Bags", "+12 Max Ammo", modIcons.carriedAmmo, 2, 2);
 		
-		tier3 = new Mod[3];
-		tier3[0] = new Mod("Super Blowthrough Rounds", "+3 Penetrations", modIcons.blowthrough, 3, 0);
-		tier3[1] = new Mod("Explosive Rounds", "+30 Area Damage in a 1.5m radius, x0.5 Direct Damage", modIcons.addedExplosion, 3, 1);
-		tier3[2] = new Mod("Hollow-Point Bullets", "+35% Weakpoint Bonus", modIcons.weakpointBonus, 3, 2);
+		tier3 = new Mod[2];
+		tier3[0] = new Mod("Explosive Rounds", "+30 Area Damage in a 1.5m radius, x0.5 Direct Damage", modIcons.addedExplosion, 3, 0);
+		tier3[1] = new Mod("Hollow-Point Bullets", "+35% Weakpoint Bonus", modIcons.weakpointBonus, 3, 1);
 		
 		tier4 = new Mod[2];
 		tier4[0] = new Mod("Expanded Ammo Bags", "+12 Max Ammo", modIcons.carriedAmmo, 4, 0);
 		tier4[1] = new Mod("High Velocity Rounds", "+10 Direct Damage", modIcons.directDamage, 4, 1);
 		
-		tier5 = new Mod[2];
+		tier5 = new Mod[3];
 		tier5[0] = new Mod("Dead-Eye", "No aim penalty while moving", modIcons.baseSpread, 5, 0);
 		// It looks like whenever this procs for the main target, all splash targets get it too, instead of RNG/enemy.
 		tier5[1] = new Mod("Neurotoxin Coating", "50% chance to inflict Neurotoxin DoT on all enemies hit by the Revolver. "
 				+ "Neurotoxin does an average of " + MathUtils.round(DoTInformation.Neuro_DPS, GuiConstants.numDecimalPlaces) + " Poison Damage per Second", modIcons.neurotoxin, 5, 1);
-		
+		tier5[2] = new Mod("Super Blowthrough Rounds", "+3 Penetrations", modIcons.blowthrough, 5, 2);
+
 		overclocks = new Overclock[6];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "Chain Hit", "Any shot that hits a weakspot has a 75% chance to ricochet into a nearby enemy within 5m.", overclockIcons.ricochet, 0);
 		overclocks[1] = new Overclock(Overclock.classification.balanced, "Homebrew Powder", "Anywhere from x0.75 - x2 damage per shot, averaged to x" + revolverHomebrewPowderCoefficient, overclockIcons.homebrewPowder, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Volatile Bullets", "x4 Direct and Area Damage to Burning targets, -25 Direct Damage", overclockIcons.heatDamage, 2);
-		overclocks[3] = new Overclock(Overclock.classification.balanced, "Six Shooter", "+2 Magazine Size, +6 Max Ammo, +2 Rate of Fire, x1.5 Base Spread, +0.5 Reload Time", overclockIcons.magSize, 3);
+		overclocks[3] = new Overclock(Overclock.classification.balanced, "Six Shooter", "+2 Magazine Size, +0 Max Ammo, +4 Rate of Fire, x1.5 Base Spread, +0.5 Reload Time", overclockIcons.magSize, 3);
 		overclocks[4] = new Overclock(Overclock.classification.unstable, "Elephant Rounds", "x2 Direct Damage, -1 Mag Size, -12 Max Ammo, +0.5 Reload Time, x0.5 Base Spread, +71% Spread per Shot, x1.5 Max Bloom, x1.5 Recoil, +3.5 Mass", overclockIcons.directDamage, 4);
 		overclocks[5] = new Overclock(Overclock.classification.unstable, "Magic Bullets", "All bullets that impact terrain automatically ricochet to nearby enemies within 5m (effectively raising accuracy to 100%). +4 Max Ammo, -20 Direct Damage", overclockIcons.ricochet, 5);
 		
@@ -162,7 +162,7 @@ public class Revolver extends Weapon {
 		}
 			
 		// Then do multiplicative bonuses
-		if (selectedTier3 == 1) {
+		if (selectedTier3 == 0) {
 			toReturn *= 0.5;
 		}
 		if (selectedOverclock == 1) {
@@ -176,7 +176,7 @@ public class Revolver extends Weapon {
 	private double getAreaDamage() {
 		double toReturn = 0;
 		
-		if (selectedTier3 == 1) {
+		if (selectedTier3 == 0) {
 			toReturn = 30.0;
 		}
 		
@@ -205,7 +205,7 @@ public class Revolver extends Weapon {
 		}
 		
 		if (selectedOverclock == 3) {
-			toReturn += 6;
+			toReturn += 0;
 		}
 		else if (selectedOverclock == 4) {
 			toReturn -= 12;
@@ -229,7 +229,7 @@ public class Revolver extends Weapon {
 		double toReturn = rateOfFire;
 		
 		if (selectedOverclock == 3) {
-			toReturn += 2.0;
+			toReturn += 4.0;
 		}
 		
 		return toReturn;
@@ -246,7 +246,7 @@ public class Revolver extends Weapon {
 		return toReturn;
 	}
 	private int getMaxPenetrations() {
-		if (selectedTier3 == 0) {
+		if (selectedTier5 == 2) {
 			return 3;
 		}
 		else {
@@ -264,7 +264,7 @@ public class Revolver extends Weapon {
 	}
 	private double getWeakpointBonus() {
 		double toReturn = weakpointBonus;
-		if (selectedTier3 == 2) {
+		if (selectedTier3 == 1) {
 			toReturn += 0.35;
 		}
 		return toReturn;
@@ -354,10 +354,10 @@ public class Revolver extends Weapon {
 	public StatsRow[] getStats() {
 		StatsRow[] toReturn = new StatsRow[17];
 		
-		boolean directDamageModified = selectedTier2 == 0 || selectedTier3 == 1 || selectedTier4 == 1 || selectedOverclock == 1 || selectedOverclock == 2 || selectedOverclock == 4 || selectedOverclock == 5;
+		boolean directDamageModified = selectedTier2 == 0 || selectedTier3 == 0 || selectedTier4 == 1 || selectedOverclock == 1 || selectedOverclock == 2 || selectedOverclock == 4 || selectedOverclock == 5;
 		toReturn[0] = new StatsRow("Direct Damage:", getDirectDamage(), modIcons.directDamage, directDamageModified);
 		
-		boolean explosiveEquipped = selectedTier3 == 1;
+		boolean explosiveEquipped = selectedTier3 == 0;
 		toReturn[1] = new StatsRow("Area Damage:", getAreaDamage(), modIcons.areaDamage, explosiveEquipped || selectedOverclock == 1, explosiveEquipped);
 		
 		toReturn[2] = new StatsRow("AoE Radius:", getAoERadius(), modIcons.aoeRadius, explosiveEquipped, explosiveEquipped);
@@ -371,13 +371,13 @@ public class Revolver extends Weapon {
 		
 		toReturn[6] = new StatsRow("Reload Time:", getReloadTime(), modIcons.reloadSpeed, selectedTier1 == 0 || selectedOverclock == 3 || selectedOverclock == 4);
 		
-		toReturn[7] = new StatsRow("Weakpoint Bonus:", "+" + convertDoubleToPercentage(getWeakpointBonus()), modIcons.weakpointBonus, selectedTier3 == 2);
+		toReturn[7] = new StatsRow("Weakpoint Bonus:", "+" + convertDoubleToPercentage(getWeakpointBonus()), modIcons.weakpointBonus, selectedTier3 == 1);
 		
 		toReturn[8] = new StatsRow("Stun Chance:", convertDoubleToPercentage(stunChance), modIcons.homebrewPowder, false);
 		
 		toReturn[9] = new StatsRow("Stun Duration:", stunDuration, modIcons.stun, false);
 		
-		toReturn[10] = new StatsRow("Max Penetrations:", getMaxPenetrations(), modIcons.blowthrough, selectedTier3 == 0, selectedTier3 == 0);
+		toReturn[10] = new StatsRow("Max Penetrations:", getMaxPenetrations(), modIcons.blowthrough, selectedTier3 == 0, selectedTier5 == 2);
 		
 		toReturn[11] = new StatsRow("Weakpoint Chain Hit Chance:", convertDoubleToPercentage(0.75), modIcons.homebrewPowder, selectedOverclock == 0, selectedOverclock == 0);
 		

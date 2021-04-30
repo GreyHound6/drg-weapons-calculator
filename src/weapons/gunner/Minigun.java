@@ -115,7 +115,7 @@ public class Minigun extends Weapon {
 
 		tier4 = new Mod[3];
 		tier4[0] = new Mod("Variable Chamber Pressure", "+15% Damage per Pellet after reaching Base Spread", modIcons.directDamage, 4, 0);
-		tier4[1] = new Mod("Improved Platform Stability", "x0.33 Base Spread", modIcons.baseSpread, 4, 1);
+		tier4[1] = new Mod("Improved Platform Stability", "x0.25 Base Spread", modIcons.baseSpread, 4, 1);
 		tier4[2] = new Mod("Blowthrough Rounds", "+1 Penetration", modIcons.blowthrough, 4, 2);
 		
 		tier5 = new Mod[3];
@@ -292,7 +292,7 @@ public class Minigun extends Weapon {
 	private double getBaseSpread() {
 		double toReturn = 1.0;
 		if (selectedTier4 == 1) {
-			toReturn *= 0.33;
+			toReturn *= 0.25;
 		}
 		if (selectedOverclock == 4) {
 			toReturn *= 2.5;

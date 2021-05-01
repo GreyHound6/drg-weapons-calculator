@@ -99,7 +99,7 @@ public class Subata extends Weapon {
 		tier5[1] = new Mod("Mactera Toxin-Coating", "+50% Damage dealt to Mactera-type enemies", modIcons.special, 5, 1);
 		
 		overclocks = new Overclock[6];
-		overclocks[0] = new Overclock(Overclock.classification.clean, "Chain Hit", "Any shot that hits a weakspot has a 75% chance to ricochet into a nearby enemy within 10m.", overclockIcons.ricochet, 0);
+		overclocks[0] = new Overclock(Overclock.classification.clean, "Chain Hit", "Any shot that hits a weakspot has a 100% chance to ricochet into a nearby enemy within 10m.", overclockIcons.ricochet, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Homebrew Powder", "Anywhere from x1 - x1.2 damage per shot, averaged to x" + homebrewPowderCoefficient, overclockIcons.homebrewPowder, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Oversized Magazine", "+7 Magazine Size, +0.5 Reload Time", overclockIcons.magSize, 2);
 		overclocks[3] = new Overclock(Overclock.classification.unstable, "Automatic Fire", "Changes the Subata from semi-automatic to fully automatic, +2 Rate of Fire, +100% Base Spread, x2.5 Recoil", overclockIcons.rateOfFire, 3);
@@ -343,7 +343,7 @@ public class Subata extends Weapon {
 		toReturn[9] = new StatsRow("Stun Duration:", getStunDuration(), modIcons.stun, tranqRoundsEquipped, tranqRoundsEquipped);
 		
 		boolean chainHitEquipped = selectedOverclock == 0;
-		toReturn[10] = new StatsRow("Weakpoint Chain Hit Chance:", convertDoubleToPercentage(0.75), modIcons.homebrewPowder, chainHitEquipped, chainHitEquipped);
+		toReturn[10] = new StatsRow("Weakpoint Chain Hit Chance:", convertDoubleToPercentage(1.0), modIcons.homebrewPowder, chainHitEquipped, chainHitEquipped);
 		toReturn[11] = new StatsRow("Max Ricochets:", getMaxRicochets(), modIcons.ricochet, chainHitEquipped, chainHitEquipped);
 		
 		boolean baseSpreadModified = selectedTier1 == 0 || selectedOverclock == 3;
@@ -433,7 +433,7 @@ public class Subata extends Weapon {
 		// If "Chain Hit" is equipped, 75% of bullets that hit a weakpoint will ricochet to nearby enemies.
 		if (selectedOverclock == 0) {
 			// Making the assumption that the ricochet won't hit another weakpoint, and will just do normal damage.
-			double ricochetProbability = 0.75 * getWeakpointAccuracy() / 100.0;
+			double ricochetProbability = 1.0 * getWeakpointAccuracy() / 100.0;
 			double numBulletsRicochetPerMagazine = Math.round(ricochetProbability * getMagazineSize());
 			
 			double timeToFireMagazineAndReload = (((double) getMagazineSize()) / getCustomRoF()) + getReloadTime();
@@ -449,7 +449,7 @@ public class Subata extends Weapon {
 	public double calculateMaxMultiTargetDamage() {
 		if (selectedOverclock == 0) {
 			// Chain Hit
-			double ricochetProbability = 0.75 * getWeakpointAccuracy() / 100.0;
+			double ricochetProbability = 1.0 * getWeakpointAccuracy() / 100.0;
 			double totalNumRicochets = Math.round(ricochetProbability * (getMagazineSize() + getCarriedAmmo()));
 			
 			return (getMagazineSize() + getCarriedAmmo() + totalNumRicochets) * getDirectDamage();

@@ -111,7 +111,7 @@ public class Revolver extends Weapon {
 		tier5[2] = new Mod("Super Blowthrough Rounds", "+3 Penetrations", modIcons.blowthrough, 5, 2);
 
 		overclocks = new Overclock[6];
-		overclocks[0] = new Overclock(Overclock.classification.clean, "Chain Hit", "Any shot that hits a weakspot has a 75% chance to ricochet into a nearby enemy within 5m.", overclockIcons.ricochet, 0);
+		overclocks[0] = new Overclock(Overclock.classification.clean, "Chain Hit", "Any shot that hits a weakspot has a 100% chance to ricochet into a nearby enemy within 5m.", overclockIcons.ricochet, 0);
 		overclocks[1] = new Overclock(Overclock.classification.balanced, "Homebrew Powder", "Anywhere from x0.75 - x2 damage per shot, averaged to x" + revolverHomebrewPowderCoefficient, overclockIcons.homebrewPowder, 1);
 		overclocks[2] = new Overclock(Overclock.classification.balanced, "Volatile Bullets", "x4 Direct and Area Damage to Burning targets, -25 Direct Damage", overclockIcons.heatDamage, 2);
 		overclocks[3] = new Overclock(Overclock.classification.balanced, "Six Shooter", "+2 Magazine Size, +0 Max Ammo, +4 Rate of Fire, x1.5 Base Spread, +0.5 Reload Time", overclockIcons.magSize, 3);
@@ -379,7 +379,7 @@ public class Revolver extends Weapon {
 		
 		toReturn[10] = new StatsRow("Max Penetrations:", getMaxPenetrations(), modIcons.blowthrough, selectedTier3 == 0, selectedTier5 == 2);
 		
-		toReturn[11] = new StatsRow("Weakpoint Chain Hit Chance:", convertDoubleToPercentage(0.75), modIcons.homebrewPowder, selectedOverclock == 0, selectedOverclock == 0);
+		toReturn[11] = new StatsRow("Weakpoint Chain Hit Chance:", convertDoubleToPercentage(1.0), modIcons.homebrewPowder, selectedOverclock == 0, selectedOverclock == 0);
 		
 		boolean canRicochet = selectedOverclock == 0 || selectedOverclock == 5;
 		toReturn[12] = new StatsRow("Max Ricochets:", getMaxRicochets(), modIcons.ricochet, canRicochet, canRicochet);
@@ -551,7 +551,7 @@ public class Revolver extends Weapon {
 		else if (selectedOverclock == 0 && selectedTier3 != 0) {
 			// If "Chain Hit" is equipped, 75% of bullets that hit a weakpoint will ricochet to nearby enemies.
 			// Making the assumption that the ricochet won't hit another weakpoint, and will just do normal damage.
-			double ricochetProbability = 0.75 * getWeakpointAccuracy() / 100.0;
+			double ricochetProbability = 1.0 * getWeakpointAccuracy() / 100.0;
 			double numBulletsRicochetPerMagazine = Math.round(ricochetProbability * magazineSize);
 			
 			sustainedAdditionalDPS = numBulletsRicochetPerMagazine * (directDamage + areaDamage) / timeToFireMagazineAndReload;
@@ -589,7 +589,7 @@ public class Revolver extends Weapon {
 		// OC "Chain Hit" adds a 75% chance to ricochet to another enemy within 5m if it hits a Weakpoint
 		// OC "Magic Bullets" only ricochets off of terrain, so it doesn't directly increase the Direct Damage dealt.
 		if (selectedOverclock == 0) {
-			multitargetDirectDamageMultiplier += 0.75 * getWeakpointAccuracy() / 100.0;
+			multitargetDirectDamageMultiplier += 1.0 * getWeakpointAccuracy() / 100.0;
 		}
 
 		double damagePerBullet = getDirectDamage();
@@ -761,7 +761,7 @@ public class Revolver extends Weapon {
 		// OC "Chain Hit" adds a 75% chance to ricochet to another enemy within 5m if it hits a Weakpoint
 		// OC "Magic Bullets" only ricochets off of terrain, so it doesn't directly increase the Direct Damage dealt.
 		if (selectedOverclock == 0) {
-			multitargetDirectDamageMultiplier += 0.75 * getWeakpointAccuracy() / 100.0;
+			multitargetDirectDamageMultiplier += 1.0 * getWeakpointAccuracy() / 100.0;
 		}
 
 		double damagePerBullet = getDirectDamage();

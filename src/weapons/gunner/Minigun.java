@@ -629,7 +629,7 @@ public class Minigun extends Weapon {
 	public double calculateAdditionalTargetDPS() {
 		double idealSustained = calculateSingleTargetDPS(false, false, false, false);
 		
-		if (selectedTier4 == 2) {
+		if (selectedTier5 == 2) {
 			// Blowthrough Rounds are just the same DPS, with Burn DPS already added if Burning Hell or Hot Bullets is already equipped
 			return idealSustained;
 		}
@@ -649,7 +649,7 @@ public class Minigun extends Weapon {
 	@Override
 	public double calculateMaxMultiTargetDamage() {
 		double multitargetDamageMultiplier = 1.0;
-		if (selectedTier4 == 2) {
+		if (selectedTier5 == 2) {
 			multitargetDamageMultiplier = calculateBlowthroughDamageMultiplier(getMaxPenetrations());
 		}
 		if (selectedOverclock == 5) {

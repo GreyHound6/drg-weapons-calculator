@@ -39,7 +39,7 @@ public class Minigun extends Weapon {
 	private double movespeedWhileFiring;
 	private double secondsBeforeHotBullets;
 	private int cooldownAfterOverheat;
-	private int penetrations;
+	//private int penetrations;
 	
 	/****************************************************************************************
 	* Constructors
@@ -76,7 +76,7 @@ public class Minigun extends Weapon {
 		movespeedWhileFiring = 0.5;
 		secondsBeforeHotBullets = 3.17805;  // See explanation in calculateIgnitionTime() 
 		cooldownAfterOverheat = 10;
-		penetrations = 1;
+		//penetrations = 1;
 
 		// Override default 10m distance
 		accEstimator.setDistance(7.0);
@@ -101,8 +101,8 @@ public class Minigun extends Weapon {
 	protected void initializeModsAndOverclocks() {
 		tier1 = new Mod[3];
 		tier1[0] = new Mod("Magnetic Refrigeration", "+1.5 Cooling Rate, -0.15 sec Cooling Delay", modIcons.coolingRate, 1, 0);
-		tier1[1] = new Mod("Improved Stun", "+20% Stun Chance per Pellet, +2 second Stun duration", modIcons.stun, 1, 1);
-		tier1[2] = new Mod("Lighter Barrel Assembly", "-0.4 seconds spinup time", modIcons.chargeSpeed, 1, 2);
+		tier1[1] = new Mod("Improved Motor", "+4 Rate of Fire", modIcons.rateOfFire, 1, 1);
+		tier1[2] = new Mod("Improved Platform Stability", "x0.25 Base Spread", modIcons.baseSpread, 1, 2);
 
 		tier2 = new Mod[2];
 		tier2[0] = new Mod("Oversized Drum", "+600 Max Ammo", modIcons.carriedAmmo, 2, 0);
@@ -110,20 +110,20 @@ public class Minigun extends Weapon {
 		
 		tier3 = new Mod[3];
 		tier3[0] = new Mod("Hardened Rounds", "+200% Armor Breaking", modIcons.armorBreaking, 3, 0);
-		tier3[1] = new Mod("Improved Motor", "+4 Rate of Fire", modIcons.rateOfFire, 3, 1);
-		tier3[2] = new Mod("Magnetic Bearings", "Increases Max Bloom from 3.5 to 6.5. This effectively raises the delay before Minigun loses Max Stability from 0.5 seconds to 3 seconds. Additionally, +4 second spindown time", modIcons.special, 3, 2);
+		tier3[1] = new Mod("Improved Stun", "+20% Stun Chance per Pellet, +2 second Stun duration", modIcons.stun, 3, 1);
+		tier3[2] = new Mod("Hot Bullets", "After the Heat Meter turns red, 50% of the Damage per Pellet gets added as Heat which can ignite enemies, dealing " +
+				MathUtils.round(DoTInformation.Burn_DPS, GuiConstants.numDecimalPlaces) + " Fire Damage per Second.", modIcons.heatDamage, 3, 2);
 
 		tier4 = new Mod[3];
 		tier4[0] = new Mod("Variable Chamber Pressure", "+15% Damage per Pellet after reaching Base Spread", modIcons.directDamage, 4, 0);
-		tier4[1] = new Mod("Improved Platform Stability", "x0.25 Base Spread", modIcons.baseSpread, 4, 1);
-		tier4[2] = new Mod("Blowthrough Rounds", "+1 Penetration", modIcons.blowthrough, 4, 2);
-		
+		tier4[1] = new Mod("Lighter Barrel Assembly", "-0.4 seconds spinup time", modIcons.chargeSpeed, 4, 1);
+		tier4[2] = new Mod("Magnetic Bearings", "Increases Max Bloom from 3.5 to 6.5. This effectively raises the delay before Minigun loses Max Stability from 0.5 seconds to 3 seconds. Additionally, +4 second spindown time", modIcons.special, 4, 2);
+
 		tier5 = new Mod[3];
 		tier5[0] = new Mod("Aggressive Venting", "After overheating, deal 60 Heat Damage and 10 Fear to all enemies within a 10m radius. Additionally, reduces Overheat duration from 10 seconds to 5.", modIcons.addedExplosion, 5, 0);
 		tier5[1] = new Mod("Cold As The Grave", "Every kill subtracts 0.6 Heat from the Heat Meter (maxes at 9.5 Heat) and thus increases the firing duration before overheating", modIcons.coolingRate, 5, 1);
-		tier5[2] = new Mod("Hot Bullets", "After the Heat Meter turns red, 50% of the Damage per Pellet gets added as Heat which can ignite enemies, dealing " + 
-		MathUtils.round(DoTInformation.Burn_DPS, GuiConstants.numDecimalPlaces) + " Fire Damage per Second.", modIcons.heatDamage, 5, 2);
-		
+		tier5[2] = new Mod("Blowthrough Rounds", "+1 Penetration", modIcons.blowthrough, 5, 2);
+
 		overclocks = new Overclock[7];
 		overclocks[0] = new Overclock(Overclock.classification.clean, "A Little More Oomph!", "+1 Damage per Pellet, -0.2 spinup time", overclockIcons.directDamage, 0);
 		overclocks[1] = new Overclock(Overclock.classification.clean, "Thinned Drum Walls", "+300 Max Ammo, +0.5 Cooling Rate", overclockIcons.coolingRate, 1);
@@ -204,7 +204,7 @@ public class Minigun extends Weapon {
 	}
 	private double getStunDuration() {
 		double toReturn = stunDuration;
-		if (selectedTier1 == 1) {
+		if (selectedTier3 == 1) {
 			toReturn += 2;
 		}
 		
@@ -256,7 +256,7 @@ public class Minigun extends Weapon {
 	@Override
 	public double getRateOfFire() {
 		int toReturn = rateOfFire;
-		if (selectedTier3 == 1) {
+		if (selectedTier1 == 1) {
 			toReturn += 4;
 		}
 		if (selectedOverclock == 3) {
@@ -266,7 +266,7 @@ public class Minigun extends Weapon {
 	}
 	private double getSpinupTime() {
 		double toReturn = spinupTime;
-		if (selectedTier1 == 2) {
+		if (selectedTier4 == 1) {
 			toReturn -= 0.4;
 		}
 		if (selectedOverclock == 0) {
@@ -277,7 +277,7 @@ public class Minigun extends Weapon {
 	}
 	private int getSpindownTime() {
 		int toReturn = spindownTime;
-		if (selectedTier3 == 2) {
+		if (selectedTier4 == 2) {
 			toReturn += 4;
 		}
 		return toReturn;
@@ -291,7 +291,7 @@ public class Minigun extends Weapon {
 	}
 	private double getBaseSpread() {
 		double toReturn = 1.0;
-		if (selectedTier4 == 1) {
+		if (selectedTier1 == 2) {
 			toReturn *= 0.25;
 		}
 		if (selectedOverclock == 4) {
@@ -303,7 +303,7 @@ public class Minigun extends Weapon {
 		return toReturn;
 	}
 	private double getMaxBloom() {
-		if (selectedTier3 == 2) {
+		if (selectedTier4 == 2) {
 			return 6.5;
 		}
 		else {
@@ -319,12 +319,15 @@ public class Minigun extends Weapon {
 		}
 	}
 	private int getMaxPenetrations(){
-		int toReturn = penetrations;
+		//int toReturn = penetrations;
 
-		if (selectedTier4 == 2) {
-			toReturn += 1;
+		if (selectedTier5 == 2) {
+			return 1;
 		}
-		return toReturn;
+		else {
+			return 0;
+		}
+		//return toReturn;
 	}
 	private int getNumberOfRicochets() {
 		// According to GreyHound, this ricochet searches for enemies within 6m
@@ -416,14 +419,14 @@ public class Minigun extends Weapon {
 		
 		toReturn[1] = new StatsRow("Ammo Consumed per Pellet:", 2, modIcons.blank, false);
 		
-		toReturn[2] = new StatsRow("Ammo Spent Until Stabilized:", numPelletsFiredTilMaxAccuracy() * 2, modIcons.special, selectedTier3 == 1 || selectedOverclock == 3);
+		toReturn[2] = new StatsRow("Ammo Spent Until Stabilized:", numPelletsFiredTilMaxAccuracy() * 2, modIcons.special, selectedTier1 == 1 || selectedOverclock == 3);
 		
 		toReturn[3] = new StatsRow("Max Duration of Firing Without Overheating:", calculateFiringPeriod(), modIcons.hourglass, selectedTier5 == 1 || selectedOverclock == 2);
 
 		boolean ammoModified = selectedTier2 == 0 || selectedOverclock == 1 || selectedOverclock == 3;
 		toReturn[4] = new StatsRow("Max Ammo:", getMaxAmmo(), modIcons.carriedAmmo, ammoModified);
 		
-		toReturn[5] = new StatsRow("Rate of Fire (Ammo/Sec):", getRateOfFire(), modIcons.rateOfFire, selectedTier3 == 1 || selectedOverclock == 3);
+		toReturn[5] = new StatsRow("Rate of Fire (Ammo/Sec):", getRateOfFire(), modIcons.rateOfFire, selectedTier1 == 1 || selectedOverclock == 3);
 		
 		toReturn[6] = new StatsRow("Cooling Rate:", getCoolingRate(), modIcons.coolingRate, selectedTier1 == 0 || selectedOverclock == 1);
 
@@ -433,21 +436,21 @@ public class Minigun extends Weapon {
 		
 		toReturn[9] = new StatsRow("Cooldown After Overheat:", getOverheatDuration(), modIcons.duration, selectedTier5 == 0);
 		
-		toReturn[10] = new StatsRow("Spinup Time:", getSpinupTime(), modIcons.chargeSpeed, selectedTier1 == 2 || selectedOverclock == 0);
+		toReturn[10] = new StatsRow("Spinup Time:", getSpinupTime(), modIcons.chargeSpeed, selectedTier4 == 1 || selectedOverclock == 0);
 		
-		toReturn[11] = new StatsRow("Spindown Time:", getSpindownTime(), modIcons.special, selectedTier3 == 2);
+		toReturn[11] = new StatsRow("Spindown Time:", getSpindownTime(), modIcons.special, selectedTier4 == 2);
 		
 		toReturn[12] = new StatsRow("Armor Breaking:", convertDoubleToPercentage(getArmorBreaking()), modIcons.armorBreaking, selectedTier3 == 0, selectedTier3 == 0);
 
-		toReturn[13] = new StatsRow("Max Penetrations:", getMaxPenetrations(), modIcons.blowthrough, selectedTier4 == 2);
+		toReturn[13] = new StatsRow("Max Penetrations:", getMaxPenetrations(), modIcons.blowthrough, selectedTier5 == 2);
 		
 		toReturn[14] = new StatsRow("Max Ricochets:", getNumberOfRicochets(), modIcons.ricochet, selectedOverclock == 5, selectedOverclock == 5);
 		
-		toReturn[15] = new StatsRow("Stun Chance per Pellet:", convertDoubleToPercentage(getStunChancePerPellet()), modIcons.homebrewPowder, selectedTier1 == 1 || selectedOverclock == 6);
+		toReturn[15] = new StatsRow("Stun Chance per Pellet:", convertDoubleToPercentage(getStunChancePerPellet()), modIcons.homebrewPowder, selectedTier3 == 1 || selectedOverclock == 6);
 		
-		toReturn[16] = new StatsRow("Stun Duration:", getStunDuration(), modIcons.stun, selectedTier1 == 1 || selectedOverclock == 6);
+		toReturn[16] = new StatsRow("Stun Duration:", getStunDuration(), modIcons.stun, selectedTier3 == 1 || selectedOverclock == 6);
 		
-		boolean baseSpreadModified = selectedTier4 == 1 || selectedOverclock == 4 || selectedOverclock == 5;
+		boolean baseSpreadModified = selectedTier1 == 2 || selectedOverclock == 4 || selectedOverclock == 5;
 		toReturn[17] = new StatsRow("Base Spread:", convertDoubleToPercentage(getBaseSpread()), modIcons.baseSpread, baseSpreadModified, baseSpreadModified);
 		
 		toReturn[18] = new StatsRow("Movement Speed While Using: (m/sec)", getMovespeedWhileFiring(), modIcons.movespeed, selectedOverclock == 6);
@@ -496,7 +499,7 @@ public class Minigun extends Weapon {
 		double timeBeforeHotBullets = secondsBeforeHotBullets;
 		
 		// Hot Bullets only
-		if (selectedTier5 == 2 && selectedOverclock != 2) {
+		if (selectedTier3 == 2 && selectedOverclock != 2) {
 			// Hot Bullets adds 50% of of each pellet's Direct Damage as Heat Damage while the Heat Meter on the Minigun is red.
 			// I'm choosing to reduce the heatPerPellet by the Accuracy of the gun to imitate when pellets miss the target
 			double heatPerPellet = ((double) getDamagePerPellet(true)) * generalAccuracy / 2.0;
@@ -504,12 +507,12 @@ public class Minigun extends Weapon {
 			return timeBeforeHotBullets + EnemyInformation.averageTimeToIgnite(0, heatPerPellet, RoF, 0);
 		}
 		// Burning Hell only
-		else if (selectedTier5 != 2 && selectedOverclock == 2) {
+		else if (selectedTier3 != 2 && selectedOverclock == 2) {
 			// Burning Hell burns everything within 5m in a 20 degree arc in front of you at a rate of 80 heat/sec
 			return EnemyInformation.averageTimeToIgnite(0, 0, 0, burningHellHeatPerSec);
 		}
 		// Both Hot Bullets AND Burning Hell
-		else if (selectedTier5 == 2 && selectedOverclock == 2) {
+		else if (selectedTier3 == 2 && selectedOverclock == 2) {
 			// Because Burning Hell reduces the Firing Period from 9.5 sec to 6.33 sec, this means that Hot Bullets gets activated sooner too
 			double heatGain = getHeatPerSecond();
 			double firingPeriod = maxHeat / heatGain;
@@ -600,7 +603,7 @@ public class Minigun extends Weapon {
 		}
 		
 		double burnDPS = 0;
-		if ((selectedTier5 == 2 || selectedOverclock == 2) && !statusEffects[1]) {
+		if ((selectedTier3 == 2 || selectedOverclock == 2) && !statusEffects[1]) {
 			if (burst) {
 				double ignitionTime = calculateIgnitionTime(accuracy);
 				double burnDoTUptime = (shortDuration - ignitionTime) / shortDuration;
@@ -645,7 +648,7 @@ public class Minigun extends Weapon {
 
 	@Override
 	public double calculateMaxMultiTargetDamage() {
-		double multitargetDamageMultiplier = 1.5;
+		double multitargetDamageMultiplier = 1.0;
 		if (selectedTier4 == 2) {
 			multitargetDamageMultiplier = calculateBlowthroughDamageMultiplier(getMaxPenetrations());
 		}
@@ -668,7 +671,7 @@ public class Minigun extends Weapon {
 		double timeAfterHotBullets = defaultFiringPeriod - timeBeforeHotBullets;
 		double timeBeforeFireProc, fireDoTDamagePerEnemy, estimatedNumEnemiesKilled;
 		// Because of how Hot Bullets' ignition time is calculated, it returns (3.17 + the ignition time). As a result, it would end up subtracting from the total damage.
-		if (selectedTier5 == 2 && selectedOverclock != 2) {
+		if (selectedTier3 == 2 && selectedOverclock != 2) {
 			timeBeforeFireProc = calculateIgnitionTime(false) - timeBeforeHotBullets;
 			fireDoTDamagePerEnemy = calculateAverageDoTDamagePerEnemy(timeBeforeFireProc, DoTInformation.Burn_SecsDuration, DoTInformation.Burn_DPS);
 			
@@ -777,7 +780,7 @@ public class Minigun extends Weapon {
 		double effectiveRoF = getRateOfFire() / 2.0;
 		double heatPerShot = 0;
 		// Hot Bullets add 50% of Direct Damage/pellet as Heat/pellet. Although it doesn't activate for almost 4 seconds, for simplicity's sake I'm just going to model it as if it's active the whole time.
-		if (selectedTier5 == 2) {
+		if (selectedTier3 == 2) {
 			heatPerShot += 0.5 * directDamage[0];
 		}
 		
@@ -828,7 +831,7 @@ public class Minigun extends Weapon {
 	
 	@Override
 	public double averageTimeToCauterize() {
-		if (selectedTier5 == 2 || selectedOverclock == 2) {
+		if (selectedTier3 == 2 || selectedOverclock == 2) {
 			return calculateIgnitionTime(false);
 		}
 		else {
